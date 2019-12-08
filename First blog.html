@@ -15,11 +15,10 @@
   <h3>Exploratory Analysis</h3>
   <label>2019-12-07</label>
   <h2>Exploratory Analysis</h2>
-<p>So you come into work on a Monday morning and find that your boss has tasked you with finding some insights on a current data set. You open the excel file and find that there is countless rows and columns that are filled with data. What do you do next?</p>
-<p>Well, seens you are a trendy analyst or a naturally curious person, you decide to do some exploratory analysis to see what the data is all about.</p>
-<p>As this is a personal interest project for your boss, and not a presentation, you have decided to use something trendy and use Python 3 and its wonderful libraries.</p>
-<p>In this short blog, I will teach you how to begin the exploratory analysis process by using some of Python's built-in libraries to get you started.</p>
-<p>To start, you are going to import the Pandas library, Matplotlib library, and the Seaborn library.</p>
+<p>So you come into work on a Monday morning and find that your boss has tasked you with finding some insights on a current data set. You open the excel file and see that there are countless rows and columns filled with data. What do you do next?</p>
+<p>Well, because you are a trendy analyst or someone just looking to learn new skills, you decide to use Python.</p>
+<p>In this short blog, I will teach you how to begin looking for insights into your data, or in other terms, exploratory analysis. We will use Python 3 and the libraries within Python to start our journey.</p>
+<p>First off, you are going to import the Pandas library, Matplotlib library, and the Seaborn library.</p>
 <div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
 <span class="kn">import</span> <span class="nn">seaborn</span> <span class="kn">as</span> <span class="nn">sns</span>
@@ -27,36 +26,36 @@
 
 
 <p>These are just a few of the libraries that are available for use within the Python language and in our case, will be the main libraries used for exploratory analysis.</p>
-<p>Next you will call your bosses saved excel file name that you would have saved as a csv file.</p>
+<p>Next, you will call your bosses saved excel file name that you would have saved as a CSV file.</p>
 <div class="highlight"><pre><span></span><span class="n">example_1</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;~/Documents/projects/project_1/data/act_2018.csv&#39;</span><span class="p">)</span>
 </pre></div>
 
 
-<p>Now that you have loaded your file into the notebook, or text editor, you can begin the initial analysis with some Pandas functions!</p>
-<p>Run the .head() function to show the first 5 rows, and all the column names to see what each column is called.</p>
+<p>Now that you have loaded your file into the notebook, or text editor, you can begin the initial analysis with some Pandas functions.</p>
+<p>Run the .head() function to show the first five rows, and all the column names to see what each is called - this will help when you start plotting later.</p>
 <div class="highlight"><pre><span></span><span class="n">example_1</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 
 
-<p>Run the .tail() function to show the bottom of your DataFrame</p>
+<p>Next, run the .tail() function to show the bottom of your DataFrame.</p>
 <div class="highlight"><pre><span></span><span class="n">example_1</span><span class="o">.</span><span class="n">tail</span><span class="p">()</span>
 </pre></div>
 
 
-<p>Now that you have a basic understanding of your data, you should check to see if there is any null(0) values in your columns and what type of data is in your columns</p>
+<p>Now that you have a basic understanding of your data, you should check to see if there are any null/zero values in your columns and what type of data is in your columns.</p>
 <div class="highlight"><pre><span></span><span class="n">example_1</span><span class="o">.</span><span class="n">info</span><span class="p">()</span>
 </pre></div>
 
 
-<p>In this data set you can see that there is no null values, and that there is a mixture of object type data, and float type data and int type data.</p>
-<p>Next you can use the .describe().T function to see things like min and max values in each column, as well as, std. deviation and the mean in each column</p>
+<p>In this data set, you can see that there are no null values and that there is a mixture of object type data and float type data and int type data.</p>
+<p>Next, you can use the .describe().T function to see things like min and max values in each column, as well as standard deviation and the mean in each column.</p>
 <div class="highlight"><pre><span></span><span class="n">example_1</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span><span class="o">.</span><span class="n">T</span>
 </pre></div>
 
 
-<p>You can see with just a few simple functions from the Pandas library, we have a gained a significant understanding of our numerical data.</p>
-<p>And now its time to bring in the next library, Matplotlib. It is a library used for plotting your numerical data.</p>
-<p>Lets get started first by plotting each column in simple histograms, maybe it will provide some insight on if our data is normalized or not.</p>
+<p>You can see with just a few simple functions from the Pandas library; we have gained a significant understanding of our numerical data.</p>
+<p>And now, its time to bring in the next library, Matplotlib, which gives us the ability to start plotting some data.</p>
+<p>Let's get started first by plotting each column in simple histograms. Maybe it will provide some insight into our data - like if it is normalized or not.</p>
 <div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">4</span><span class="p">))</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">example_1</span><span class="p">[</span><span class="s1">&#39;English&#39;</span><span class="p">]);</span>
 </pre></div>
@@ -82,16 +81,16 @@
 </pre></div>
 
 
-<p>You can use Matplotlib to quickly plot a few different styles of plot, but for exploratory, I like to keep things simple with either histograms or scatterplots because they visualize the data effeciently.</p>
-<p>Remember, when doing exploratory analysis, you don't need to make things pretty, you just need to make things easy for you to read and understand.</p>
-<p>The last visual image I like to use is a heatmap, it shows correlation among our data cleanly and effectively. This is where Seaborn library is most effective.</p>
+<p>You can use Matplotlib to plot a few different styles of graphs quickly, but for exploratory, I like to keep things simple with either histograms or scatterplots because they visualize the data efficiently.</p>
+<p>Remember, when doing exploratory analysis, you don't need to make things pretty, you need to make things easy for you to read and understand.</p>
+<p>The last visual image I like to use is a heatmap; it shows correlation among our numerical columns, cleanly and effectively. This is where we use Seaborn.</p>
 <div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">6</span><span class="p">))</span>  
 <span class="n">sns</span><span class="o">.</span><span class="n">heatmap</span><span class="p">(</span><span class="n">example_1</span><span class="o">.</span><span class="n">corr</span><span class="p">(),</span> <span class="n">annot</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;icefire&quot;</span><span class="p">);</span>
 </pre></div>
 
 
-<p>You can see the value of the heatmap rightaway because of how the human eye interprets color and correlation. Using the icefire colorway you are able to see that Participation is negatively correlated with all of the scores provided by the ACT.</p>
-<p>And thats it. In probably less then 20 minutes, expert or not in Python, you are able to quickly explore your data and see what trends and interpretations you can make from your data. You can report back to your boss what you are seeing, or if you are feeling like you'd want to go farther, check back soon for the next blog!</p>
+<p>You can see the value of the heatmap right away. The human eye interprets colour coordination quickly and effectively. Using the "icefire" colorway, you can see that Participation is negatively correlated with all of the scores provided by the ACT. A powerful insight that you maybe wouldn't have noticed without the power of a heatmap.</p>
+<p>And that's it. In less than 20 minutes, expert or not in Python, you can quickly explore your data and see what trends and interpretations you can make. You can now report back to your boss what you are seeing, or if you feel like you'd want to go further, check back soon for the next blog!</p>
  </div>
 </div>
  </div>
