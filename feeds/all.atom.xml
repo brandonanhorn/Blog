@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>BA Blog</title><link href="https://brandonanhorn.github.io/Blog/" rel="alternate"></link><link href="https://brandonanhorn.github.io/Blog/feeds/all.atom.xml" rel="self"></link><id>https://brandonanhorn.github.io/Blog/</id><updated>2019-12-07T10:30:00-05:00</updated><entry><title>Exploratory Analysis</title><link href="https://brandonanhorn.github.io/Blog/First%20blog.html" rel="alternate"></link><published>2019-12-07T10:30:00-05:00</published><updated>2019-12-07T10:30:00-05:00</updated><author><name>Brandon Anhorn</name></author><id>tag:brandonanhorn.github.io,2019-12-07:/Blog/First blog.html</id><summary type="html">&lt;h2&gt;Exploratory Analysis&lt;/h2&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>BA Blog</title><link href="https://brandonanhorn.github.io/Blog/" rel="alternate"></link><link href="https://brandonanhorn.github.io/Blog/feeds/all.atom.xml" rel="self"></link><id>https://brandonanhorn.github.io/Blog/</id><updated>2019-12-07T00:00:00-05:00</updated><entry><title>Exploratory Analysis</title><link href="https://brandonanhorn.github.io/Blog/First%20blog.html" rel="alternate"></link><published>2019-12-07T00:00:00-05:00</published><updated>2019-12-07T00:00:00-05:00</updated><author><name>Brandon Anhorn</name></author><id>tag:brandonanhorn.github.io,2019-12-07:/Blog/First blog.html</id><summary type="html">&lt;h2&gt;Exploratory Analysis&lt;/h2&gt;
 &lt;p&gt;So you come into work on a Monday morning and find that your boss has tasked you with finding some insights on a current data set. You open the excel file and see that there are countless rows and columns filled with data. What do you do next …&lt;/p&gt;</summary><content type="html">&lt;h2&gt;Exploratory Analysis&lt;/h2&gt;
 &lt;p&gt;So you come into work on a Monday morning and find that your boss has tasked you with finding some insights on a current data set. You open the excel file and see that there are countless rows and columns filled with data. What do you do next?&lt;/p&gt;
 &lt;p&gt;Well, because you are a trendy analyst or someone just looking to learn new skills, you decide to use Python.&lt;/p&gt;
@@ -23,13 +23,192 @@
 &lt;/pre&gt;&lt;/div&gt;
 
 
+&lt;div&gt;
+&lt;style scoped&gt;
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+&lt;/style&gt;
+&lt;table border="1" class="dataframe"&gt;
+  &lt;thead&gt;
+    &lt;tr style="text-align: right;"&gt;
+      &lt;th&gt;&lt;/th&gt;
+      &lt;th&gt;State&lt;/th&gt;
+      &lt;th&gt;Participation&lt;/th&gt;
+      &lt;th&gt;English&lt;/th&gt;
+      &lt;th&gt;Math&lt;/th&gt;
+      &lt;th&gt;Reading&lt;/th&gt;
+      &lt;th&gt;Science&lt;/th&gt;
+      &lt;th&gt;Composite&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;National&lt;/td&gt;
+      &lt;td&gt;55&lt;/td&gt;
+      &lt;td&gt;20.2&lt;/td&gt;
+      &lt;td&gt;20.5&lt;/td&gt;
+      &lt;td&gt;21.3&lt;/td&gt;
+      &lt;td&gt;20.7&lt;/td&gt;
+      &lt;td&gt;20.8&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;Alabama&lt;/td&gt;
+      &lt;td&gt;100&lt;/td&gt;
+      &lt;td&gt;18.9&lt;/td&gt;
+      &lt;td&gt;18.3&lt;/td&gt;
+      &lt;td&gt;19.6&lt;/td&gt;
+      &lt;td&gt;19.0&lt;/td&gt;
+      &lt;td&gt;19.1&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;2&lt;/td&gt;
+      &lt;td&gt;Alaska&lt;/td&gt;
+      &lt;td&gt;33&lt;/td&gt;
+      &lt;td&gt;19.8&lt;/td&gt;
+      &lt;td&gt;20.6&lt;/td&gt;
+      &lt;td&gt;21.6&lt;/td&gt;
+      &lt;td&gt;20.7&lt;/td&gt;
+      &lt;td&gt;20.8&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;3&lt;/td&gt;
+      &lt;td&gt;Arizona&lt;/td&gt;
+      &lt;td&gt;66&lt;/td&gt;
+      &lt;td&gt;18.2&lt;/td&gt;
+      &lt;td&gt;19.4&lt;/td&gt;
+      &lt;td&gt;19.5&lt;/td&gt;
+      &lt;td&gt;19.2&lt;/td&gt;
+      &lt;td&gt;19.2&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;4&lt;/td&gt;
+      &lt;td&gt;Arkansas&lt;/td&gt;
+      &lt;td&gt;100&lt;/td&gt;
+      &lt;td&gt;19.1&lt;/td&gt;
+      &lt;td&gt;18.9&lt;/td&gt;
+      &lt;td&gt;19.7&lt;/td&gt;
+      &lt;td&gt;19.4&lt;/td&gt;
+      &lt;td&gt;19.4&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+
 &lt;p&gt;Next, run the .tail() function to show the bottom of your DataFrame.&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;example_1&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;tail&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
+&lt;div&gt;
+&lt;style scoped&gt;
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+&lt;/style&gt;
+&lt;table border="1" class="dataframe"&gt;
+  &lt;thead&gt;
+    &lt;tr style="text-align: right;"&gt;
+      &lt;th&gt;&lt;/th&gt;
+      &lt;th&gt;State&lt;/th&gt;
+      &lt;th&gt;Participation&lt;/th&gt;
+      &lt;th&gt;English&lt;/th&gt;
+      &lt;th&gt;Math&lt;/th&gt;
+      &lt;th&gt;Reading&lt;/th&gt;
+      &lt;th&gt;Science&lt;/th&gt;
+      &lt;th&gt;Composite&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;47&lt;/td&gt;
+      &lt;td&gt;Virginia&lt;/td&gt;
+      &lt;td&gt;24&lt;/td&gt;
+      &lt;td&gt;23.8&lt;/td&gt;
+      &lt;td&gt;23.3&lt;/td&gt;
+      &lt;td&gt;24.7&lt;/td&gt;
+      &lt;td&gt;23.5&lt;/td&gt;
+      &lt;td&gt;23.9&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;48&lt;/td&gt;
+      &lt;td&gt;Washington&lt;/td&gt;
+      &lt;td&gt;24&lt;/td&gt;
+      &lt;td&gt;21.4&lt;/td&gt;
+      &lt;td&gt;22.2&lt;/td&gt;
+      &lt;td&gt;22.7&lt;/td&gt;
+      &lt;td&gt;22.0&lt;/td&gt;
+      &lt;td&gt;22.2&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;49&lt;/td&gt;
+      &lt;td&gt;West Virginia&lt;/td&gt;
+      &lt;td&gt;65&lt;/td&gt;
+      &lt;td&gt;19.8&lt;/td&gt;
+      &lt;td&gt;19.4&lt;/td&gt;
+      &lt;td&gt;21.3&lt;/td&gt;
+      &lt;td&gt;20.4&lt;/td&gt;
+      &lt;td&gt;20.3&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;50&lt;/td&gt;
+      &lt;td&gt;Wisconsin&lt;/td&gt;
+      &lt;td&gt;100&lt;/td&gt;
+      &lt;td&gt;19.8&lt;/td&gt;
+      &lt;td&gt;20.3&lt;/td&gt;
+      &lt;td&gt;20.6&lt;/td&gt;
+      &lt;td&gt;20.8&lt;/td&gt;
+      &lt;td&gt;20.5&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;51&lt;/td&gt;
+      &lt;td&gt;Wyoming&lt;/td&gt;
+      &lt;td&gt;100&lt;/td&gt;
+      &lt;td&gt;19.0&lt;/td&gt;
+      &lt;td&gt;19.7&lt;/td&gt;
+      &lt;td&gt;20.6&lt;/td&gt;
+      &lt;td&gt;20.3&lt;/td&gt;
+      &lt;td&gt;20.0&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+
 &lt;p&gt;Now that you have a basic understanding of your data, you should check to see if there are any null/zero values in your columns and what type of data is in your columns.&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;example_1&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;info&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;pandas.core.frame.DataFrame&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;
+&lt;span class="n"&gt;RangeIndex&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="mi"&gt;52&lt;/span&gt; &lt;span class="n"&gt;entries&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt; &lt;span class="k"&gt;to&lt;/span&gt; &lt;span class="mi"&gt;51&lt;/span&gt;
+&lt;span class="k"&gt;Data&lt;/span&gt; &lt;span class="n"&gt;columns&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;total&lt;/span&gt; &lt;span class="mi"&gt;7&lt;/span&gt; &lt;span class="n"&gt;columns&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+&lt;span class="k"&gt;State&lt;/span&gt;            &lt;span class="mi"&gt;52&lt;/span&gt; &lt;span class="n"&gt;non&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="k"&gt;null&lt;/span&gt; &lt;span class="k"&gt;object&lt;/span&gt;
+&lt;span class="n"&gt;Participation&lt;/span&gt;    &lt;span class="mi"&gt;52&lt;/span&gt; &lt;span class="n"&gt;non&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="k"&gt;null&lt;/span&gt; &lt;span class="n"&gt;int64&lt;/span&gt;
+&lt;span class="n"&gt;English&lt;/span&gt;          &lt;span class="mi"&gt;52&lt;/span&gt; &lt;span class="n"&gt;non&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="k"&gt;null&lt;/span&gt; &lt;span class="n"&gt;float64&lt;/span&gt;
+&lt;span class="n"&gt;Math&lt;/span&gt;             &lt;span class="mi"&gt;52&lt;/span&gt; &lt;span class="n"&gt;non&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="k"&gt;null&lt;/span&gt; &lt;span class="n"&gt;float64&lt;/span&gt;
+&lt;span class="n"&gt;Reading&lt;/span&gt;          &lt;span class="mi"&gt;52&lt;/span&gt; &lt;span class="n"&gt;non&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="k"&gt;null&lt;/span&gt; &lt;span class="n"&gt;float64&lt;/span&gt;
+&lt;span class="n"&gt;Science&lt;/span&gt;          &lt;span class="mi"&gt;52&lt;/span&gt; &lt;span class="n"&gt;non&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="k"&gt;null&lt;/span&gt; &lt;span class="n"&gt;float64&lt;/span&gt;
+&lt;span class="n"&gt;Composite&lt;/span&gt;        &lt;span class="mi"&gt;52&lt;/span&gt; &lt;span class="n"&gt;non&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="k"&gt;null&lt;/span&gt; &lt;span class="n"&gt;float64&lt;/span&gt;
+&lt;span class="n"&gt;dtypes&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;float64&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="n"&gt;int64&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="k"&gt;object&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;memory&lt;/span&gt; &lt;span class="k"&gt;usage&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;KB&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -39,6 +218,105 @@
 &lt;/pre&gt;&lt;/div&gt;
 
 
+&lt;div&gt;
+&lt;style scoped&gt;
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+&lt;/style&gt;
+&lt;table border="1" class="dataframe"&gt;
+  &lt;thead&gt;
+    &lt;tr style="text-align: right;"&gt;
+      &lt;th&gt;&lt;/th&gt;
+      &lt;th&gt;count&lt;/th&gt;
+      &lt;th&gt;mean&lt;/th&gt;
+      &lt;th&gt;std&lt;/th&gt;
+      &lt;th&gt;min&lt;/th&gt;
+      &lt;th&gt;25%&lt;/th&gt;
+      &lt;th&gt;50%&lt;/th&gt;
+      &lt;th&gt;75%&lt;/th&gt;
+      &lt;th&gt;max&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Participation&lt;/td&gt;
+      &lt;td&gt;52.0&lt;/td&gt;
+      &lt;td&gt;61.519231&lt;/td&gt;
+      &lt;td&gt;33.757782&lt;/td&gt;
+      &lt;td&gt;7.0&lt;/td&gt;
+      &lt;td&gt;29.250&lt;/td&gt;
+      &lt;td&gt;65.50&lt;/td&gt;
+      &lt;td&gt;100.000&lt;/td&gt;
+      &lt;td&gt;100.0&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;English&lt;/td&gt;
+      &lt;td&gt;52.0&lt;/td&gt;
+      &lt;td&gt;20.973077&lt;/td&gt;
+      &lt;td&gt;2.424719&lt;/td&gt;
+      &lt;td&gt;16.6&lt;/td&gt;
+      &lt;td&gt;19.100&lt;/td&gt;
+      &lt;td&gt;20.20&lt;/td&gt;
+      &lt;td&gt;23.700&lt;/td&gt;
+      &lt;td&gt;26.0&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Math&lt;/td&gt;
+      &lt;td&gt;52.0&lt;/td&gt;
+      &lt;td&gt;21.113462&lt;/td&gt;
+      &lt;td&gt;2.017573&lt;/td&gt;
+      &lt;td&gt;17.8&lt;/td&gt;
+      &lt;td&gt;19.400&lt;/td&gt;
+      &lt;td&gt;20.65&lt;/td&gt;
+      &lt;td&gt;23.125&lt;/td&gt;
+      &lt;td&gt;25.2&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Reading&lt;/td&gt;
+      &lt;td&gt;52.0&lt;/td&gt;
+      &lt;td&gt;22.001923&lt;/td&gt;
+      &lt;td&gt;2.148186&lt;/td&gt;
+      &lt;td&gt;18.0&lt;/td&gt;
+      &lt;td&gt;20.475&lt;/td&gt;
+      &lt;td&gt;21.45&lt;/td&gt;
+      &lt;td&gt;24.050&lt;/td&gt;
+      &lt;td&gt;26.1&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Science&lt;/td&gt;
+      &lt;td&gt;52.0&lt;/td&gt;
+      &lt;td&gt;21.332692&lt;/td&gt;
+      &lt;td&gt;1.853848&lt;/td&gt;
+      &lt;td&gt;17.9&lt;/td&gt;
+      &lt;td&gt;19.925&lt;/td&gt;
+      &lt;td&gt;20.95&lt;/td&gt;
+      &lt;td&gt;23.025&lt;/td&gt;
+      &lt;td&gt;24.9&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Composite&lt;/td&gt;
+      &lt;td&gt;52.0&lt;/td&gt;
+      &lt;td&gt;21.473077&lt;/td&gt;
+      &lt;td&gt;2.087696&lt;/td&gt;
+      &lt;td&gt;17.7&lt;/td&gt;
+      &lt;td&gt;19.975&lt;/td&gt;
+      &lt;td&gt;21.05&lt;/td&gt;
+      &lt;td&gt;23.525&lt;/td&gt;
+      &lt;td&gt;25.6&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+
 &lt;p&gt;You can see with just a few simple functions from the Pandas library; we have gained a significant understanding of our numerical data.&lt;/p&gt;
 &lt;p&gt;And now, its time to bring in the next library, Matplotlib, which gives us the ability to start plotting some data.&lt;/p&gt;
 &lt;p&gt;Let's get started first by plotting each column in simple histograms. Maybe it will provide some insight into our data - like if it is normalized or not.&lt;/p&gt;
@@ -47,26 +325,31 @@
 &lt;/pre&gt;&lt;/div&gt;
 
 
+&lt;p&gt;&lt;img alt="png" src="output_18_0.png"&gt;&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;plt&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;figure&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;figsize&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;4&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;4&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
 &lt;span class="n"&gt;plt&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;hist&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;example_1&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;Math&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]);&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
+&lt;p&gt;&lt;img alt="png" src="output_19_0.png"&gt;&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;plt&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;figure&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;figsize&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;4&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;4&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
 &lt;span class="n"&gt;plt&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;hist&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;example_1&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;Reading&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]);&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
+&lt;p&gt;&lt;img alt="png" src="output_20_0.png"&gt;&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;plt&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;figure&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;figsize&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;4&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;4&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
 &lt;span class="n"&gt;plt&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;hist&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;example_1&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;Science&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]);&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
+&lt;p&gt;&lt;img alt="png" src="output_21_0.png"&gt;&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;plt&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;figure&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;figsize&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;4&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;4&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
 &lt;span class="n"&gt;plt&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;hist&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;example_1&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;Composite&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]);&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
+&lt;p&gt;&lt;img alt="png" src="output_22_0.png"&gt;&lt;/p&gt;
 &lt;p&gt;You can use Matplotlib to plot a few different styles of graphs quickly, but for exploratory, I like to keep things simple with either histograms or scatterplots because they visualize the data efficiently.&lt;/p&gt;
 &lt;p&gt;Remember, when doing exploratory analysis, you don't need to make things pretty, you need to make things easy for you to read and understand.&lt;/p&gt;
 &lt;p&gt;The last visual image I like to use is a heatmap; it shows correlation among our numerical columns, cleanly and effectively. This is where we use Seaborn.&lt;/p&gt;
@@ -75,5 +358,6 @@
 &lt;/pre&gt;&lt;/div&gt;
 
 
+&lt;p&gt;&lt;img alt="png" src="output_24_0.png"&gt;&lt;/p&gt;
 &lt;p&gt;You can see the value of the heatmap right away. The human eye interprets colour coordination quickly and effectively. Using the "icefire" colorway, you can see that Participation is negatively correlated with all of the scores provided by the ACT. A powerful insight that you maybe wouldn't have noticed without the power of a heatmap.&lt;/p&gt;
 &lt;p&gt;And that's it. In less than 20 minutes, expert or not in Python, you can quickly explore your data and see what trends and interpretations you can make. You can now report back to your boss what you are seeing, or if you feel like you'd want to go further, check back soon for the next blog!&lt;/p&gt;</content><category term="misc"></category></entry></feed>
