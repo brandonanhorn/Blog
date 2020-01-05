@@ -1,5 +1,324 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>BA Blog</title><link href="https://brandonanhorn.github.io/Blog/" rel="alternate"></link><link href="https://brandonanhorn.github.io/Blog/feeds/all.atom.xml" rel="self"></link><id>https://brandonanhorn.github.io/Blog/</id><updated>2019-12-07T00:00:00-05:00</updated><entry><title>Exploratory Analysis</title><link href="https://brandonanhorn.github.io/Blog/First%20blog.html" rel="alternate"></link><published>2019-12-07T00:00:00-05:00</published><updated>2019-12-07T00:00:00-05:00</updated><author><name>Brandon Anhorn</name></author><id>tag:brandonanhorn.github.io,2019-12-07:/Blog/First blog.html</id><summary type="html">&lt;h2&gt;Exploratory Analysis&lt;/h2&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>BA Blog</title><link href="https://brandonanhorn.github.io/Blog/" rel="alternate"></link><link href="https://brandonanhorn.github.io/Blog/feeds/all.atom.xml" rel="self"></link><id>https://brandonanhorn.github.io/Blog/</id><updated>2020-01-04T00:00:00-05:00</updated><entry><title>Altair</title><link href="https://brandonanhorn.github.io/Blog/Second%20blog.html" rel="alternate"></link><published>2020-01-04T00:00:00-05:00</published><updated>2020-01-04T00:00:00-05:00</updated><author><name>Brandon Anhorn</name></author><id>tag:brandonanhorn.github.io,2020-01-04:/Blog/Second blog.html</id><summary type="html">&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;pandas&lt;/span&gt; &lt;span class="kn"&gt;as&lt;/span&gt; &lt;span class="nn"&gt;pd&lt;/span&gt;
+&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;altair&lt;/span&gt; &lt;span class="kn"&gt;as&lt;/span&gt; &lt;span class="nn"&gt;alt&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;This week's blog will be about the importance of visualizations. I will take a bad example of a chart, in this case, a pie chart released by Fox news in 2012 showing Vice President candidates, and create a new chart - that is …&lt;/p&gt;</summary><content type="html">&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;pandas&lt;/span&gt; &lt;span class="kn"&gt;as&lt;/span&gt; &lt;span class="nn"&gt;pd&lt;/span&gt;
+&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;altair&lt;/span&gt; &lt;span class="kn"&gt;as&lt;/span&gt; &lt;span class="nn"&gt;alt&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;This week's blog will be about the importance of visualizations. I will take a bad example of a chart, in this case, a pie chart released by Fox news in 2012 showing Vice President candidates, and create a new chart - that is better overall. I will use Altair, which is another package that should be in your tool belt as a data scientist.&lt;/p&gt;
+&lt;p&gt;This is the lousy graph below. You should be able to see a few things wrong with it. First off, pie charts are the worst way to represent data because it is hard to see which piece is more significant than the other pieces. Palin has a 10% lead over Romney but, it is hard to view it.&lt;/p&gt;
+&lt;p&gt;fox_graph.png&lt;img alt="image.png" src="attachment:image.png"&gt;&lt;/p&gt;
+&lt;p&gt;These first steps are just recreating the data.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;fox_data&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="s1"&gt;&amp;#39;Palin&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="mi"&gt;70&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    &lt;span class="s1"&gt;&amp;#39;Huckabee&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="mi"&gt;63&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    &lt;span class="s1"&gt;&amp;#39;Romney&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="mi"&gt;60&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;df_fox&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;pd&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;DataFrame&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;list&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;fox_data&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;items&lt;/span&gt;&lt;span class="p"&gt;()))&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;df_fox&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;div&gt;
+&lt;style scoped&gt;
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+&lt;/style&gt;
+&lt;table border="1" class="dataframe"&gt;
+  &lt;thead&gt;
+    &lt;tr style="text-align: right;"&gt;
+      &lt;th&gt;&lt;/th&gt;
+      &lt;th&gt;0&lt;/th&gt;
+      &lt;th&gt;1&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;Palin&lt;/td&gt;
+      &lt;td&gt;70&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;Huckabee&lt;/td&gt;
+      &lt;td&gt;63&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;2&lt;/td&gt;
+      &lt;td&gt;Romney&lt;/td&gt;
+      &lt;td&gt;60&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;df_fox&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;columns&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;GOP Nominee&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;Percentage Backing&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Now, let's get rid of the pie chart and replace it with a bar graph.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
+    &lt;span class="n"&gt;alt&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Chart&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;df_fox&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;mark_bar&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+    &lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;encode&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
+    &lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;GOP Nominee&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    &lt;span class="n"&gt;y&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;Percentage Backing&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,)&lt;/span&gt;
+    &lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;properties&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;height&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;200&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;width&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;200&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;div id="altair-viz-8"&gt;&lt;/div&gt;
+
+&lt;script type="text/javascript"&gt;
+  (function(spec, embedOpt){
+    const outputDiv = document.getElementById("altair-viz-8");
+    const paths = {
+      "vega": "https://cdn.jsdelivr.net/npm//vega@5?noext",
+      "vega-lib": "https://cdn.jsdelivr.net/npm//vega-lib?noext",
+      "vega-lite": "https://cdn.jsdelivr.net/npm//vega-lite@4.0.0?noext",
+      "vega-embed": "https://cdn.jsdelivr.net/npm//vega-embed@6?noext",
+    };
+
+    function loadScript(lib) {
+      return new Promise(function(resolve, reject) {
+        var s = document.createElement('script');
+        s.src = paths[lib];
+        s.async = true;
+        s.onload = () =&gt; resolve(paths[lib]);
+        s.onerror = () =&gt; reject(`Error loading script: ${paths[lib]}`);
+        document.getElementsByTagName("head")[0].appendChild(s);
+      });
+    }
+
+    function showError(err) {
+      outputDiv.innerHTML = `&lt;div class="error" style="color:red;"&gt;${err}&lt;/div&gt;`;
+      throw err;
+    }
+
+    function displayChart(vegaEmbed) {
+      vegaEmbed(outputDiv, spec, embedOpt)
+        .catch(err =&gt; showError(`Javascript Error: ${err.message}&lt;br&gt;This usually means there's a typo in your chart specification. See the javascript console for the full traceback.`));
+    }
+
+    if(typeof define === "function" &amp;&amp; define.amd) {
+      requirejs.config({paths});
+      require(["vega-embed"], displayChart, err =&gt; showError(`Error loading script: ${err.message}`));
+    } else if (typeof vegaEmbed === "function") {
+      displayChart(vegaEmbed);
+    } else {
+      loadScript("vega")
+        .then(() =&gt; loadScript("vega-lite"))
+        .then(() =&gt; loadScript("vega-embed"))
+        .catch(showError)
+        .then(() =&gt; displayChart(vegaEmbed));
+    }
+  })({"config": {"view": {"continuousWidth": 400, "continuousHeight": 300}}, "data": {"name": "data-b27a86ca740ae6672fbb17ecc533fd43"}, "mark": "bar", "encoding": {"x": {"type": "nominal", "field": "GOP Nominee"}, "y": {"type": "quantitative", "field": "Percentage Backing"}}, "height": 200, "width": 200, "$schema": "https://vega.github.io/schema/vega-lite/v4.0.0.json", "datasets": {"data-b27a86ca740ae6672fbb17ecc533fd43": [{"GOP Nominee": "Palin", "Percentage Backing": 70}, {"GOP Nominee": "Huckabee", "Percentage Backing": 63}, {"GOP Nominee": "Romney", "Percentage Backing": 60}]}}, {"mode": "vega-lite"});
+&lt;/script&gt;
+
+&lt;p&gt;Then lets add some color based on each category on our X axis.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
+    &lt;span class="n"&gt;alt&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Chart&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;df_fox&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;mark_bar&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+    &lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;encode&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
+    &lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;GOP Nominee&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    &lt;span class="n"&gt;y&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;Percentage Backing&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    &lt;span class="n"&gt;color&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;GOP Nominee&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="c1"&gt;## This is the added code&lt;/span&gt;
+    &lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;properties&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;height&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;200&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;width&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;200&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;div id="altair-viz-9"&gt;&lt;/div&gt;
+
+&lt;script type="text/javascript"&gt;
+  (function(spec, embedOpt){
+    const outputDiv = document.getElementById("altair-viz-9");
+    const paths = {
+      "vega": "https://cdn.jsdelivr.net/npm//vega@5?noext",
+      "vega-lib": "https://cdn.jsdelivr.net/npm//vega-lib?noext",
+      "vega-lite": "https://cdn.jsdelivr.net/npm//vega-lite@4.0.0?noext",
+      "vega-embed": "https://cdn.jsdelivr.net/npm//vega-embed@6?noext",
+    };
+
+    function loadScript(lib) {
+      return new Promise(function(resolve, reject) {
+        var s = document.createElement('script');
+        s.src = paths[lib];
+        s.async = true;
+        s.onload = () =&gt; resolve(paths[lib]);
+        s.onerror = () =&gt; reject(`Error loading script: ${paths[lib]}`);
+        document.getElementsByTagName("head")[0].appendChild(s);
+      });
+    }
+
+    function showError(err) {
+      outputDiv.innerHTML = `&lt;div class="error" style="color:red;"&gt;${err}&lt;/div&gt;`;
+      throw err;
+    }
+
+    function displayChart(vegaEmbed) {
+      vegaEmbed(outputDiv, spec, embedOpt)
+        .catch(err =&gt; showError(`Javascript Error: ${err.message}&lt;br&gt;This usually means there's a typo in your chart specification. See the javascript console for the full traceback.`));
+    }
+
+    if(typeof define === "function" &amp;&amp; define.amd) {
+      requirejs.config({paths});
+      require(["vega-embed"], displayChart, err =&gt; showError(`Error loading script: ${err.message}`));
+    } else if (typeof vegaEmbed === "function") {
+      displayChart(vegaEmbed);
+    } else {
+      loadScript("vega")
+        .then(() =&gt; loadScript("vega-lite"))
+        .then(() =&gt; loadScript("vega-embed"))
+        .catch(showError)
+        .then(() =&gt; displayChart(vegaEmbed));
+    }
+  })({"config": {"view": {"continuousWidth": 400, "continuousHeight": 300}}, "data": {"name": "data-b27a86ca740ae6672fbb17ecc533fd43"}, "mark": "bar", "encoding": {"color": {"type": "nominal", "field": "GOP Nominee"}, "x": {"type": "nominal", "field": "GOP Nominee"}, "y": {"type": "quantitative", "field": "Percentage Backing"}}, "height": 200, "width": 200, "$schema": "https://vega.github.io/schema/vega-lite/v4.0.0.json", "datasets": {"data-b27a86ca740ae6672fbb17ecc533fd43": [{"GOP Nominee": "Palin", "Percentage Backing": 70}, {"GOP Nominee": "Huckabee", "Percentage Backing": 63}, {"GOP Nominee": "Romney", "Percentage Backing": 60}]}}, {"mode": "vega-lite"});
+&lt;/script&gt;
+
+&lt;p&gt;Now, let's change the titles on each axis to make the information more digestible.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
+    &lt;span class="n"&gt;alt&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Chart&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;df_fox&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;mark_bar&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+    &lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;encode&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
+    &lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;alt&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;X&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;GOP Nominee&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;axis&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;alt&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Axis&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;title&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;Nominee&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)),&lt;/span&gt; &lt;span class="c1"&gt;## This is the added code&lt;/span&gt;
+    &lt;span class="n"&gt;y&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;alt&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Y&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;Percentage Backing&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;axis&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;alt&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Axis&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;title&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;Percent&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)),&lt;/span&gt; &lt;span class="c1"&gt;## This is the added code&lt;/span&gt;
+    &lt;span class="n"&gt;color&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;GOP Nominee&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;properties&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;height&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;200&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;width&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;200&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;div id="altair-viz-11"&gt;&lt;/div&gt;
+
+&lt;script type="text/javascript"&gt;
+  (function(spec, embedOpt){
+    const outputDiv = document.getElementById("altair-viz-11");
+    const paths = {
+      "vega": "https://cdn.jsdelivr.net/npm//vega@5?noext",
+      "vega-lib": "https://cdn.jsdelivr.net/npm//vega-lib?noext",
+      "vega-lite": "https://cdn.jsdelivr.net/npm//vega-lite@4.0.0?noext",
+      "vega-embed": "https://cdn.jsdelivr.net/npm//vega-embed@6?noext",
+    };
+
+    function loadScript(lib) {
+      return new Promise(function(resolve, reject) {
+        var s = document.createElement('script');
+        s.src = paths[lib];
+        s.async = true;
+        s.onload = () =&gt; resolve(paths[lib]);
+        s.onerror = () =&gt; reject(`Error loading script: ${paths[lib]}`);
+        document.getElementsByTagName("head")[0].appendChild(s);
+      });
+    }
+
+    function showError(err) {
+      outputDiv.innerHTML = `&lt;div class="error" style="color:red;"&gt;${err}&lt;/div&gt;`;
+      throw err;
+    }
+
+    function displayChart(vegaEmbed) {
+      vegaEmbed(outputDiv, spec, embedOpt)
+        .catch(err =&gt; showError(`Javascript Error: ${err.message}&lt;br&gt;This usually means there's a typo in your chart specification. See the javascript console for the full traceback.`));
+    }
+
+    if(typeof define === "function" &amp;&amp; define.amd) {
+      requirejs.config({paths});
+      require(["vega-embed"], displayChart, err =&gt; showError(`Error loading script: ${err.message}`));
+    } else if (typeof vegaEmbed === "function") {
+      displayChart(vegaEmbed);
+    } else {
+      loadScript("vega")
+        .then(() =&gt; loadScript("vega-lite"))
+        .then(() =&gt; loadScript("vega-embed"))
+        .catch(showError)
+        .then(() =&gt; displayChart(vegaEmbed));
+    }
+  })({"config": {"view": {"continuousWidth": 400, "continuousHeight": 300}}, "data": {"name": "data-b27a86ca740ae6672fbb17ecc533fd43"}, "mark": "bar", "encoding": {"color": {"type": "nominal", "field": "GOP Nominee"}, "x": {"type": "nominal", "axis": {"title": "Nominee"}, "field": "GOP Nominee"}, "y": {"type": "quantitative", "axis": {"title": "Percent"}, "field": "Percentage Backing"}}, "height": 200, "width": 200, "$schema": "https://vega.github.io/schema/vega-lite/v4.0.0.json", "datasets": {"data-b27a86ca740ae6672fbb17ecc533fd43": [{"GOP Nominee": "Palin", "Percentage Backing": 70}, {"GOP Nominee": "Huckabee", "Percentage Backing": 63}, {"GOP Nominee": "Romney", "Percentage Backing": 60}]}}, {"mode": "vega-lite"});
+&lt;/script&gt;
+
+&lt;p&gt;Lastly, lets add a title to give the chart an overall theme.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
+    &lt;span class="n"&gt;alt&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Chart&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;df_fox&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;mark_bar&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+    &lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;encode&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
+    &lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;alt&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;X&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;GOP Nominee&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;axis&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;alt&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Axis&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;title&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;Nominee&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)),&lt;/span&gt;
+    &lt;span class="n"&gt;y&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;alt&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Y&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;Percentage Backing&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;axis&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;alt&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Axis&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;title&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;Percent&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)),&lt;/span&gt;
+    &lt;span class="n"&gt;color&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;GOP Nominee&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;properties&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;height&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;200&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;width&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;200&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;title&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;Vice-Presidential Choice&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="c1"&gt;## This is the added code&lt;/span&gt;
+&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;div id="altair-viz-14"&gt;&lt;/div&gt;
+
+&lt;script type="text/javascript"&gt;
+  (function(spec, embedOpt){
+    const outputDiv = document.getElementById("altair-viz-14");
+    const paths = {
+      "vega": "https://cdn.jsdelivr.net/npm//vega@5?noext",
+      "vega-lib": "https://cdn.jsdelivr.net/npm//vega-lib?noext",
+      "vega-lite": "https://cdn.jsdelivr.net/npm//vega-lite@4.0.0?noext",
+      "vega-embed": "https://cdn.jsdelivr.net/npm//vega-embed@6?noext",
+    };
+
+    function loadScript(lib) {
+      return new Promise(function(resolve, reject) {
+        var s = document.createElement('script');
+        s.src = paths[lib];
+        s.async = true;
+        s.onload = () =&gt; resolve(paths[lib]);
+        s.onerror = () =&gt; reject(`Error loading script: ${paths[lib]}`);
+        document.getElementsByTagName("head")[0].appendChild(s);
+      });
+    }
+
+    function showError(err) {
+      outputDiv.innerHTML = `&lt;div class="error" style="color:red;"&gt;${err}&lt;/div&gt;`;
+      throw err;
+    }
+
+    function displayChart(vegaEmbed) {
+      vegaEmbed(outputDiv, spec, embedOpt)
+        .catch(err =&gt; showError(`Javascript Error: ${err.message}&lt;br&gt;This usually means there's a typo in your chart specification. See the javascript console for the full traceback.`));
+    }
+
+    if(typeof define === "function" &amp;&amp; define.amd) {
+      requirejs.config({paths});
+      require(["vega-embed"], displayChart, err =&gt; showError(`Error loading script: ${err.message}`));
+    } else if (typeof vegaEmbed === "function") {
+      displayChart(vegaEmbed);
+    } else {
+      loadScript("vega")
+        .then(() =&gt; loadScript("vega-lite"))
+        .then(() =&gt; loadScript("vega-embed"))
+        .catch(showError)
+        .then(() =&gt; displayChart(vegaEmbed));
+    }
+  })({"config": {"view": {"continuousWidth": 400, "continuousHeight": 300}}, "data": {"name": "data-b27a86ca740ae6672fbb17ecc533fd43"}, "mark": "bar", "encoding": {"color": {"type": "nominal", "field": "GOP Nominee"}, "x": {"type": "nominal", "axis": {"title": "Nominee"}, "field": "GOP Nominee"}, "y": {"type": "quantitative", "axis": {"title": "Percent"}, "field": "Percentage Backing"}}, "height": 200, "title": "Vice-Presidential Choice", "width": 200, "$schema": "https://vega.github.io/schema/vega-lite/v4.0.0.json", "datasets": {"data-b27a86ca740ae6672fbb17ecc533fd43": [{"GOP Nominee": "Palin", "Percentage Backing": 70}, {"GOP Nominee": "Huckabee", "Percentage Backing": 63}, {"GOP Nominee": "Romney", "Percentage Backing": 60}]}}, {"mode": "vega-lite"});
+&lt;/script&gt;
+
+&lt;p&gt;As you can see now, this graph is much cleaner looking, more comfortable to read, and overall better than it was before. In conclusion, Altair is an easy to use Python library that makes good looking images with just a few lines of codes.&lt;/p&gt;</content><category term="misc"></category></entry><entry><title>Exploratory Analysis</title><link href="https://brandonanhorn.github.io/Blog/First%20blog.html" rel="alternate"></link><published>2019-12-07T00:00:00-05:00</published><updated>2019-12-07T00:00:00-05:00</updated><author><name>Brandon Anhorn</name></author><id>tag:brandonanhorn.github.io,2019-12-07:/Blog/First blog.html</id><summary type="html">&lt;h2&gt;Exploratory Analysis&lt;/h2&gt;
 &lt;p&gt;So you come into work on a Monday morning and find that your boss has tasked you with finding some insights on a current data set. You open the excel file and see that there are countless rows and columns filled with data. What do you do next …&lt;/p&gt;</summary><content type="html">&lt;h2&gt;Exploratory Analysis&lt;/h2&gt;
 &lt;p&gt;So you come into work on a Monday morning and find that your boss has tasked you with finding some insights on a current data set. You open the excel file and see that there are countless rows and columns filled with data. What do you do next?&lt;/p&gt;
 &lt;p&gt;Well, because you are a trendy analyst or someone just looking to learn new skills, you decide to use Python.&lt;/p&gt;

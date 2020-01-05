@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ <title>Altair</title>
+ <!-- Latest compiled and minified CSS -->
+ <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+ <div class="container">
+  <h1><a href=".">BA Blog</a></h1>
+ </div>
+</head>
+<body>
+ <div class="container">
+<div class="row">
+ <div class="col-md-8">
+  <h3>Altair</h3>
+  <label>2020-01-04</label>
+  <div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">altair</span> <span class="kn">as</span> <span class="nn">alt</span>
+</pre></div>
+
+
+<p>This week's blog will be about the importance of visualizations. I will take a bad example of a chart, in this case, a pie chart released by Fox news in 2012 showing Vice President candidates, and create a new chart - that is better overall. I will use Altair, which is another package that should be in your tool belt as a data scientist.</p>
+<p>This is the lousy graph below. You should be able to see a few things wrong with it. First off, pie charts are the worst way to represent data because it is hard to see which piece is more significant than the other pieces. Palin has a 10% lead over Romney but, it is hard to view it.</p>
+<p>fox_graph.png<img alt="image.png" src="attachment:image.png"></p>
+<p>These first steps are just recreating the data.</p>
+<div class="highlight"><pre><span></span><span class="n">fox_data</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;Palin&#39;</span><span class="p">:</span> <span class="mi">70</span><span class="p">,</span>
+    <span class="s1">&#39;Huckabee&#39;</span><span class="p">:</span> <span class="mi">63</span><span class="p">,</span>
+    <span class="s1">&#39;Romney&#39;</span><span class="p">:</span> <span class="mi">60</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<div class="highlight"><pre><span></span><span class="n">df_fox</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">fox_data</span><span class="o">.</span><span class="n">items</span><span class="p">()))</span>
+</pre></div>
+
+
+<div class="highlight"><pre><span></span><span class="n">df_fox</span>
+</pre></div>
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>0</th>
+      <th>1</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0</td>
+      <td>Palin</td>
+      <td>70</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>Huckabee</td>
+      <td>63</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>Romney</td>
+      <td>60</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<div class="highlight"><pre><span></span><span class="n">df_fox</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;GOP Nominee&#39;</span><span class="p">,</span><span class="s1">&#39;Percentage Backing&#39;</span><span class="p">]</span>
+</pre></div>
+
+
+<p>Now, let's get rid of the pie chart and replace it with a bar graph.</p>
+<div class="highlight"><pre><span></span><span class="p">(</span>
+    <span class="n">alt</span><span class="o">.</span><span class="n">Chart</span><span class="p">(</span><span class="n">df_fox</span><span class="p">)</span>
+    <span class="o">.</span><span class="n">mark_bar</span><span class="p">()</span>
+    <span class="o">.</span><span class="n">encode</span><span class="p">(</span>
+    <span class="n">x</span><span class="o">=</span><span class="s1">&#39;GOP Nominee&#39;</span><span class="p">,</span>
+    <span class="n">y</span><span class="o">=</span><span class="s1">&#39;Percentage Backing&#39;</span><span class="p">,)</span>
+    <span class="o">.</span><span class="n">properties</span><span class="p">(</span><span class="n">height</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">200</span><span class="p">)</span>
+<span class="p">)</span>
+</pre></div>
+
+
+<div id="altair-viz-8"></div>
+
+<script type="text/javascript">
+  (function(spec, embedOpt){
+    const outputDiv = document.getElementById("altair-viz-8");
+    const paths = {
+      "vega": "https://cdn.jsdelivr.net/npm//vega@5?noext",
+      "vega-lib": "https://cdn.jsdelivr.net/npm//vega-lib?noext",
+      "vega-lite": "https://cdn.jsdelivr.net/npm//vega-lite@4.0.0?noext",
+      "vega-embed": "https://cdn.jsdelivr.net/npm//vega-embed@6?noext",
+    };
+
+    function loadScript(lib) {
+      return new Promise(function(resolve, reject) {
+        var s = document.createElement('script');
+        s.src = paths[lib];
+        s.async = true;
+        s.onload = () => resolve(paths[lib]);
+        s.onerror = () => reject(`Error loading script: ${paths[lib]}`);
+        document.getElementsByTagName("head")[0].appendChild(s);
+      });
+    }
+
+    function showError(err) {
+      outputDiv.innerHTML = `<div class="error" style="color:red;">${err}</div>`;
+      throw err;
+    }
+
+    function displayChart(vegaEmbed) {
+      vegaEmbed(outputDiv, spec, embedOpt)
+        .catch(err => showError(`Javascript Error: ${err.message}<br>This usually means there's a typo in your chart specification. See the javascript console for the full traceback.`));
+    }
+
+    if(typeof define === "function" && define.amd) {
+      requirejs.config({paths});
+      require(["vega-embed"], displayChart, err => showError(`Error loading script: ${err.message}`));
+    } else if (typeof vegaEmbed === "function") {
+      displayChart(vegaEmbed);
+    } else {
+      loadScript("vega")
+        .then(() => loadScript("vega-lite"))
+        .then(() => loadScript("vega-embed"))
+        .catch(showError)
+        .then(() => displayChart(vegaEmbed));
+    }
+  })({"config": {"view": {"continuousWidth": 400, "continuousHeight": 300}}, "data": {"name": "data-b27a86ca740ae6672fbb17ecc533fd43"}, "mark": "bar", "encoding": {"x": {"type": "nominal", "field": "GOP Nominee"}, "y": {"type": "quantitative", "field": "Percentage Backing"}}, "height": 200, "width": 200, "$schema": "https://vega.github.io/schema/vega-lite/v4.0.0.json", "datasets": {"data-b27a86ca740ae6672fbb17ecc533fd43": [{"GOP Nominee": "Palin", "Percentage Backing": 70}, {"GOP Nominee": "Huckabee", "Percentage Backing": 63}, {"GOP Nominee": "Romney", "Percentage Backing": 60}]}}, {"mode": "vega-lite"});
+</script>
+
+<p>Then lets add some color based on each category on our X axis.</p>
+<div class="highlight"><pre><span></span><span class="p">(</span>
+    <span class="n">alt</span><span class="o">.</span><span class="n">Chart</span><span class="p">(</span><span class="n">df_fox</span><span class="p">)</span>
+    <span class="o">.</span><span class="n">mark_bar</span><span class="p">()</span>
+    <span class="o">.</span><span class="n">encode</span><span class="p">(</span>
+    <span class="n">x</span><span class="o">=</span><span class="s1">&#39;GOP Nominee&#39;</span><span class="p">,</span>
+    <span class="n">y</span><span class="o">=</span><span class="s1">&#39;Percentage Backing&#39;</span><span class="p">,</span>
+    <span class="n">color</span><span class="o">=</span><span class="s1">&#39;GOP Nominee&#39;</span><span class="p">)</span> <span class="c1">## This is the added code</span>
+    <span class="o">.</span><span class="n">properties</span><span class="p">(</span><span class="n">height</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">200</span><span class="p">)</span>
+<span class="p">)</span>
+</pre></div>
+
+
+<div id="altair-viz-9"></div>
+
+<script type="text/javascript">
+  (function(spec, embedOpt){
+    const outputDiv = document.getElementById("altair-viz-9");
+    const paths = {
+      "vega": "https://cdn.jsdelivr.net/npm//vega@5?noext",
+      "vega-lib": "https://cdn.jsdelivr.net/npm//vega-lib?noext",
+      "vega-lite": "https://cdn.jsdelivr.net/npm//vega-lite@4.0.0?noext",
+      "vega-embed": "https://cdn.jsdelivr.net/npm//vega-embed@6?noext",
+    };
+
+    function loadScript(lib) {
+      return new Promise(function(resolve, reject) {
+        var s = document.createElement('script');
+        s.src = paths[lib];
+        s.async = true;
+        s.onload = () => resolve(paths[lib]);
+        s.onerror = () => reject(`Error loading script: ${paths[lib]}`);
+        document.getElementsByTagName("head")[0].appendChild(s);
+      });
+    }
+
+    function showError(err) {
+      outputDiv.innerHTML = `<div class="error" style="color:red;">${err}</div>`;
+      throw err;
+    }
+
+    function displayChart(vegaEmbed) {
+      vegaEmbed(outputDiv, spec, embedOpt)
+        .catch(err => showError(`Javascript Error: ${err.message}<br>This usually means there's a typo in your chart specification. See the javascript console for the full traceback.`));
+    }
+
+    if(typeof define === "function" && define.amd) {
+      requirejs.config({paths});
+      require(["vega-embed"], displayChart, err => showError(`Error loading script: ${err.message}`));
+    } else if (typeof vegaEmbed === "function") {
+      displayChart(vegaEmbed);
+    } else {
+      loadScript("vega")
+        .then(() => loadScript("vega-lite"))
+        .then(() => loadScript("vega-embed"))
+        .catch(showError)
+        .then(() => displayChart(vegaEmbed));
+    }
+  })({"config": {"view": {"continuousWidth": 400, "continuousHeight": 300}}, "data": {"name": "data-b27a86ca740ae6672fbb17ecc533fd43"}, "mark": "bar", "encoding": {"color": {"type": "nominal", "field": "GOP Nominee"}, "x": {"type": "nominal", "field": "GOP Nominee"}, "y": {"type": "quantitative", "field": "Percentage Backing"}}, "height": 200, "width": 200, "$schema": "https://vega.github.io/schema/vega-lite/v4.0.0.json", "datasets": {"data-b27a86ca740ae6672fbb17ecc533fd43": [{"GOP Nominee": "Palin", "Percentage Backing": 70}, {"GOP Nominee": "Huckabee", "Percentage Backing": 63}, {"GOP Nominee": "Romney", "Percentage Backing": 60}]}}, {"mode": "vega-lite"});
+</script>
+
+<p>Now, let's change the titles on each axis to make the information more digestible.</p>
+<div class="highlight"><pre><span></span><span class="p">(</span>
+    <span class="n">alt</span><span class="o">.</span><span class="n">Chart</span><span class="p">(</span><span class="n">df_fox</span><span class="p">)</span>
+    <span class="o">.</span><span class="n">mark_bar</span><span class="p">()</span>
+    <span class="o">.</span><span class="n">encode</span><span class="p">(</span>
+    <span class="n">x</span><span class="o">=</span><span class="n">alt</span><span class="o">.</span><span class="n">X</span><span class="p">(</span><span class="s1">&#39;GOP Nominee&#39;</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="n">alt</span><span class="o">.</span><span class="n">Axis</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s1">&#39;Nominee&#39;</span><span class="p">)),</span> <span class="c1">## This is the added code</span>
+    <span class="n">y</span><span class="o">=</span><span class="n">alt</span><span class="o">.</span><span class="n">Y</span><span class="p">(</span><span class="s1">&#39;Percentage Backing&#39;</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="n">alt</span><span class="o">.</span><span class="n">Axis</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s1">&#39;Percent&#39;</span><span class="p">)),</span> <span class="c1">## This is the added code</span>
+    <span class="n">color</span><span class="o">=</span><span class="s1">&#39;GOP Nominee&#39;</span><span class="p">)</span>
+    <span class="o">.</span><span class="n">properties</span><span class="p">(</span><span class="n">height</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">200</span><span class="p">)</span>
+<span class="p">)</span>
+</pre></div>
+
+
+<div id="altair-viz-11"></div>
+
+<script type="text/javascript">
+  (function(spec, embedOpt){
+    const outputDiv = document.getElementById("altair-viz-11");
+    const paths = {
+      "vega": "https://cdn.jsdelivr.net/npm//vega@5?noext",
+      "vega-lib": "https://cdn.jsdelivr.net/npm//vega-lib?noext",
+      "vega-lite": "https://cdn.jsdelivr.net/npm//vega-lite@4.0.0?noext",
+      "vega-embed": "https://cdn.jsdelivr.net/npm//vega-embed@6?noext",
+    };
+
+    function loadScript(lib) {
+      return new Promise(function(resolve, reject) {
+        var s = document.createElement('script');
+        s.src = paths[lib];
+        s.async = true;
+        s.onload = () => resolve(paths[lib]);
+        s.onerror = () => reject(`Error loading script: ${paths[lib]}`);
+        document.getElementsByTagName("head")[0].appendChild(s);
+      });
+    }
+
+    function showError(err) {
+      outputDiv.innerHTML = `<div class="error" style="color:red;">${err}</div>`;
+      throw err;
+    }
+
+    function displayChart(vegaEmbed) {
+      vegaEmbed(outputDiv, spec, embedOpt)
+        .catch(err => showError(`Javascript Error: ${err.message}<br>This usually means there's a typo in your chart specification. See the javascript console for the full traceback.`));
+    }
+
+    if(typeof define === "function" && define.amd) {
+      requirejs.config({paths});
+      require(["vega-embed"], displayChart, err => showError(`Error loading script: ${err.message}`));
+    } else if (typeof vegaEmbed === "function") {
+      displayChart(vegaEmbed);
+    } else {
+      loadScript("vega")
+        .then(() => loadScript("vega-lite"))
+        .then(() => loadScript("vega-embed"))
+        .catch(showError)
+        .then(() => displayChart(vegaEmbed));
+    }
+  })({"config": {"view": {"continuousWidth": 400, "continuousHeight": 300}}, "data": {"name": "data-b27a86ca740ae6672fbb17ecc533fd43"}, "mark": "bar", "encoding": {"color": {"type": "nominal", "field": "GOP Nominee"}, "x": {"type": "nominal", "axis": {"title": "Nominee"}, "field": "GOP Nominee"}, "y": {"type": "quantitative", "axis": {"title": "Percent"}, "field": "Percentage Backing"}}, "height": 200, "width": 200, "$schema": "https://vega.github.io/schema/vega-lite/v4.0.0.json", "datasets": {"data-b27a86ca740ae6672fbb17ecc533fd43": [{"GOP Nominee": "Palin", "Percentage Backing": 70}, {"GOP Nominee": "Huckabee", "Percentage Backing": 63}, {"GOP Nominee": "Romney", "Percentage Backing": 60}]}}, {"mode": "vega-lite"});
+</script>
+
+<p>Lastly, lets add a title to give the chart an overall theme.</p>
+<div class="highlight"><pre><span></span><span class="p">(</span>
+    <span class="n">alt</span><span class="o">.</span><span class="n">Chart</span><span class="p">(</span><span class="n">df_fox</span><span class="p">)</span>
+    <span class="o">.</span><span class="n">mark_bar</span><span class="p">()</span>
+    <span class="o">.</span><span class="n">encode</span><span class="p">(</span>
+    <span class="n">x</span><span class="o">=</span><span class="n">alt</span><span class="o">.</span><span class="n">X</span><span class="p">(</span><span class="s1">&#39;GOP Nominee&#39;</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="n">alt</span><span class="o">.</span><span class="n">Axis</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s1">&#39;Nominee&#39;</span><span class="p">)),</span>
+    <span class="n">y</span><span class="o">=</span><span class="n">alt</span><span class="o">.</span><span class="n">Y</span><span class="p">(</span><span class="s1">&#39;Percentage Backing&#39;</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="n">alt</span><span class="o">.</span><span class="n">Axis</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s1">&#39;Percent&#39;</span><span class="p">)),</span>
+    <span class="n">color</span><span class="o">=</span><span class="s1">&#39;GOP Nominee&#39;</span><span class="p">)</span>
+    <span class="o">.</span><span class="n">properties</span><span class="p">(</span><span class="n">height</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Vice-Presidential Choice&#39;</span><span class="p">)</span> <span class="c1">## This is the added code</span>
+<span class="p">)</span>
+</pre></div>
+
+
+<div id="altair-viz-14"></div>
+
+<script type="text/javascript">
+  (function(spec, embedOpt){
+    const outputDiv = document.getElementById("altair-viz-14");
+    const paths = {
+      "vega": "https://cdn.jsdelivr.net/npm//vega@5?noext",
+      "vega-lib": "https://cdn.jsdelivr.net/npm//vega-lib?noext",
+      "vega-lite": "https://cdn.jsdelivr.net/npm//vega-lite@4.0.0?noext",
+      "vega-embed": "https://cdn.jsdelivr.net/npm//vega-embed@6?noext",
+    };
+
+    function loadScript(lib) {
+      return new Promise(function(resolve, reject) {
+        var s = document.createElement('script');
+        s.src = paths[lib];
+        s.async = true;
+        s.onload = () => resolve(paths[lib]);
+        s.onerror = () => reject(`Error loading script: ${paths[lib]}`);
+        document.getElementsByTagName("head")[0].appendChild(s);
+      });
+    }
+
+    function showError(err) {
+      outputDiv.innerHTML = `<div class="error" style="color:red;">${err}</div>`;
+      throw err;
+    }
+
+    function displayChart(vegaEmbed) {
+      vegaEmbed(outputDiv, spec, embedOpt)
+        .catch(err => showError(`Javascript Error: ${err.message}<br>This usually means there's a typo in your chart specification. See the javascript console for the full traceback.`));
+    }
+
+    if(typeof define === "function" && define.amd) {
+      requirejs.config({paths});
+      require(["vega-embed"], displayChart, err => showError(`Error loading script: ${err.message}`));
+    } else if (typeof vegaEmbed === "function") {
+      displayChart(vegaEmbed);
+    } else {
+      loadScript("vega")
+        .then(() => loadScript("vega-lite"))
+        .then(() => loadScript("vega-embed"))
+        .catch(showError)
+        .then(() => displayChart(vegaEmbed));
+    }
+  })({"config": {"view": {"continuousWidth": 400, "continuousHeight": 300}}, "data": {"name": "data-b27a86ca740ae6672fbb17ecc533fd43"}, "mark": "bar", "encoding": {"color": {"type": "nominal", "field": "GOP Nominee"}, "x": {"type": "nominal", "axis": {"title": "Nominee"}, "field": "GOP Nominee"}, "y": {"type": "quantitative", "axis": {"title": "Percent"}, "field": "Percentage Backing"}}, "height": 200, "title": "Vice-Presidential Choice", "width": 200, "$schema": "https://vega.github.io/schema/vega-lite/v4.0.0.json", "datasets": {"data-b27a86ca740ae6672fbb17ecc533fd43": [{"GOP Nominee": "Palin", "Percentage Backing": 70}, {"GOP Nominee": "Huckabee", "Percentage Backing": 63}, {"GOP Nominee": "Romney", "Percentage Backing": 60}]}}, {"mode": "vega-lite"});
+</script>
+
+<p>As you can see now, this graph is much cleaner looking, more comfortable to read, and overall better than it was before. In conclusion, Altair is an easy to use Python library that makes good looking images with just a few lines of codes.</p>
+ </div>
+</div>
+ </div>
+</body>
+</html>
