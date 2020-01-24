@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<rss version="2.0"><channel><title>a BA blog - Brandon Anhorn</title><link>https://brandonanhorn.github.io/Blog/</link><description>For data enthusiasts.</description><lastBuildDate>Sat, 04 Jan 2020 00:00:00 -0500</lastBuildDate><item><title>Altair</title><link>https://brandonanhorn.github.io/Blog/Second%20blog.html</link><description>&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;pandas&lt;/span&gt; &lt;span class="kn"&gt;as&lt;/span&gt; &lt;span class="nn"&gt;pd&lt;/span&gt;
+<rss version="2.0"><channel><title>a BA blog - Brandon Anhorn</title><link>https://brandonanhorn.github.io/Blog/</link><description>for data enthusiasts</description><lastBuildDate>Sat, 04 Jan 2020 00:00:00 -0500</lastBuildDate><item><title>Altair</title><link>https://brandonanhorn.github.io/Blog/Second%20blog.html</link><description>&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;pandas&lt;/span&gt; &lt;span class="kn"&gt;as&lt;/span&gt; &lt;span class="nn"&gt;pd&lt;/span&gt;
 &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;altair&lt;/span&gt; &lt;span class="kn"&gt;as&lt;/span&gt; &lt;span class="nn"&gt;alt&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
