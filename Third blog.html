@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+
+  <title>Google Colab</title>
+
+
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="referrer" content="origin" />
+  <meta name="generator" content="Pelican" />
+  <link href="./" rel="canonical" />
+
+  <!-- Feed -->
+        <link href="https://brandonanhorn.github.io/Blog/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="a BA blog Full Atom Feed" />
+          <link href="https://brandonanhorn.github.io/Blog/feeds/{slug}.atom.xml" type="application/atom+xml" rel="alternate" title="a BA blog Categories Atom Feed" />
+
+  <link href="./theme/css/style.css" type="text/css" rel="stylesheet" />
+
+  <!-- Code highlight color scheme -->
+      <link href="./theme/css/code_blocks/github.css" rel="stylesheet">
+
+
+  <!-- Custom fonts -->
+  <link href='https://fonts.googleapis.com/css?family=Montserrat:400,300' rel='stylesheet' type='text/css' />
+  <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css" />
+
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+  <![endif]-->
+
+
+  <link href="./Third blog.html" rel="canonical" />
+
+    <meta name="description" content="This blog post will be centred about(and written on), Google Colab. The free, hyper-powerful program built by Google that allows people...">
+
+    <meta name="author" content="Brandon Anhorn">
+
+
+
+
+
+<!-- Open Graph -->
+<meta property="og:site_name" content="a BA blog"/>
+<meta property="og:title" content="Google Colab"/>
+<meta property="og:description" content="This blog post will be centred about(and written on), Google Colab. The free, hyper-powerful program built by Google that allows people..."/>
+<meta property="og:locale" content="en_US"/>
+<meta property="og:url" content="./Third blog.html"/>
+<meta property="og:type" content="article"/>
+<meta property="article:published_time" content="2020-01-23 00:00:00-05:00"/>
+<meta property="article:modified_time" content=""/>
+<meta property="article:author" content="./author/brandon-anhorn.html">
+<meta property="article:section" content="misc"/>
+<meta property="og:image" content="./theme/images/post-bg.jpg">
+
+<!-- Twitter Card -->
+
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "Article",
+  "name": "Google Colab",
+  "headline": "Google Colab",
+  "datePublished": "2020-01-23 00:00:00-05:00",
+  "dateModified": "",
+  "author": {
+    "@type": "Person",
+    "name": "Brandon Anhorn",
+    "url": "./author/brandon-anhorn.html"
+  },
+  "image": "./theme/images/post-bg.jpg",
+  "url": "./Third blog.html",
+  "description": "This blog post will be centred about(and written on), Google Colab. The free, hyper-powerful program built by Google that allows people..."
+}
+</script>
+</head>
+<!-- TODO : Body class -->
+<body class="home-template">
+
+<nav id="menu">
+  <a class="close-button">Close</a>
+  <div class="nav-wrapper">
+    <p class="nav-label">Menu</p>
+    <ul>
+
+
+    </ul>
+  </div>
+</nav>
+    <!-- Progressbar -->
+    <div class="progress-container">
+        <span class="progress-bar"></span>
+    </div>
+
+    <!-- Page Header -->
+    <!-- Set your background image for this header on the line below. -->
+    <header id="post-header" class="has-cover">
+      <div class="inner">
+        <nav id="navigation">
+            <span id="home-button" class="nav-button">
+                <a class="home-button" href="./" title="Home"><i class="ic ic-arrow-left"></i> Home</a>
+            </span>
+          <span id="menu-button" class="nav-button">
+            <a class="menu-button"><i class="ic ic-menu"></i> Menu</a>
+          </span>
+        </nav>
+        <h1 class="post-title">Google Colab</h1>
+        <!-- TODO : Proper class for headline -->
+        <span class="post-meta">
+                <a href="./author/brandon-anhorn.html">Brandon Anhorn</a>
+            | <time datetime="Thu 23 January 2020">Thu 23 January 2020</time>
+        </span>
+        <!-- TODO : Modified check -->
+            <div class="post-cover cover" style="background-image: url('./theme/images/post-bg.jpg')">
+      </div>
+    </header>
+
+  <section id="wrapper">
+    <a class="hidden-close"></a>
+
+    <!-- Post content -->
+    <main class="content" role="main">
+        <article class="post">
+        <div class="inner">
+            <section class="post-content">
+                <p>This blog post will be centred about(and written on), Google Colab. The free, hyper-powerful program built by Google that allows people to take their work to a higher level.</p>
+<p>Google Colab itself allows users, with Google accounts, to work on their servers, rather than from their machines. A helpful tool for some of us who have ancient devices and our computing power may not be up to par.  It's not just about old machines, even Apple's highest performing Macbook Pro would not have the computing power that a Google Colab server would have.</p>
+<p>So let's get started.</p>
+<p>First of you will need to start the tool by "mounting" the server in the notebook. Follow the link given on the page, and as easy as that, you are connected.</p>
+<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">google.colab</span> <span class="kn">import</span> <span class="n">drive</span>
+<span class="n">drive</span><span class="o">.</span><span class="n">mount</span><span class="p">(</span><span class="s1">&#39;/content/gdrive&#39;</span><span class="p">)</span>
+</pre></div>
+
+
+<p>The first thing you should notice is the RAM and Disk bar on the top right corner. These bars show you have connected and are now able to work.</p>
+<p><img alt="png" src="images/googlecolab.png"></p>
+<div class="highlight"><pre><span></span><span class="n">Because</span> <span class="n">this</span> <span class="n">isn</span><span class="s1">&#39;t a blog about specs, just for now, you should know that the more RAM and Disk Space, the smoother/faster your program will run.</span>
+
+<span class="n">Now</span><span class="p">,</span> <span class="n">since</span> <span class="n">you</span> <span class="n">are</span> <span class="n">signed</span> <span class="n">on</span> <span class="ow">and</span> <span class="n">ready</span> <span class="n">to</span> <span class="n">go</span><span class="p">,</span> <span class="n">lets</span> <span class="n">load</span> <span class="ow">in</span> <span class="n">some</span> <span class="n">data</span> <span class="n">to</span> <span class="n">begin</span> <span class="n">working</span><span class="o">.</span>
+
+<span class="n">Google</span> <span class="n">Colab</span> <span class="n">runs</span> <span class="n">strictly</span> <span class="n">on</span> <span class="n">Python</span><span class="p">;</span> <span class="n">therefore</span><span class="p">,</span> <span class="n">you</span> <span class="n">can</span> <span class="kn">import</span> <span class="nn">in</span> <span class="nn">pandas</span> <span class="nn">just</span> <span class="kn">as</span> <span class="nn">you</span> <span class="nn">would</span> <span class="nn">with</span> <span class="nn">Jupyter</span> <span class="nn">Notebook</span> <span class="nn">or</span> <span class="nn">any</span> <span class="nn">other</span> <span class="nn">text</span> <span class="nn">editor</span> <span class="nn">of</span> <span class="nn">your</span> <span class="nn">choice</span>
+
+
+<span class="sb">``</span><span class="err">`</span><span class="n">python</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span>
+</pre></div>
+
+
+<p>This process will be slightly different than when you are calling the file compared to a regular Jupyter Notebook or text editor. I load my data into my google drive then call it from there.</p>
+<div class="highlight"><pre><span></span><span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;df = pd.read_csv(&#39;</span><span class="n">gdrive</span><span class="o">/</span><span class="n">My</span> <span class="n">Drive</span><span class="o">/</span><span class="n">Colab</span> <span class="n">Notebooks</span><span class="o">/</span><span class="n">data</span><span class="o">/</span><span class="p">(</span><span class="n">yourdatafile</span><span class="p">)</span><span class="o">.</span><span class="n">csv</span><span class="s1">&#39;)&#39;</span><span class="p">)</span>
+</pre></div>
+
+
+<p>Now you are able to do all the analysis work you would do on any other platform, just much quicker</p>
+<p>For those of you looking to run multiple machine learning models at one time, you can open multiple tabs, and connect to various servers from Google Colab and run them all at one time.</p>
+<p>At the end of your work, you can download files from Google Colab as either .ipynb and open them on Jupyter, or download them as .py and run them on your local text editors of choice.</p>
+<p>You can also download specific things you save by running the code:</p>
+<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">google.colab</span> <span class="kn">import</span> <span class="n">files</span>
+<span class="n">files</span><span class="o">.</span><span class="n">download</span><span class="p">(</span><span class="err">‘</span><span class="n">data</span><span class="o">.</span><span class="n">pkl</span><span class="err">’</span><span class="p">)</span>
+</pre></div>
+
+
+<p>So harness the power of the free service offered by Google Colab today, and perform your analysis quicker today.</p>
+            </section>
+
+            <section class="post-info">
+                <div class="post-share">
+                    <a class="twitter" href="https://twitter.com/share?text=Google Colab&amp;url=./Third blog.html" onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                    <i class="ic ic-twitter"></i><span class="hidden">Twitter</span>
+                    </a>
+                    <a class="facebook" href="https://www.facebook.com/sharer/sharer.php?u=./Third blog.html" onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                    <i class="ic ic-facebook"></i><span class="hidden">Facebook</span>
+                    </a>
+                    <a class="googleplus" href="https://plus.google.com/share?url=./Third blog.html" onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+                    <i class="ic ic-googleplus"></i><span class="hidden">Google+</span>
+                    </a>
+                    <div class="clear"></div>
+                </div>
+
+
+                <div class="clear"></div>
+
+
+                </section>
+
+
+                <aside class="post-nav">
+                    <div class="clear"></div>
+                </aside>
+
+            </div>
+        </article>
+    </main>
+      <!-- TODO : Body class -->
+    <div id="body-class" style="display: none;" class=""></div>
+
+    <footer id="footer">
+      <div class="inner">
+        <section class="credits">
+
+
+          <span class="credits-theme">Theme <a href="https://github.com/arulrajnet/attila" rel="nofollow">Attila</a></span>
+          <span class="credits-software">Published with <a href="https://github.com/getpelican/pelican" rel="nofollow">Pelican</a></span>
+        </section>
+      </div>
+    </footer>
+  </section>
+
+  <script type="text/javascript" src="./theme/js/script.js"></script>
+
+</body>
+</html>
