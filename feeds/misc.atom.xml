@@ -11,15 +11,10 @@
 
 &lt;p&gt;The first thing you should notice is the RAM and Disk bar on the top right corner. These bars show you have connected and are now able to work.&lt;/p&gt;
 &lt;p&gt;&lt;img alt="png" src="images/googlecolab.png"&gt;&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;Because&lt;/span&gt; &lt;span class="n"&gt;this&lt;/span&gt; &lt;span class="n"&gt;isn&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;t a blog about specs, just for now, you should know that the more RAM and Disk Space, the smoother/faster your program will run.&lt;/span&gt;
-
-&lt;span class="n"&gt;Now&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;since&lt;/span&gt; &lt;span class="n"&gt;you&lt;/span&gt; &lt;span class="n"&gt;are&lt;/span&gt; &lt;span class="n"&gt;signed&lt;/span&gt; &lt;span class="n"&gt;on&lt;/span&gt; &lt;span class="ow"&gt;and&lt;/span&gt; &lt;span class="n"&gt;ready&lt;/span&gt; &lt;span class="n"&gt;to&lt;/span&gt; &lt;span class="n"&gt;go&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;lets&lt;/span&gt; &lt;span class="n"&gt;load&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;some&lt;/span&gt; &lt;span class="n"&gt;data&lt;/span&gt; &lt;span class="n"&gt;to&lt;/span&gt; &lt;span class="n"&gt;begin&lt;/span&gt; &lt;span class="n"&gt;working&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;
-
-&lt;span class="n"&gt;Google&lt;/span&gt; &lt;span class="n"&gt;Colab&lt;/span&gt; &lt;span class="n"&gt;runs&lt;/span&gt; &lt;span class="n"&gt;strictly&lt;/span&gt; &lt;span class="n"&gt;on&lt;/span&gt; &lt;span class="n"&gt;Python&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="n"&gt;therefore&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;you&lt;/span&gt; &lt;span class="n"&gt;can&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;in&lt;/span&gt; &lt;span class="nn"&gt;pandas&lt;/span&gt; &lt;span class="nn"&gt;just&lt;/span&gt; &lt;span class="kn"&gt;as&lt;/span&gt; &lt;span class="nn"&gt;you&lt;/span&gt; &lt;span class="nn"&gt;would&lt;/span&gt; &lt;span class="nn"&gt;with&lt;/span&gt; &lt;span class="nn"&gt;Jupyter&lt;/span&gt; &lt;span class="nn"&gt;Notebook&lt;/span&gt; &lt;span class="nn"&gt;or&lt;/span&gt; &lt;span class="nn"&gt;any&lt;/span&gt; &lt;span class="nn"&gt;other&lt;/span&gt; &lt;span class="nn"&gt;text&lt;/span&gt; &lt;span class="nn"&gt;editor&lt;/span&gt; &lt;span class="nn"&gt;of&lt;/span&gt; &lt;span class="nn"&gt;your&lt;/span&gt; &lt;span class="nn"&gt;choice&lt;/span&gt;
-
-
-&lt;span class="sb"&gt;``&lt;/span&gt;&lt;span class="err"&gt;`&lt;/span&gt;&lt;span class="n"&gt;python&lt;/span&gt;
-&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;pandas&lt;/span&gt; &lt;span class="kn"&gt;as&lt;/span&gt; &lt;span class="nn"&gt;pd&lt;/span&gt;
+&lt;p&gt;Because this isn't a blog about specs, just for now, you should know that the more RAM and Disk Space, the smoother/faster your program will run.&lt;/p&gt;
+&lt;p&gt;Now, since you are signed on and ready to go, lets load in some data to begin working.&lt;/p&gt;
+&lt;p&gt;Google Colab runs strictly on Python; therefore, you can import in pandas just as you would with Jupyter Notebook or any other text editor of your choice&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;pandas&lt;/span&gt; &lt;span class="kn"&gt;as&lt;/span&gt; &lt;span class="nn"&gt;pd&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
