@@ -19,7 +19,6 @@ drive.mount('/content/gdrive')
 The first thing you should notice is the RAM and Disk bar on the top right corner. These bars show you have connected and are now able to work.
 
 ![png](images/googlecolab.png)
-```
 
 Because this isn't a blog about specs, just for now, you should know that the more RAM and Disk Space, the smoother/faster your program will run.
 
@@ -36,7 +35,7 @@ This process will be slightly different than when you are calling the file compa
 
 
 ```python
-pd.read_csv('df = pd.read_csv('gdrive/My Drive/Colab Notebooks/data/(yourdatafile).csv')')
+df = pd.read_csv('gdrive/My Drive/Colab Notebooks/data/(yourdatafile).csv')
 ```
 
 Now you are able to do all the analysis work you would do on any other platform, just much quicker
@@ -50,7 +49,7 @@ You can also download specific things you save by running the code:
 
 ```python
 from google.colab import files
-files.download(‘data.pkl’)
+files.download('data.pkl')
 ```
 
 So harness the power of the free service offered by Google Colab today, and perform your analysis quicker today.

@@ -142,20 +142,15 @@
 
 <p>The first thing you should notice is the RAM and Disk bar on the top right corner. These bars show you have connected and are now able to work.</p>
 <p><img alt="png" src="images/googlecolab.png"></p>
-<div class="highlight"><pre><span></span><span class="n">Because</span> <span class="n">this</span> <span class="n">isn</span><span class="s1">&#39;t a blog about specs, just for now, you should know that the more RAM and Disk Space, the smoother/faster your program will run.</span>
-
-<span class="n">Now</span><span class="p">,</span> <span class="n">since</span> <span class="n">you</span> <span class="n">are</span> <span class="n">signed</span> <span class="n">on</span> <span class="ow">and</span> <span class="n">ready</span> <span class="n">to</span> <span class="n">go</span><span class="p">,</span> <span class="n">lets</span> <span class="n">load</span> <span class="ow">in</span> <span class="n">some</span> <span class="n">data</span> <span class="n">to</span> <span class="n">begin</span> <span class="n">working</span><span class="o">.</span>
-
-<span class="n">Google</span> <span class="n">Colab</span> <span class="n">runs</span> <span class="n">strictly</span> <span class="n">on</span> <span class="n">Python</span><span class="p">;</span> <span class="n">therefore</span><span class="p">,</span> <span class="n">you</span> <span class="n">can</span> <span class="kn">import</span> <span class="nn">in</span> <span class="nn">pandas</span> <span class="nn">just</span> <span class="kn">as</span> <span class="nn">you</span> <span class="nn">would</span> <span class="nn">with</span> <span class="nn">Jupyter</span> <span class="nn">Notebook</span> <span class="nn">or</span> <span class="nn">any</span> <span class="nn">other</span> <span class="nn">text</span> <span class="nn">editor</span> <span class="nn">of</span> <span class="nn">your</span> <span class="nn">choice</span>
-
-
-<span class="sb">``</span><span class="err">`</span><span class="n">python</span>
-<span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span>
+<p>Because this isn't a blog about specs, just for now, you should know that the more RAM and Disk Space, the smoother/faster your program will run.</p>
+<p>Now, since you are signed on and ready to go, lets load in some data to begin working.</p>
+<p>Google Colab runs strictly on Python; therefore, you can import in pandas just as you would with Jupyter Notebook or any other text editor of your choice</p>
+<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span>
 </pre></div>
 
 
 <p>This process will be slightly different than when you are calling the file compared to a regular Jupyter Notebook or text editor. I load my data into my google drive then call it from there.</p>
-<div class="highlight"><pre><span></span><span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;df = pd.read_csv(&#39;</span><span class="n">gdrive</span><span class="o">/</span><span class="n">My</span> <span class="n">Drive</span><span class="o">/</span><span class="n">Colab</span> <span class="n">Notebooks</span><span class="o">/</span><span class="n">data</span><span class="o">/</span><span class="p">(</span><span class="n">yourdatafile</span><span class="p">)</span><span class="o">.</span><span class="n">csv</span><span class="s1">&#39;)&#39;</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;gdrive/My Drive/Colab Notebooks/data/(yourdatafile).csv&#39;</span><span class="p">)</span>
 </pre></div>
 
 
@@ -164,7 +159,7 @@
 <p>At the end of your work, you can download files from Google Colab as either .ipynb and open them on Jupyter, or download them as .py and run them on your local text editors of choice.</p>
 <p>You can also download specific things you save by running the code:</p>
 <div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">google.colab</span> <span class="kn">import</span> <span class="n">files</span>
-<span class="n">files</span><span class="o">.</span><span class="n">download</span><span class="p">(</span><span class="err">‘</span><span class="n">data</span><span class="o">.</span><span class="n">pkl</span><span class="err">’</span><span class="p">)</span>
+<span class="n">files</span><span class="o">.</span><span class="n">download</span><span class="p">(</span><span class="s1">&#39;data.pkl&#39;</span><span class="p">)</span>
 </pre></div>
 
 
