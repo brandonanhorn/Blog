@@ -229,24 +229,4 @@ for i in range(200):
 
 ```
 
-
-```python
-from IPython.display import YouTubeVideo
-
-YouTubeVideo('KMGRL25JtFw', width=600, height=400)
-```
-
-
-
-
-
-<iframe
-    width="600"
-    height="400"
-    src="https://www.youtube.com/embed/KMGRL25JtFw"
-    frameborder="0"
-    allowfullscreen
-></iframe>
-
-
-
+Go to : https://www.youtube.com/embed/KMGRL25JtFw for the video!
