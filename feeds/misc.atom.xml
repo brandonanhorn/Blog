@@ -192,22 +192,7 @@
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;IPython.display&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;YouTubeVideo&lt;/span&gt;
-
-&lt;span class="n"&gt;YouTubeVideo&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;KMGRL25JtFw&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;width&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;600&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;height&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;400&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-
-
-&lt;p&gt;&amp;lt;iframe
-    width="600"
-    height="400"
-    src="https://www.youtube.com/embed/KMGRL25JtFw"
-    frameborder="0"
-    allowfullscreen&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;/iframe&gt;
-
-&lt;/blockquote&gt;</content><category term="misc"></category></entry><entry><title>Pymc3 and the NBA</title><link href="https://brandonanhorn.github.io/Blog/Fifth%20blog.html" rel="alternate"></link><published>2020-02-10T00:00:00-05:00</published><updated>2020-02-10T00:00:00-05:00</updated><author><name>Brandon Anhorn</name></author><id>tag:brandonanhorn.github.io,2020-02-10:/Blog/Fifth blog.html</id><summary type="html">&lt;p&gt;Welcome back to the fifth blog in the BA blog series. The theme of today's blog is, by far, one of my favourite topics - sports. I will demonstrate the power that pymc3, a Bayesian statistical modelling package for python, has in the data science field.&lt;/p&gt;
+&lt;p&gt;Go to : https://www.youtube.com/embed/KMGRL25JtFw for the video!&lt;/p&gt;</content><category term="misc"></category></entry><entry><title>Pymc3 and the NBA</title><link href="https://brandonanhorn.github.io/Blog/Fifth%20blog.html" rel="alternate"></link><published>2020-02-10T00:00:00-05:00</published><updated>2020-02-10T00:00:00-05:00</updated><author><name>Brandon Anhorn</name></author><id>tag:brandonanhorn.github.io,2020-02-10:/Blog/Fifth blog.html</id><summary type="html">&lt;p&gt;Welcome back to the fifth blog in the BA blog series. The theme of today's blog is, by far, one of my favourite topics - sports. I will demonstrate the power that pymc3, a Bayesian statistical modelling package for python, has in the data science field.&lt;/p&gt;
 &lt;p&gt;To begin, we are going …&lt;/p&gt;</summary><content type="html">&lt;p&gt;Welcome back to the fifth blog in the BA blog series. The theme of today's blog is, by far, one of my favourite topics - sports. I will demonstrate the power that pymc3, a Bayesian statistical modelling package for python, has in the data science field.&lt;/p&gt;
 &lt;p&gt;To begin, we are going to import the usual suspects, along with my favourite way to play with NBA sports data, the nba_api package.&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;pandas&lt;/span&gt; &lt;span class="kn"&gt;as&lt;/span&gt; &lt;span class="nn"&gt;pd&lt;/span&gt;
