@@ -1,137 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="utf-8">
-  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-
-
-  <title>Pymc3 and the NBA</title>
-
-
-  <meta name="HandheldFriendly" content="True" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="referrer" content="origin" />
-  <meta name="generator" content="Pelican" />
-  <link href="./" rel="canonical" />
-
-  <!-- Feed -->
-        <link href="https://brandonanhorn.github.io/Blog/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="a BA blog Full Atom Feed" />
-          <link href="https://brandonanhorn.github.io/Blog/feeds/{slug}.atom.xml" type="application/atom+xml" rel="alternate" title="a BA blog Categories Atom Feed" />
-
-  <link href="./theme/css/style.css" type="text/css" rel="stylesheet" />
-
-  <!-- Code highlight color scheme -->
-      <link href="./theme/css/code_blocks/github.css" rel="stylesheet">
-
-
-  <!-- Custom fonts -->
-  <link href='https://fonts.googleapis.com/css?family=Montserrat:400,300' rel='stylesheet' type='text/css' />
-  <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css" />
-
-  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-  <!--[if lt IE 9]>
-    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-  <![endif]-->
-
-
-  <link href="./Fifth blog.html" rel="canonical" />
-
-    <meta name="description" content="Welcome back to the fifth blog in the BA blog series. The theme of today's blog is, by far, one of my favourite topics - sports. I will...">
-
-    <meta name="author" content="Brandon Anhorn">
-
-
-
-
-
-<!-- Open Graph -->
-<meta property="og:site_name" content="a BA blog"/>
-<meta property="og:title" content="Pymc3 and the NBA"/>
-<meta property="og:description" content="Welcome back to the fifth blog in the BA blog series. The theme of today's blog is, by far, one of my favourite topics - sports. I will..."/>
-<meta property="og:locale" content="en_US"/>
-<meta property="og:url" content="./Fifth blog.html"/>
-<meta property="og:type" content="article"/>
-<meta property="article:published_time" content="2020-02-10 00:00:00-05:00"/>
-<meta property="article:modified_time" content=""/>
-<meta property="article:author" content="./author/brandon-anhorn.html">
-<meta property="article:section" content="misc"/>
-<meta property="og:image" content="./theme/images/post-bg.jpg">
-
-<!-- Twitter Card -->
-
-<script type="application/ld+json">
-{
-  "@context": "http://schema.org",
-  "@type": "Article",
-  "name": "Pymc3 and the NBA",
-  "headline": "Pymc3 and the NBA",
-  "datePublished": "2020-02-10 00:00:00-05:00",
-  "dateModified": "",
-  "author": {
-    "@type": "Person",
-    "name": "Brandon Anhorn",
-    "url": "./author/brandon-anhorn.html"
-  },
-  "image": "./theme/images/post-bg.jpg",
-  "url": "./Fifth blog.html",
-  "description": "Welcome back to the fifth blog in the BA blog series. The theme of today's blog is, by far, one of my favourite topics - sports. I will..."
-}
-</script>
+ <title>Pymc3 and the NBA</title>
+ <!-- Latest compiled and minified CSS -->
+ <link href="css/clean-blog.min.css" rel="stylesheet">
+ <div class="container">
+  <h1><a href=".">a BA blog</a></h1>
+ </div>
 </head>
-<!-- TODO : Body class -->
-<body class="home-template">
-
-<nav id="menu">
-  <a class="close-button">Close</a>
-  <div class="nav-wrapper">
-    <p class="nav-label">Menu</p>
-    <ul>
-
-
-    </ul>
-  </div>
-</nav>
-    <!-- Progressbar -->
-    <div class="progress-container">
-        <span class="progress-bar"></span>
-    </div>
-
-    <!-- Page Header -->
-    <!-- Set your background image for this header on the line below. -->
-    <header id="post-header" class="has-cover">
-      <div class="inner">
-        <nav id="navigation">
-            <span id="home-button" class="nav-button">
-                <a class="home-button" href="./" title="Home"><i class="ic ic-arrow-left"></i> Home</a>
-            </span>
-          <span id="menu-button" class="nav-button">
-            <a class="menu-button"><i class="ic ic-menu"></i> Menu</a>
-          </span>
-        </nav>
-        <h1 class="post-title">Pymc3 and the NBA</h1>
-        <!-- TODO : Proper class for headline -->
-        <span class="post-meta">
-                <a href="./author/brandon-anhorn.html">Brandon Anhorn</a>
-            | <time datetime="Mon 10 February 2020">Mon 10 February 2020</time>
-        </span>
-        <!-- TODO : Modified check -->
-            <div class="post-cover cover" style="background-image: url('./theme/images/post-bg.jpg')">
-      </div>
-    </header>
-
-  <section id="wrapper">
-    <a class="hidden-close"></a>
-
-    <!-- Post content -->
-    <main class="content" role="main">
-        <article class="post">
-        <div class="inner">
-            <section class="post-content">
-                <p>Welcome back to the fifth blog in the BA blog series. The theme of today's blog is, by far, one of my favourite topics - sports. I will demonstrate the power that pymc3, a Bayesian statistical modelling package for python, has in the data science field.</p>
+<body>
+ <div class="container">
+<div class="row">
+ <div class="col-md-8">
+  <h3>Pymc3 and the NBA</h3>
+  <label>2020-02-10</label>
+  <p>Welcome back to the fifth blog in the BA blog series. The theme of today's blog is, by far, one of my favourite topics - sports. I will demonstrate the power that pymc3, a Bayesian statistical modelling package for python, has in the data science field.</p>
 <p>To begin, we are going to import the usual suspects, along with my favourite way to play with NBA sports data, the nba_api package.</p>
 <div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span>
 <span class="kn">import</span> <span class="nn">nba_api</span>
@@ -530,52 +413,8 @@ df2 will be the Utah Jazz</p>
 <p>This last one has a special place in my heart as a Canadian. The tau is 11, which correlates to the 2006-07 season for the Raptors. The first time the Raptors won a division title and maybe the season that built the culture, which helped them win the NBA championship in the 2018-19 season.</p>
 <p>And with that, I hope you see the power of pymc3. It needs minimal inputs to make it work and is immensely powerful.</p>
 <p>Go forth and use it for good!</p>
-            </section>
-
-            <section class="post-info">
-                <div class="post-share">
-                    <a class="twitter" href="https://twitter.com/share?text=Pymc3 and the NBA&amp;url=./Fifth blog.html" onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
-                    <i class="ic ic-twitter"></i><span class="hidden">Twitter</span>
-                    </a>
-                    <a class="facebook" href="https://www.facebook.com/sharer/sharer.php?u=./Fifth blog.html" onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
-                    <i class="ic ic-facebook"></i><span class="hidden">Facebook</span>
-                    </a>
-                    <a class="googleplus" href="https://plus.google.com/share?url=./Fifth blog.html" onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
-                    <i class="ic ic-googleplus"></i><span class="hidden">Google+</span>
-                    </a>
-                    <div class="clear"></div>
-                </div>
-
-
-                <div class="clear"></div>
-
-
-                </section>
-
-
-                <aside class="post-nav">
-                    <div class="clear"></div>
-                </aside>
-
-            </div>
-        </article>
-    </main>
-      <!-- TODO : Body class -->
-    <div id="body-class" style="display: none;" class=""></div>
-
-    <footer id="footer">
-      <div class="inner">
-        <section class="credits">
-
-
-          <span class="credits-theme">Theme <a href="https://github.com/arulrajnet/attila" rel="nofollow">Attila</a></span>
-          <span class="credits-software">Published with <a href="https://github.com/getpelican/pelican" rel="nofollow">Pelican</a></span>
-        </section>
-      </div>
-    </footer>
-  </section>
-
-  <script type="text/javascript" src="./theme/js/script.js"></script>
-
+ </div>
+</div>
+ </div>
 </body>
 </html>

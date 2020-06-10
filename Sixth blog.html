@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ <title>PyAutoGui - Runescape Bot</title>
+ <!-- Latest compiled and minified CSS -->
+ <link href="css/clean-blog.min.css" rel="stylesheet">
+ <div class="container">
+  <h1><a href=".">a BA blog</a></h1>
+ </div>
+</head>
+<body>
+ <div class="container">
+<div class="row">
+ <div class="col-md-8">
+  <h3>PyAutoGui - Runescape Bot</h3>
+  <label>2020-06-01</label>
+  <p>Today's blog will be about automation. More specifically, about using the package called PyAutoGui, to automate actions in a video game called Runescape.</p>
+<p>Runescape is a Massive Multiplayer Online Role-Playing Game(MMORP), which has various skills that you level up to make your character stronger. Most of these skills take long hours of repetitive mouse-clicking, which I am personally not interested in doing. So, inspired by "Automate the Boring Stuff with Python," written by Al Sweigart, I decided to automate the "skilling" aspect of Runescape. </p>
+<p>To start off, simply install pyautogui. </p>
+<p>Type or copy the code below into your terminal.</p>
+<div class="highlight"><pre><span></span><span class="c1"># pip install pyautogui</span>
+</pre></div>
+
+
+<p>After install, you import PyAutoGui and its features in your text editor using the code:</p>
+<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pyautogui</span>
+<span class="kn">from</span> <span class="nn">pyautogui</span> <span class="kn">import</span> <span class="n">press</span><span class="p">,</span> <span class="n">typewrite</span><span class="p">,</span> <span class="n">hotkey</span><span class="p">,</span> <span class="n">screenshot</span>
+</pre></div>
+
+
+<p>So, this is not a complicated code at all to set up. It is about thinking out what you would typically do - and using PyAutoGui to complete those tasks. The first tool we will look at is the mouse clicking tool.</p>
+<p>To take advantage of the mouse clicking tool, you will first need to use the positional tool. Run the code below and move your mouse all over your screen.</p>
+<div class="highlight"><pre><span></span><span class="n">pyautogui</span><span class="o">.</span><span class="n">position</span><span class="p">()</span>
+</pre></div>
+
+
+<div class="highlight"><pre><span></span><span class="n">Point</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="mi">878</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mi">671</span><span class="p">)</span>
+</pre></div>
+
+
+<p>You will see that it gives you a location for a position on your screen. It gives you the x-coordinate as well as the y-coordinate. This will be important as you build out your own tool.</p>
+<p>Next, you can start using the click tools from PyAutoGui</p>
+<div class="highlight"><pre><span></span><span class="n">pyautogui</span><span class="o">.</span><span class="n">click</span><span class="p">(</span><span class="mi">878</span><span class="p">,</span><span class="mi">671</span><span class="p">)</span>
+</pre></div>
+
+
+<p>This acts as if you were pushing your left mouse button down on a specific spot. </p>
+<p>You can also use:</p>
+<div class="highlight"><pre><span></span><span class="n">pyautogui</span><span class="o">.</span><span class="n">mouseDown</span><span class="p">(</span><span class="n">button</span><span class="o">=</span><span class="s2">&quot;left&quot;</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="mi">878</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mi">671</span><span class="p">)</span>
+</pre></div>
+
+
+<p>to accomplish the same thing, as the click, but you can all change the mouse button to:</p>
+<div class="highlight"><pre><span></span><span class="n">pyautogui</span><span class="o">.</span><span class="n">mouseDown</span><span class="p">(</span><span class="n">button</span><span class="o">=</span><span class="s2">&quot;right&quot;</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="mi">878</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mi">671</span><span class="p">)</span>
+</pre></div>
+
+
+<p>To use the right click on the mouse. </p>
+<p>You can probably already imagine how you could use just those functions to build something interesting, but, there are more commands with PyAutoGui worth mentioning, like:</p>
+<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">time</span>
+<span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">pyautogui</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;Hello World&quot;</span><span class="p">)</span>
+</pre></div>
+
+
+<div class="highlight"><pre><span></span><span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">pyautogui</span><span class="o">.</span><span class="n">press</span><span class="p">(</span><span class="s2">&quot;insert any key&quot;</span><span class="p">)</span>
+</pre></div>
+
+
+<div class="highlight"><pre><span></span><span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">pyautogui</span><span class="o">.</span><span class="n">keyDown</span><span class="p">(</span><span class="s2">&quot;insert any key&quot;</span><span class="p">)</span>
+<span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">pyautogui</span><span class="o">.</span><span class="n">keyUp</span><span class="p">(</span><span class="s2">&quot;insert any key&quot;</span><span class="p">)</span>
+</pre></div>
+
+
+<p>Notice how I use the time package to make the mouse clicks, not instantaneous.</p>
+<p>Before we go any farther, I should mention the failsafe that PyAutoGui has. If you throw yourself in an infinite loop where your mouse or keyboard is in control, you will need something to get out of it. </p>
+<div class="highlight"><pre><span></span><span class="n">pyautogui</span><span class="o">.</span><span class="n">FAILSAFE</span> <span class="o">=</span> <span class="bp">True</span>
+</pre></div>
+
+
+<p>The code above allows you to move your cursor to the top left of your screen and shut down the program.</p>
+<p>With these few keys, you would be able to build out any type of tool you'd like to make. You can become a hacker today! </p>
+<p>Below I will add my full code, which I use to make money in Runescape. I will attach the full code and a video that I sped up to show people how the code works. </p>
+<h3><em>This code was written to work on a 21.5" iMac, you will have to change where each "click" is to fit your screen</em></h3>
+<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pyautogui</span>
+<span class="kn">import</span> <span class="nn">random</span>
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">from</span> <span class="nn">pyautogui</span> <span class="kn">import</span> <span class="n">press</span><span class="p">,</span> <span class="n">typewrite</span><span class="p">,</span> <span class="n">hotkey</span><span class="p">,</span> <span class="n">screenshot</span>
+
+<span class="n">pyautogui</span><span class="o">.</span><span class="n">position</span><span class="p">()</span>
+<span class="c1">## start at alter click to move north to top</span>
+<span class="c1">## raise camera view as high as possible</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">200</span><span class="p">):</span>
+    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">9</span><span class="p">):</span>
+        <span class="n">pyautogui</span><span class="o">.</span><span class="n">FAILSAFE</span> <span class="o">=</span> <span class="bp">True</span>
+        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+        <span class="n">pyautogui</span><span class="o">.</span><span class="n">mouseDown</span><span class="p">(</span><span class="n">button</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="mi">1726</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mi">149</span><span class="p">)</span>
+        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="o">.</span><span class="mi">5</span><span class="p">)</span>
+        <span class="n">pyautogui</span><span class="o">.</span><span class="n">click</span><span class="p">(</span><span class="mi">1810</span><span class="p">,</span><span class="mi">758</span><span class="p">)</span>
+        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="o">.</span><span class="mi">2</span><span class="p">)</span>
+        <span class="n">pyautogui</span><span class="o">.</span><span class="n">mouseDown</span><span class="p">(</span><span class="n">button</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="mi">959</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mi">567</span><span class="p">)</span>
+        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+        <span class="n">pyautogui</span><span class="o">.</span><span class="n">click</span><span class="p">(</span><span class="mi">1872</span><span class="p">,</span><span class="mi">152</span><span class="p">)</span>
+        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+        <span class="n">pyautogui</span><span class="o">.</span><span class="n">mouseDown</span><span class="p">(</span><span class="n">button</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="mi">1726</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mi">149</span><span class="p">)</span>
+        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+        <span class="n">pyautogui</span><span class="o">.</span><span class="n">click</span><span class="p">(</span><span class="mi">1843</span><span class="p">,</span><span class="mi">152</span><span class="p">)</span>
+        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+        <span class="n">pyautogui</span><span class="o">.</span><span class="n">click</span><span class="p">(</span><span class="mi">1754</span><span class="p">,</span><span class="mi">157</span><span class="p">)</span>
+        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">7</span><span class="p">)</span>
+        <span class="n">pyautogui</span><span class="o">.</span><span class="n">click</span><span class="p">(</span><span class="mi">1773</span><span class="p">,</span><span class="mi">157</span><span class="p">)</span>
+        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+        <span class="n">pyautogui</span><span class="o">.</span><span class="n">click</span><span class="p">(</span><span class="mi">697</span><span class="p">,</span><span class="mi">461</span><span class="p">)</span>
+        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">6</span><span class="p">)</span>
+        <span class="n">pyautogui</span><span class="o">.</span><span class="n">click</span><span class="p">(</span><span class="mi">1827</span><span class="p">,</span><span class="mi">163</span><span class="p">)</span>
+        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="o">.</span><span class="mi">5</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">9</span><span class="p">):</span>
+        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+        <span class="n">pyautogui</span><span class="o">.</span><span class="n">mouseDown</span><span class="p">(</span><span class="n">button</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="mi">1726</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mi">149</span><span class="p">)</span>
+        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="o">.</span><span class="mi">5</span><span class="p">)</span>
+        <span class="n">pyautogui</span><span class="o">.</span><span class="n">click</span><span class="p">(</span><span class="mi">1810</span><span class="p">,</span><span class="mi">758</span><span class="p">)</span>
+        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="o">.</span><span class="mi">2</span><span class="p">)</span>
+        <span class="n">pyautogui</span><span class="o">.</span><span class="n">mouseDown</span><span class="p">(</span><span class="n">button</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="mi">959</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mi">567</span><span class="p">)</span>
+        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+        <span class="n">pyautogui</span><span class="o">.</span><span class="n">click</span><span class="p">(</span><span class="mi">1872</span><span class="p">,</span><span class="mi">152</span><span class="p">)</span>
+        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+        <span class="n">pyautogui</span><span class="o">.</span><span class="n">mouseDown</span><span class="p">(</span><span class="n">button</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="mi">1726</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mi">149</span><span class="p">)</span>
+        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+        <span class="n">pyautogui</span><span class="o">.</span><span class="n">click</span><span class="p">(</span><span class="mi">1843</span><span class="p">,</span><span class="mi">152</span><span class="p">)</span>
+        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+        <span class="n">pyautogui</span><span class="o">.</span><span class="n">click</span><span class="p">(</span><span class="mi">1754</span><span class="p">,</span><span class="mi">157</span><span class="p">)</span>
+        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">7</span><span class="p">)</span>
+        <span class="n">pyautogui</span><span class="o">.</span><span class="n">click</span><span class="p">(</span><span class="mi">1773</span><span class="p">,</span><span class="mi">157</span><span class="p">)</span>
+        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+        <span class="n">pyautogui</span><span class="o">.</span><span class="n">click</span><span class="p">(</span><span class="mi">697</span><span class="p">,</span><span class="mi">461</span><span class="p">)</span>
+        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">6</span><span class="p">)</span>
+        <span class="n">pyautogui</span><span class="o">.</span><span class="n">click</span><span class="p">(</span><span class="mi">1827</span><span class="p">,</span><span class="mi">163</span><span class="p">)</span>
+        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="o">.</span><span class="mi">5</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">9</span><span class="p">):</span>
+        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+        <span class="n">pyautogui</span><span class="o">.</span><span class="n">mouseDown</span><span class="p">(</span><span class="n">button</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="mi">1726</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mi">149</span><span class="p">)</span>
+        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="o">.</span><span class="mi">5</span><span class="p">)</span>
+        <span class="n">pyautogui</span><span class="o">.</span><span class="n">click</span><span class="p">(</span><span class="mi">1810</span><span class="p">,</span><span class="mi">758</span><span class="p">)</span>
+        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="o">.</span><span class="mi">2</span><span class="p">)</span>
+        <span class="n">pyautogui</span><span class="o">.</span><span class="n">mouseDown</span><span class="p">(</span><span class="n">button</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="mi">959</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mi">567</span><span class="p">)</span>
+        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+        <span class="n">pyautogui</span><span class="o">.</span><span class="n">click</span><span class="p">(</span><span class="mi">1872</span><span class="p">,</span><span class="mi">152</span><span class="p">)</span>
+        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+        <span class="n">pyautogui</span><span class="o">.</span><span class="n">mouseDown</span><span class="p">(</span><span class="n">button</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="mi">1726</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mi">149</span><span class="p">)</span>
+        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+        <span class="n">pyautogui</span><span class="o">.</span><span class="n">click</span><span class="p">(</span><span class="mi">1843</span><span class="p">,</span><span class="mi">152</span><span class="p">)</span>
+        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+        <span class="n">pyautogui</span><span class="o">.</span><span class="n">click</span><span class="p">(</span><span class="mi">1754</span><span class="p">,</span><span class="mi">157</span><span class="p">)</span>
+        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">7</span><span class="p">)</span>
+        <span class="n">pyautogui</span><span class="o">.</span><span class="n">click</span><span class="p">(</span><span class="mi">1773</span><span class="p">,</span><span class="mi">157</span><span class="p">)</span>
+        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+
+<span class="c1">#pyautogui.position()</span>
+<span class="c1">#ardonuge banking</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">pyautogui</span><span class="o">.</span><span class="n">click</span><span class="p">(</span><span class="mi">697</span><span class="p">,</span><span class="mi">461</span><span class="p">)</span>
+        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">6</span><span class="p">)</span>
+        <span class="n">pyautogui</span><span class="o">.</span><span class="n">mouseDown</span><span class="p">(</span><span class="n">button</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="mi">1887</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mi">77</span><span class="p">)</span>
+        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+        <span class="n">pyautogui</span><span class="o">.</span><span class="n">mouseDown</span><span class="p">(</span><span class="n">button</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="mi">867</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mi">504</span><span class="p">)</span>
+        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">30</span><span class="p">)</span>
+        <span class="n">pyautogui</span><span class="o">.</span><span class="n">click</span><span class="p">(</span><span class="mi">1779</span><span class="p">,</span><span class="mi">211</span><span class="p">)</span>
+        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span>
+        <span class="n">pyautogui</span><span class="o">.</span><span class="n">click</span><span class="p">(</span><span class="mi">597</span><span class="p">,</span><span class="mi">638</span><span class="p">)</span>
+        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">9</span><span class="p">)</span>
+        <span class="n">pyautogui</span><span class="o">.</span><span class="n">mouseDown</span><span class="p">(</span><span class="n">button</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="mi">1128</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mi">430</span><span class="p">)</span>
+        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+        <span class="n">pyautogui</span><span class="o">.</span><span class="n">mouseDown</span><span class="p">(</span><span class="n">button</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="mi">1114</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mi">605</span><span class="p">)</span>
+        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+        <span class="c1">#falador walk back</span>
+        <span class="n">pyautogui</span><span class="o">.</span><span class="n">mouseDown</span><span class="p">(</span><span class="n">button</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="mi">1888</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mi">77</span><span class="p">)</span>
+        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+        <span class="n">pyautogui</span><span class="o">.</span><span class="n">mouseDown</span><span class="p">(</span><span class="n">button</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="mi">973</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mi">504</span><span class="p">)</span>
+        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">29</span><span class="p">)</span>
+        <span class="n">pyautogui</span><span class="o">.</span><span class="n">click</span><span class="p">(</span><span class="mi">1776</span><span class="p">,</span><span class="mi">97</span><span class="p">)</span>
+        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span>
+        <span class="n">pyautogui</span><span class="o">.</span><span class="n">click</span><span class="p">(</span><span class="mi">1780</span><span class="p">,</span><span class="mi">95</span><span class="p">)</span>
+        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span>
+        <span class="n">pyautogui</span><span class="o">.</span><span class="n">click</span><span class="p">(</span><span class="mi">1804</span><span class="p">,</span><span class="mi">89</span><span class="p">)</span>
+        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span>
+        <span class="n">pyautogui</span><span class="o">.</span><span class="n">click</span><span class="p">(</span><span class="mi">1821</span><span class="p">,</span><span class="mi">86</span><span class="p">)</span>
+        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">9</span><span class="p">)</span>
+        <span class="n">pyautogui</span><span class="o">.</span><span class="n">click</span><span class="p">(</span><span class="mi">1820</span><span class="p">,</span><span class="mi">118</span><span class="p">)</span>
+        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span>
+
+
+<span class="c1">#pyautogui.position()</span>
+</pre></div>
+
+
+<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">YouTubeVideo</span>
+
+<span class="n">YouTubeVideo</span><span class="p">(</span><span class="s1">&#39;KMGRL25JtFw&#39;</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">600</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">400</span><span class="p">)</span>
+</pre></div>
+
+
+<p>&lt;iframe
+    width="600"
+    height="400"
+    src="https://www.youtube.com/embed/KMGRL25JtFw"
+    frameborder="0"
+    allowfullscreen</p>
+<blockquote>
+</iframe>
+
+</blockquote>
+ </div>
+</div>
+ </div>
+</body>
+</html>
