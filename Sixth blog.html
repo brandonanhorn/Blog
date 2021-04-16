@@ -135,74 +135,63 @@
 <p>Runescape is a Massive Multiplayer Online Role-Playing Game(MMORP), which has various skills that you level up to make your character stronger. Most of these skills take long hours of repetitive mouse-clicking, which I am personally not interested in doing. So, inspired by "Automate the Boring Stuff with Python," written by Al Sweigart, I decided to automate the "skilling" aspect of Runescape. </p>
 <p>To start off, simply install pyautogui. </p>
 <p>Type or copy the code below into your terminal.</p>
-<div class="highlight"><pre><span></span><span class="c1"># pip install pyautogui</span>
-</pre></div>
-
+<div class="highlight"><pre><span></span><code><span class="c1"># pip install pyautogui</span>
+</code></pre></div>
 
 <p>After install, you import PyAutoGui and its features in your text editor using the code:</p>
-<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pyautogui</span>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">pyautogui</span>
 <span class="kn">from</span> <span class="nn">pyautogui</span> <span class="kn">import</span> <span class="n">press</span><span class="p">,</span> <span class="n">typewrite</span><span class="p">,</span> <span class="n">hotkey</span><span class="p">,</span> <span class="n">screenshot</span>
-</pre></div>
-
+</code></pre></div>
 
 <p>So, this is not a complicated code at all to set up. It is about thinking out what you would typically do - and using PyAutoGui to complete those tasks. The first tool we will look at is the mouse clicking tool.</p>
 <p>To take advantage of the mouse clicking tool, you will first need to use the positional tool. Run the code below and move your mouse all over your screen.</p>
-<div class="highlight"><pre><span></span><span class="n">pyautogui</span><span class="o">.</span><span class="n">position</span><span class="p">()</span>
-</pre></div>
+<div class="highlight"><pre><span></span><code><span class="n">pyautogui</span><span class="o">.</span><span class="n">position</span><span class="p">()</span>
+</code></pre></div>
 
-
-<div class="highlight"><pre><span></span><span class="n">Point</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="mi">878</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mi">671</span><span class="p">)</span>
-</pre></div>
-
+<div class="highlight"><pre><span></span><code><span class="n">Point</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="mi">878</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mi">671</span><span class="p">)</span>
+</code></pre></div>
 
 <p>You will see that it gives you a location for a position on your screen. It gives you the x-coordinate as well as the y-coordinate. This will be important as you build out your own tool.</p>
 <p>Next, you can start using the click tools from PyAutoGui</p>
-<div class="highlight"><pre><span></span><span class="n">pyautogui</span><span class="o">.</span><span class="n">click</span><span class="p">(</span><span class="mi">878</span><span class="p">,</span><span class="mi">671</span><span class="p">)</span>
-</pre></div>
-
+<div class="highlight"><pre><span></span><code><span class="n">pyautogui</span><span class="o">.</span><span class="n">click</span><span class="p">(</span><span class="mi">878</span><span class="p">,</span><span class="mi">671</span><span class="p">)</span>
+</code></pre></div>
 
 <p>This acts as if you were pushing your left mouse button down on a specific spot. </p>
 <p>You can also use:</p>
-<div class="highlight"><pre><span></span><span class="n">pyautogui</span><span class="o">.</span><span class="n">mouseDown</span><span class="p">(</span><span class="n">button</span><span class="o">=</span><span class="s2">&quot;left&quot;</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="mi">878</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mi">671</span><span class="p">)</span>
-</pre></div>
-
+<div class="highlight"><pre><span></span><code><span class="n">pyautogui</span><span class="o">.</span><span class="n">mouseDown</span><span class="p">(</span><span class="n">button</span><span class="o">=</span><span class="s2">&quot;left&quot;</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="mi">878</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mi">671</span><span class="p">)</span>
+</code></pre></div>
 
 <p>to accomplish the same thing, as the click, but you can all change the mouse button to:</p>
-<div class="highlight"><pre><span></span><span class="n">pyautogui</span><span class="o">.</span><span class="n">mouseDown</span><span class="p">(</span><span class="n">button</span><span class="o">=</span><span class="s2">&quot;right&quot;</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="mi">878</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mi">671</span><span class="p">)</span>
-</pre></div>
-
+<div class="highlight"><pre><span></span><code><span class="n">pyautogui</span><span class="o">.</span><span class="n">mouseDown</span><span class="p">(</span><span class="n">button</span><span class="o">=</span><span class="s2">&quot;right&quot;</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="mi">878</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mi">671</span><span class="p">)</span>
+</code></pre></div>
 
 <p>To use the right click on the mouse. </p>
 <p>You can probably already imagine how you could use just those functions to build something interesting, but, there are more commands with PyAutoGui worth mentioning, like:</p>
-<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">time</span>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">time</span>
 <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
 <span class="n">pyautogui</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;Hello World&quot;</span><span class="p">)</span>
-</pre></div>
+</code></pre></div>
 
-
-<div class="highlight"><pre><span></span><span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
 <span class="n">pyautogui</span><span class="o">.</span><span class="n">press</span><span class="p">(</span><span class="s2">&quot;insert any key&quot;</span><span class="p">)</span>
-</pre></div>
+</code></pre></div>
 
-
-<div class="highlight"><pre><span></span><span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
 <span class="n">pyautogui</span><span class="o">.</span><span class="n">keyDown</span><span class="p">(</span><span class="s2">&quot;insert any key&quot;</span><span class="p">)</span>
 <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
 <span class="n">pyautogui</span><span class="o">.</span><span class="n">keyUp</span><span class="p">(</span><span class="s2">&quot;insert any key&quot;</span><span class="p">)</span>
-</pre></div>
-
+</code></pre></div>
 
 <p>Notice how I use the time package to make the mouse clicks, not instantaneous.</p>
 <p>Before we go any farther, I should mention the failsafe that PyAutoGui has. If you throw yourself in an infinite loop where your mouse or keyboard is in control, you will need something to get out of it. </p>
-<div class="highlight"><pre><span></span><span class="n">pyautogui</span><span class="o">.</span><span class="n">FAILSAFE</span> <span class="o">=</span> <span class="bp">True</span>
-</pre></div>
-
+<div class="highlight"><pre><span></span><code><span class="n">pyautogui</span><span class="o">.</span><span class="n">FAILSAFE</span> <span class="o">=</span> <span class="bp">True</span>
+</code></pre></div>
 
 <p>The code above allows you to move your cursor to the top left of your screen and shut down the program.</p>
 <p>With these few keys, you would be able to build out any type of tool you'd like to make. You can become a hacker today! </p>
 <p>Below I will add my full code, which I use to make money in Runescape. I will attach the full code and a video that I sped up to show people how the code works. </p>
 <h3><em>This code was written to work on a 21.5" iMac, you will have to change where each "click" is to fit your screen</em></h3>
-<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pyautogui</span>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">pyautogui</span>
 <span class="kn">import</span> <span class="nn">random</span>
 <span class="kn">import</span> <span class="nn">time</span>
 <span class="kn">from</span> <span class="nn">pyautogui</span> <span class="kn">import</span> <span class="n">press</span><span class="p">,</span> <span class="n">typewrite</span><span class="p">,</span> <span class="n">hotkey</span><span class="p">,</span> <span class="n">screenshot</span>
@@ -320,8 +309,7 @@
 
 
 <span class="c1">#pyautogui.position()</span>
-</pre></div>
-
+</code></pre></div>
 
 <p>Go to : https://www.youtube.com/embed/KMGRL25JtFw for the video!</p>
             </section>
