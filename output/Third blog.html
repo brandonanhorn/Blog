@@ -135,33 +135,29 @@
 <p>Google Colab itself allows users, with Google accounts, to work on their servers, rather than from their machines. A helpful tool for some of us who have ancient devices and our computing power may not be up to par.  It's not just about old machines, even Apple's highest performing Macbook Pro would not have the computing power that a Google Colab server would have.</p>
 <p>So let's get started.</p>
 <p>First of you will need to start the tool by "mounting" the server in the notebook. Follow the link given on the page, and as easy as that, you are connected.</p>
-<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">google.colab</span> <span class="kn">import</span> <span class="n">drive</span>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">google.colab</span> <span class="kn">import</span> <span class="n">drive</span>
 <span class="n">drive</span><span class="o">.</span><span class="n">mount</span><span class="p">(</span><span class="s1">&#39;/content/gdrive&#39;</span><span class="p">)</span>
-</pre></div>
-
+</code></pre></div>
 
 <p>The first thing you should notice is the RAM and Disk bar on the top right corner. These bars show you have connected and are now able to work.</p>
 <p><img alt="png" src="images/googlecolab.png"></p>
 <p>Because this isn't a blog about specs, just for now, you should know that the more RAM and Disk Space, the smoother/faster your program will run.</p>
 <p>Now, since you are signed on and ready to go, lets load in some data to begin working.</p>
 <p>Google Colab runs strictly on Python; therefore, you can import in pandas just as you would with Jupyter Notebook or any other text editor of your choice</p>
-<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span>
-</pre></div>
-
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span>
+</code></pre></div>
 
 <p>This process will be slightly different than when you are calling the file compared to a regular Jupyter Notebook or text editor. I load my data into my google drive then call it from there.</p>
-<div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;gdrive/My Drive/Colab Notebooks/data/(yourdatafile).csv&#39;</span><span class="p">)</span>
-</pre></div>
-
+<div class="highlight"><pre><span></span><code><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;gdrive/My Drive/Colab Notebooks/data/(yourdatafile).csv&#39;</span><span class="p">)</span>
+</code></pre></div>
 
 <p>Now you are able to do all the analysis work you would do on any other platform, just much quicker</p>
 <p>For those of you looking to run multiple machine learning models at one time, you can open multiple tabs, and connect to various servers from Google Colab and run them all at one time.</p>
 <p>At the end of your work, you can download files from Google Colab as either .ipynb and open them on Jupyter, or download them as .py and run them on your local text editors of choice.</p>
 <p>You can also download specific things you save by running the code:</p>
-<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">google.colab</span> <span class="kn">import</span> <span class="n">files</span>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">google.colab</span> <span class="kn">import</span> <span class="n">files</span>
 <span class="n">files</span><span class="o">.</span><span class="n">download</span><span class="p">(</span><span class="s1">&#39;data.pkl&#39;</span><span class="p">)</span>
-</pre></div>
-
+</code></pre></div>
 
 <p>So harness the power of the free service offered by Google Colab today, and perform your analysis quicker today.</p>
             </section>

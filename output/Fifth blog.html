@@ -133,7 +133,7 @@
             <section class="post-content">
                 <p>Welcome back to the fifth blog in the BA blog series. The theme of today's blog is, by far, one of my favourite topics - sports. I will demonstrate the power that pymc3, a Bayesian statistical modelling package for python, has in the data science field.</p>
 <p>To begin, we are going to import the usual suspects, along with my favourite way to play with NBA sports data, the nba_api package.</p>
-<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span>
 <span class="kn">import</span> <span class="nn">nba_api</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
@@ -142,55 +142,47 @@
 <span class="kn">from</span> <span class="nn">nba_api.stats.static</span> <span class="kn">import</span> <span class="n">teams</span>
 <span class="kn">from</span> <span class="nn">nba_api.stats.endpoints</span> <span class="kn">import</span> <span class="n">leaguegamefinder</span>
 <span class="kn">from</span> <span class="nn">nba_api.stats.endpoints</span> <span class="kn">import</span> <span class="n">teamyearbyyearstats</span>
-</pre></div>
+</code></pre></div>
 
-
-<div class="highlight"><pre><span></span><span class="n">pd</span><span class="o">.</span><span class="n">set_option</span><span class="p">(</span><span class="s1">&#39;display.max_columns&#39;</span><span class="p">,</span><span class="mi">100</span><span class="p">)</span>
-</pre></div>
-
+<div class="highlight"><pre><span></span><code><span class="n">pd</span><span class="o">.</span><span class="n">set_option</span><span class="p">(</span><span class="s1">&#39;display.max_columns&#39;</span><span class="p">,</span><span class="mi">100</span><span class="p">)</span>
+</code></pre></div>
 
 <p>This next step is calling the three teams we are going to be looking at closer today.</p>
 <p>df will be the Dallas Mavericks
 df1 will be the San Antonio Spurs
 df2 will be the Utah Jazz</p>
-<div class="highlight"><pre><span></span><span class="n">team_dict</span> <span class="o">=</span> <span class="n">teams</span><span class="o">.</span><span class="n">get_teams</span><span class="p">()</span>
-</pre></div>
+<div class="highlight"><pre><span></span><code><span class="n">team_dict</span> <span class="o">=</span> <span class="n">teams</span><span class="o">.</span><span class="n">get_teams</span><span class="p">()</span>
+</code></pre></div>
 
-
-<div class="highlight"><pre><span></span><span class="n">mavericks</span> <span class="o">=</span> <span class="p">[</span><span class="n">team</span> <span class="k">for</span> <span class="n">team</span> <span class="ow">in</span> <span class="n">team_dict</span> <span class="k">if</span> <span class="n">team</span><span class="p">[</span><span class="s1">&#39;full_name&#39;</span><span class="p">]</span><span class="o">==</span><span class="s1">&#39;Dallas Mavericks&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+<div class="highlight"><pre><span></span><code><span class="n">mavericks</span> <span class="o">=</span> <span class="p">[</span><span class="n">team</span> <span class="k">for</span> <span class="n">team</span> <span class="ow">in</span> <span class="n">team_dict</span> <span class="k">if</span> <span class="n">team</span><span class="p">[</span><span class="s1">&#39;full_name&#39;</span><span class="p">]</span><span class="o">==</span><span class="s1">&#39;Dallas Mavericks&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
 <span class="n">spurs</span> <span class="o">=</span> <span class="p">[</span><span class="n">team</span> <span class="k">for</span> <span class="n">team</span> <span class="ow">in</span> <span class="n">team_dict</span> <span class="k">if</span> <span class="n">team</span><span class="p">[</span><span class="s1">&#39;full_name&#39;</span><span class="p">]</span><span class="o">==</span><span class="s1">&#39;San Antonio Spurs&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
 <span class="n">raptors</span> <span class="o">=</span> <span class="p">[</span><span class="n">team</span> <span class="k">for</span> <span class="n">team</span> <span class="ow">in</span> <span class="n">team_dict</span> <span class="k">if</span> <span class="n">team</span><span class="p">[</span><span class="s1">&#39;full_name&#39;</span><span class="p">]</span><span class="o">==</span><span class="s1">&#39;Toronto Raptors&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
-</pre></div>
+</code></pre></div>
 
-
-<div class="highlight"><pre><span></span><span class="n">mavericks_id</span> <span class="o">=</span> <span class="n">mavericks</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">]</span>
+<div class="highlight"><pre><span></span><code><span class="n">mavericks_id</span> <span class="o">=</span> <span class="n">mavericks</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">]</span>
 <span class="n">spurs_id</span> <span class="o">=</span> <span class="n">spurs</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">]</span>
 <span class="n">raptors_id</span> <span class="o">=</span> <span class="n">raptors</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">]</span>
-</pre></div>
+</code></pre></div>
 
-
-<div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">teamyearbyyearstats</span><span class="o">.</span><span class="n">TeamYearByYearStats</span><span class="p">(</span><span class="n">mavericks_id</span><span class="p">)</span><span class="o">.</span><span class="n">get_data_frames</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+<div class="highlight"><pre><span></span><code><span class="n">df</span> <span class="o">=</span> <span class="n">teamyearbyyearstats</span><span class="o">.</span><span class="n">TeamYearByYearStats</span><span class="p">(</span><span class="n">mavericks_id</span><span class="p">)</span><span class="o">.</span><span class="n">get_data_frames</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
 <span class="n">df1</span> <span class="o">=</span> <span class="n">teamyearbyyearstats</span><span class="o">.</span><span class="n">TeamYearByYearStats</span><span class="p">(</span><span class="n">spurs_id</span><span class="p">)</span><span class="o">.</span><span class="n">get_data_frames</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
 <span class="n">df2</span> <span class="o">=</span> <span class="n">teamyearbyyearstats</span><span class="o">.</span><span class="n">TeamYearByYearStats</span><span class="p">(</span><span class="n">raptors_id</span><span class="p">)</span><span class="o">.</span><span class="n">get_data_frames</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
-</pre></div>
-
+</code></pre></div>
 
 <p>The next two steps are a little cleaning to make the data more workable.</p>
-<div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="nb">map</span><span class="p">(</span><span class="nb">str</span><span class="o">.</span><span class="n">lower</span><span class="p">,</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><span class="n">df</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="nb">map</span><span class="p">(</span><span class="nb">str</span><span class="o">.</span><span class="n">lower</span><span class="p">,</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
 <span class="n">df1</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="nb">map</span><span class="p">(</span><span class="nb">str</span><span class="o">.</span><span class="n">lower</span><span class="p">,</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
 <span class="n">df2</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="nb">map</span><span class="p">(</span><span class="nb">str</span><span class="o">.</span><span class="n">lower</span><span class="p">,</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
-</pre></div>
+</code></pre></div>
 
-
-<div class="highlight"><pre><span></span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;year&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;year&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;-&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">str</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+<div class="highlight"><pre><span></span><code><span class="n">df</span><span class="p">[</span><span class="s1">&#39;year&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;year&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;-&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">str</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
 <span class="n">df1</span><span class="p">[</span><span class="s1">&#39;year&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df1</span><span class="p">[</span><span class="s1">&#39;year&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;-&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">str</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
 <span class="n">df2</span><span class="p">[</span><span class="s1">&#39;year&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df2</span><span class="p">[</span><span class="s1">&#39;year&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;-&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">str</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
-</pre></div>
-
+</code></pre></div>
 
 <p>Now, let's plot the three teams using seaborn.</p>
 <p>Notice that we are plotting each year the franchise has been around on the X-axis and the number of wins on the Y-axis.</p>
-<div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s1">&#39;seaborn&#39;</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><span class="n">plt</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s1">&#39;seaborn&#39;</span><span class="p">)</span>
 <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">nrows</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">ncols</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">sharex</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">sharey</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span><span class="mi">15</span><span class="p">))</span>
 
 <span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;year&#39;</span><span class="p">],</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;wins&#39;</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;Dallas Mavericks&#39;</span><span class="p">)</span>
@@ -200,15 +192,14 @@ df2 will be the Utah Jazz</p>
 <span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s1">&#39;upper left&#39;</span><span class="p">)</span>
 <span class="n">ax</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s1">&#39;upper left&#39;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-</pre></div>
-
+</code></pre></div>
 
 <p><img alt="png" src="images/output_12_0.png"></p>
 <p>Now the real magic begins - bring in pymc3!</p>
 <p>The first pymc3 model we are going to run is on the Dallas Mavericks. We are going to run a model that has to lambdas, which you can see run using Normal distribution. These lambdas will measure each season wins total and try to notice a "change."</p>
 <p>The change is the other import part of this model and its called the tau. The tau will return a number that represents when the model identifies a shift.</p>
 <p>Running our first model:</p>
-<div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">pm</span><span class="o">.</span><span class="n">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">model</span><span class="p">:</span>
+<div class="highlight"><pre><span></span><code><span class="k">with</span> <span class="n">pm</span><span class="o">.</span><span class="n">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">model</span><span class="p">:</span>
     <span class="n">lambda_1</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s1">&#39;lambda_1&#39;</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span>
     <span class="n">lambda_2</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s1">&#39;lambda_2&#39;</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span>
     <span class="n">tau</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">DiscreteUniform</span><span class="p">(</span><span class="s2">&quot;tau&quot;</span><span class="p">,</span> <span class="n">lower</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">upper</span><span class="o">=</span><span class="mi">35</span><span class="p">)</span>
@@ -218,22 +209,19 @@ df2 will be the Utah Jazz</p>
 
     <span class="n">observation</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">&quot;obs&quot;</span><span class="p">,</span> <span class="n">lambda_</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;wins&#39;</span><span class="p">])</span>
     <span class="n">trace</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">10000</span><span class="p">,</span> <span class="n">tune</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">chains</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-</pre></div>
+</code></pre></div>
 
-
-<div class="highlight"><pre><span></span><span class="nv">Multiprocess</span> <span class="nv">sampling</span> <span class="ss">(</span><span class="mi">2</span> <span class="nv">chains</span> <span class="nv">in</span> <span class="mi">2</span> <span class="nv">jobs</span><span class="ss">)</span>
+<div class="highlight"><pre><span></span><code><span class="nv">Multiprocess</span> <span class="nv">sampling</span> <span class="ss">(</span><span class="mi">2</span> <span class="nv">chains</span> <span class="nv">in</span> <span class="mi">2</span> <span class="nv">jobs</span><span class="ss">)</span>
 <span class="nv">CompoundStep</span>
 <span class="o">&gt;</span><span class="nv">NUTS</span>: [<span class="nv">lambda_2</span>, <span class="nv">lambda_1</span>]
 <span class="o">&gt;</span><span class="nv">Metropolis</span>: [<span class="nv">tau</span>]
 <span class="nv">Sampling</span> <span class="mi">2</span> <span class="nv">chains</span>, <span class="mi">0</span> <span class="nv">divergences</span>: <span class="mi">100</span><span class="o">%|</span>██████████<span class="o">|</span> <span class="mi">22000</span><span class="o">/</span><span class="mi">22000</span> [<span class="mi">00</span>:<span class="mi">15</span><span class="o">&lt;</span><span class="mi">00</span>:<span class="mi">00</span>, <span class="mi">1400</span>.<span class="mi">18</span><span class="nv">draws</span><span class="o">/</span><span class="nv">s</span>]
 <span class="nv">The</span> <span class="nv">number</span> <span class="nv">of</span> <span class="nv">effective</span> <span class="nv">samples</span> <span class="nv">is</span> <span class="nv">smaller</span> <span class="nv">than</span> <span class="mi">10</span><span class="o">%</span> <span class="k">for</span> <span class="nv">some</span> <span class="nv">parameters</span>.
-</pre></div>
+</code></pre></div>
 
-
-<div class="highlight"><pre><span></span><span class="c1">## Dirk</span>
+<div class="highlight"><pre><span></span><code><span class="c1">## Dirk</span>
 <span class="n">pm</span><span class="o">.</span><span class="n">summary</span><span class="p">(</span><span class="n">trace</span><span class="p">)</span>
-</pre></div>
-
+</code></pre></div>
 
 <div>
 <style scoped>
@@ -317,7 +305,7 @@ df2 will be the Utah Jazz</p>
 <p>From the above summary, you can see that our model noticed a change on the 19th bar of the Dallas graph which correlates to the 98-99 season.</p>
 <p>Drumroll, please, Dirk Nowitzki was drafted by the Dallas Mavericks in 98-99. Add the shocked monkey face from the previous blog. That is amazing that pymc3 noticed that something significant happened at this time.</p>
 <p>Still a skeptic of pymc3, let's do another.</p>
-<div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">pm</span><span class="o">.</span><span class="n">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">model</span><span class="p">:</span>
+<div class="highlight"><pre><span></span><code><span class="k">with</span> <span class="n">pm</span><span class="o">.</span><span class="n">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">model</span><span class="p">:</span>
     <span class="n">lambda_1</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s1">&#39;lambda_1&#39;</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span>
     <span class="n">lambda_2</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s1">&#39;lambda_2&#39;</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span>
     <span class="n">tau</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">DiscreteUniform</span><span class="p">(</span><span class="s2">&quot;tau&quot;</span><span class="p">,</span> <span class="n">lower</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">upper</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
@@ -327,21 +315,18 @@ df2 will be the Utah Jazz</p>
 
     <span class="n">observation</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">&quot;obs&quot;</span><span class="p">,</span> <span class="n">lambda_</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">df1</span><span class="p">[</span><span class="s1">&#39;wins&#39;</span><span class="p">])</span>
     <span class="n">trace</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">10000</span><span class="p">,</span> <span class="n">tune</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">chains</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-</pre></div>
+</code></pre></div>
 
-
-<div class="highlight"><pre><span></span><span class="n">Multiprocess</span><span class="w"> </span><span class="n">sampling</span><span class="w"> </span><span class="p">(</span><span class="mi">2</span><span class="w"> </span><span class="n">chains</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="n">jobs</span><span class="p">)</span><span class="w"></span>
+<div class="highlight"><pre><span></span><code><span class="n">Multiprocess</span><span class="w"> </span><span class="n">sampling</span><span class="w"> </span><span class="p">(</span><span class="mi">2</span><span class="w"> </span><span class="n">chains</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="n">jobs</span><span class="p">)</span><span class="w"></span>
 <span class="n">CompoundStep</span><span class="w"></span>
 <span class="o">&gt;</span><span class="nl">NUTS</span><span class="p">:</span><span class="w"> </span><span class="o">[</span><span class="n">lambda_2, lambda_1</span><span class="o">]</span><span class="w"></span>
 <span class="o">&gt;</span><span class="nl">Metropolis</span><span class="p">:</span><span class="w"> </span><span class="o">[</span><span class="n">tau</span><span class="o">]</span><span class="w"></span>
 <span class="n">Sampling</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="n">chains</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="nl">divergences</span><span class="p">:</span><span class="w"> </span><span class="mi">100</span><span class="o">%|</span><span class="err">██████████</span><span class="o">|</span><span class="w"> </span><span class="mi">22000</span><span class="o">/</span><span class="mi">22000</span><span class="w"> </span><span class="o">[</span><span class="n">00:16&lt;00:00, 1373.07draws/s</span><span class="o">]</span><span class="w"></span>
-</pre></div>
+</code></pre></div>
 
-
-<div class="highlight"><pre><span></span><span class="c1">## Timmy D</span>
+<div class="highlight"><pre><span></span><code><span class="c1">## Timmy D</span>
 <span class="n">pm</span><span class="o">.</span><span class="n">summary</span><span class="p">(</span><span class="n">trace</span><span class="p">)</span>
-</pre></div>
-
+</code></pre></div>
 
 <div>
 <style scoped>
@@ -424,7 +409,7 @@ df2 will be the Utah Jazz</p>
 <p>You notice from the summary that the tau is at 23 now, which correlates to the 98-99 season. That was the second year for arguably the best power forward to ever play in the NBA - Tim Duncan. He also went on to win multiple championships for his San Antonio Spurs.</p>
 <p>Notice the only difference from the first model is the increase upper limit for tau because this team was around longer than the Dallas Mavericks.</p>
 <p>Do you want to see one more? Of course, you do.</p>
-<div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">pm</span><span class="o">.</span><span class="n">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">model</span><span class="p">:</span>
+<div class="highlight"><pre><span></span><code><span class="k">with</span> <span class="n">pm</span><span class="o">.</span><span class="n">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">model</span><span class="p">:</span>
     <span class="n">lambda_1</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s1">&#39;lambda_1&#39;</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span>
     <span class="n">lambda_2</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s1">&#39;lambda_2&#39;</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span>
     <span class="n">tau</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">DiscreteUniform</span><span class="p">(</span><span class="s2">&quot;tau&quot;</span><span class="p">,</span> <span class="n">lower</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">upper</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
@@ -434,20 +419,17 @@ df2 will be the Utah Jazz</p>
 
     <span class="n">observation</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">&quot;obs&quot;</span><span class="p">,</span> <span class="n">lambda_</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">df2</span><span class="p">[</span><span class="s1">&#39;wins&#39;</span><span class="p">])</span>
     <span class="n">trace</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">10000</span><span class="p">,</span> <span class="n">tune</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">chains</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-</pre></div>
+</code></pre></div>
 
-
-<div class="highlight"><pre><span></span><span class="n">Multiprocess</span><span class="w"> </span><span class="n">sampling</span><span class="w"> </span><span class="p">(</span><span class="mi">2</span><span class="w"> </span><span class="n">chains</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="n">jobs</span><span class="p">)</span><span class="w"></span>
+<div class="highlight"><pre><span></span><code><span class="n">Multiprocess</span><span class="w"> </span><span class="n">sampling</span><span class="w"> </span><span class="p">(</span><span class="mi">2</span><span class="w"> </span><span class="n">chains</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="n">jobs</span><span class="p">)</span><span class="w"></span>
 <span class="n">CompoundStep</span><span class="w"></span>
 <span class="o">&gt;</span><span class="nl">NUTS</span><span class="p">:</span><span class="w"> </span><span class="o">[</span><span class="n">lambda_2, lambda_1</span><span class="o">]</span><span class="w"></span>
 <span class="o">&gt;</span><span class="nl">Metropolis</span><span class="p">:</span><span class="w"> </span><span class="o">[</span><span class="n">tau</span><span class="o">]</span><span class="w"></span>
 <span class="n">Sampling</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="n">chains</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="nl">divergences</span><span class="p">:</span><span class="w"> </span><span class="mi">100</span><span class="o">%|</span><span class="err">██████████</span><span class="o">|</span><span class="w"> </span><span class="mi">22000</span><span class="o">/</span><span class="mi">22000</span><span class="w"> </span><span class="o">[</span><span class="n">00:15&lt;00:00, 1383.41draws/s</span><span class="o">]</span><span class="w"></span>
-</pre></div>
+</code></pre></div>
 
-
-<div class="highlight"><pre><span></span><span class="n">pm</span><span class="o">.</span><span class="n">summary</span><span class="p">(</span><span class="n">trace</span><span class="p">)</span>
-</pre></div>
-
+<div class="highlight"><pre><span></span><code><span class="n">pm</span><span class="o">.</span><span class="n">summary</span><span class="p">(</span><span class="n">trace</span><span class="p">)</span>
+</code></pre></div>
 
 <div>
 <style scoped>
