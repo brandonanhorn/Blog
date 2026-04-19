@@ -4,16 +4,16 @@ export default {
   async fetch(request, env) {
     const corsHeaders = buildCorsHeaders(request, env);
 
+    if (!isAllowedOrigin(request, env)) {
+      return json({ error: 'Origin not allowed.' }, 403);
+    }
+
     if (request.method === 'OPTIONS') {
       return new Response(null, { status: 204, headers: corsHeaders });
     }
 
     if (request.method !== 'POST') {
       return json({ error: 'Method not allowed.' }, 405, corsHeaders);
-    }
-
-    if (!isAllowedOrigin(request, env)) {
-      return json({ error: 'Origin not allowed.' }, 403, corsHeaders);
     }
 
     let body;
