@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Contact</title>
   <link rel="stylesheet" href="../styles.css">
+  <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 </head>
 <body>
   <header>
@@ -16,19 +17,28 @@
   </header>
   <main>
     <h1>Contact</h1>
-    <p>Use this form to send a message. Messages should ultimately route to ai.brandonanhorn@gmail.com through your backend integration.</p>
-    <form method="post" action="REPLACE_WITH_BACKEND_ENDPOINT">
+    <p>Use this form to send a message.</p>
+    <form method="post" action="REPLACE_WITH_WORKER_URL" data-contact-form novalidate>
       <label for="name">Name</label>
-      <input id="name" name="name" type="text" required>
+      <input id="name" name="name" type="text" autocomplete="name" required>
 
       <label for="email">Email</label>
-      <input id="email" name="email" type="email" required>
+      <input id="email" name="email" type="email" autocomplete="email" required>
 
       <label for="message">Message</label>
       <textarea id="message" name="message" rows="6" required></textarea>
 
+      <div style="position:absolute;left:-9999px;opacity:0;pointer-events:none;" aria-hidden="true">
+        <label for="company">Company</label>
+        <input id="company" name="company" type="text" tabindex="-1" autocomplete="off">
+      </div>
+
+      <div class="cf-turnstile" data-sitekey="REPLACE_WITH_TURNSTILE_SITE_KEY"></div>
+
       <button type="submit">Send</button>
+      <p data-form-status role="status" aria-live="polite"></p>
     </form>
   </main>
+  <script src="./contact.js"></script>
 </body>
 </html>
