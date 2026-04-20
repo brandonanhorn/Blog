@@ -1,24 +1,35 @@
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const ALLOWED_ORIGIN = 'https://brandonanhorn.com';
 
+function getCorsHeaders(origin) {
+  if (origin !== ALLOWED_ORIGIN) {
+    return null;
+  }
+
+  return {
+    'Content-Type': 'application/json',
+    'Access-Control-Allow-Origin': origin,
+    'Access-Control-Allow-Methods': 'POST, OPTIONS',
+    'Access-Control-Allow-Headers': 'Content-Type',
+    Vary: 'Origin',
+    'X-Contact-Worker-Version': 'cors-fix-4'
+  };
+}
+
 export default {
   async fetch(request, env) {
-    const origin = request.headers.get('Origin');
-    if (origin !== ALLOWED_ORIGIN) {
+    const origin = request.headers.get('Origin') || '';
+    const corsHeaders = getCorsHeaders(origin);
+
+    if (!corsHeaders) {
       return json({ error: 'Origin not allowed.' }, 403);
     }
 
-    const corsHeaders = {
-      'Content-Type': 'application/json',
-      'Access-Control-Allow-Origin': ALLOWED_ORIGIN,
-      'Access-Control-Allow-Methods': 'POST, OPTIONS',
-      'Access-Control-Allow-Headers': 'Content-Type',
-      Vary: 'Origin',
-      'X-Contact-Worker-Version': 'cors-fix-3'
-    };
-
     if (request.method === 'OPTIONS') {
-      return new Response(null, { status: 204, headers: corsHeaders });
+      return new Response(null, {
+        status: 204,
+        headers: corsHeaders
+      });
     }
 
     try {
