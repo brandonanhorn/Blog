@@ -1,10 +1,11 @@
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const ALLOWED_ORIGIN = 'https://brandonanhorn.com';
 
 export default {
   async fetch(request, env) {
-    const corsHeaders = buildCorsHeaders(request, env);
+    const corsHeaders = buildCorsHeaders(request);
 
-    if (!isAllowedOrigin(request, env)) {
+    if (!isAllowedOrigin(request)) {
       return json({ error: 'Origin not allowed.' }, 403);
     }
 
@@ -12,62 +13,67 @@ export default {
       return new Response(null, { status: 204, headers: corsHeaders });
     }
 
-    if (request.method !== 'POST') {
-      return json({ error: 'Method not allowed.' }, 405, corsHeaders);
-    }
-
-    let body;
     try {
-      body = await request.json();
-    } catch {
-      return json({ error: 'Invalid JSON body.' }, 400, corsHeaders);
+      if (request.method !== 'POST') {
+        return json({ error: 'Method not allowed.' }, 405, corsHeaders);
+      }
+
+      let body;
+      try {
+        body = await request.json();
+      } catch {
+        return json({ error: 'Invalid JSON body.' }, 400, corsHeaders);
+      }
+
+      const name = String(body?.name || '').trim();
+      const email = String(body?.email || '').trim();
+      const message = String(body?.message || '').trim();
+      const company = String(body?.company || '').trim(); // honeypot
+      const turnstileToken = String(body?.turnstileToken || '').trim();
+
+      if (company) {
+        return json({ error: 'Rejected request.' }, 400, corsHeaders);
+      }
+
+      if (!name || !email || !message || !turnstileToken) {
+        return json({ error: 'Missing required fields.' }, 400, corsHeaders);
+      }
+
+      if (!EMAIL_REGEX.test(email)) {
+        return json({ error: 'Email format is invalid.' }, 400, corsHeaders);
+      }
+
+      if (name.length > 100 || email.length > 254 || message.length > 5000) {
+        return json({ error: 'Input exceeds allowed length.' }, 400, corsHeaders);
+      }
+
+      const ip = request.headers.get('CF-Connecting-IP') || '';
+      const turnstileOk = await verifyTurnstile(turnstileToken, ip, env);
+      if (!turnstileOk) {
+        return json({ error: 'Verification failed. Please try again.' }, 400, corsHeaders);
+      }
+
+      const resendResult = await sendWithResend({ name, email, message }, env);
+      if (!resendResult.ok) {
+        return json({ error: 'Unable to send message right now.' }, 500, corsHeaders);
+      }
+
+      return json(
+        { message: 'Thanks! Your message has been sent successfully.' },
+        200,
+        corsHeaders
+      );
+    } catch (error) {
+      console.error('Unhandled worker error', error);
+      return json({ error: 'Internal server error.' }, 500, corsHeaders);
     }
-
-    const name = String(body?.name || '').trim();
-    const email = String(body?.email || '').trim();
-    const message = String(body?.message || '').trim();
-    const company = String(body?.company || '').trim(); // honeypot
-    const turnstileToken = String(body?.turnstileToken || '').trim();
-
-    if (company) {
-      return json({ error: 'Rejected request.' }, 400, corsHeaders);
-    }
-
-    if (!name || !email || !message || !turnstileToken) {
-      return json({ error: 'Missing required fields.' }, 400, corsHeaders);
-    }
-
-    if (!EMAIL_REGEX.test(email)) {
-      return json({ error: 'Email format is invalid.' }, 400, corsHeaders);
-    }
-
-    if (name.length > 100 || email.length > 254 || message.length > 5000) {
-      return json({ error: 'Input exceeds allowed length.' }, 400, corsHeaders);
-    }
-
-    const ip = request.headers.get('CF-Connecting-IP') || '';
-    const turnstileOk = await verifyTurnstile(turnstileToken, ip, env);
-    if (!turnstileOk) {
-      return json({ error: 'Verification failed. Please try again.' }, 400, corsHeaders);
-    }
-
-    const resendResult = await sendWithResend({ name, email, message }, env);
-    if (!resendResult.ok) {
-      return json({ error: 'Unable to send message right now.' }, 502, corsHeaders);
-    }
-
-    return json(
-      { message: 'Thanks! Your message has been sent successfully.' },
-      200,
-      corsHeaders
-    );
   }
 };
 
-function buildCorsHeaders(request, env) {
+function buildCorsHeaders(request) {
   const headers = { 'Content-Type': 'application/json' };
   const origin = request.headers.get('Origin') || '';
-  if (origin && env.ALLOWED_ORIGIN && origin === env.ALLOWED_ORIGIN) {
+  if (origin === ALLOWED_ORIGIN) {
     headers['Access-Control-Allow-Origin'] = origin;
     headers['Vary'] = 'Origin';
     headers['Access-Control-Allow-Methods'] = 'POST, OPTIONS';
@@ -76,17 +82,9 @@ function buildCorsHeaders(request, env) {
   return headers;
 }
 
-function isAllowedOrigin(request, env) {
-  if (!env.ALLOWED_ORIGIN) {
-    return false;
-  }
-
+function isAllowedOrigin(request) {
   const origin = request.headers.get('Origin');
-  if (!origin) {
-    return false;
-  }
-
-  return origin === env.ALLOWED_ORIGIN;
+  return origin === ALLOWED_ORIGIN;
 }
 
 async function verifyTurnstile(token, remoteip, env) {
