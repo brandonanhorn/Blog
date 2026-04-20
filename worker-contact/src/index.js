@@ -3,11 +3,19 @@ const ALLOWED_ORIGIN = 'https://brandonanhorn.com';
 
 export default {
   async fetch(request, env) {
-    const corsHeaders = buildCorsHeaders(request);
-
-    if (!isAllowedOrigin(request)) {
+    const origin = request.headers.get('Origin');
+    if (origin !== ALLOWED_ORIGIN) {
       return json({ error: 'Origin not allowed.' }, 403);
     }
+
+    const corsHeaders = {
+      'Content-Type': 'application/json',
+      'Access-Control-Allow-Origin': ALLOWED_ORIGIN,
+      'Access-Control-Allow-Methods': 'POST, OPTIONS',
+      'Access-Control-Allow-Headers': 'Content-Type',
+      Vary: 'Origin',
+      'X-Contact-Worker-Version': 'cors-fix-3'
+    };
 
     if (request.method === 'OPTIONS') {
       return new Response(null, { status: 204, headers: corsHeaders });
@@ -69,23 +77,6 @@ export default {
     }
   }
 };
-
-function buildCorsHeaders(request) {
-  const headers = { 'Content-Type': 'application/json' };
-  const origin = request.headers.get('Origin') || '';
-  if (origin === ALLOWED_ORIGIN) {
-    headers['Access-Control-Allow-Origin'] = origin;
-    headers['Vary'] = 'Origin';
-    headers['Access-Control-Allow-Methods'] = 'POST, OPTIONS';
-    headers['Access-Control-Allow-Headers'] = 'Content-Type';
-  }
-  return headers;
-}
-
-function isAllowedOrigin(request) {
-  const origin = request.headers.get('Origin');
-  return origin === ALLOWED_ORIGIN;
-}
 
 async function verifyTurnstile(token, remoteip, env) {
   const formData = new FormData();
