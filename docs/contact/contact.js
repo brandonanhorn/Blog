@@ -13,6 +13,7 @@
 
   form.addEventListener('submit', async function (event) {
     event.preventDefault();
+    event.stopPropagation();
 
     const endpoint = form.getAttribute('action');
     if (!endpoint || endpoint.includes('REPLACE_WITH_WORKER_URL')) {
@@ -26,13 +27,11 @@
     }
 
     const formData = new FormData(form);
-    const payload = {
-      name: String(formData.get('name') || '').trim(),
-      email: String(formData.get('email') || '').trim(),
-      message: String(formData.get('message') || '').trim(),
-      company: String(formData.get('company') || '').trim(),
-      turnstileToken: String(formData.get('cf-turnstile-response') || '').trim()
-    };
+    const name = String(formData.get('name') || '').trim();
+    const email = String(formData.get('email') || '').trim();
+    const message = String(formData.get('message') || '').trim();
+    const company = String(formData.get('company') || '').trim();
+    const turnstileToken = String(formData.get('cf-turnstile-response') || '').trim();
 
     const submitButton = form.querySelector('button[type="submit"]');
     if (submitButton) {
@@ -43,9 +42,15 @@
 
     try {
       const response = await fetch(endpoint, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name,
+          email,
+          message,
+          company,
+          turnstileToken
+        })
       });
 
       const result = await response.json().catch(function () {
