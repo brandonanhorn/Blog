@@ -4,5 +4,9 @@ compatibility_date = "2026-04-19"
 
 [vars]
 ALLOWED_ORIGIN = "https://brandonanhorn.com"
+<<<<<<< HEAD
 RESEND_FROM = "noreply@brandonanhorn.com"
+=======
+RESEND_FROM = "noreply@mail.brandonanhorn.com"
+>>>>>>> b9e2c61 (Add Blog folder and updates)
 RESEND_TO = "ai.brandonanhorn@gmail.com"
