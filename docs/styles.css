@@ -1,4 +1,5 @@
 * { box-sizing: border-box; }
+
 body {
   margin: 0;
   font-family: Arial, Helvetica, sans-serif;
@@ -6,72 +7,168 @@ body {
   color: #000;
   line-height: 1.5;
 }
+
 header {
-  border-bottom: 1px solid #000;
-  padding: 0.75rem 1rem;
+  padding: 1rem 1.25rem;
 }
+
 nav {
   display: flex;
   gap: 1rem;
   flex-wrap: wrap;
 }
+
 nav a {
   color: #000;
   text-decoration: none;
 }
+
 nav a[aria-current="page"] {
   text-decoration: underline;
 }
+
 main {
   max-width: 860px;
   margin: 0 auto;
   padding: 1.5rem 1rem 3rem;
 }
+
+.home-main {
+  min-height: calc(100vh - 72px);
+  display: grid;
+  place-items: start center;
+  padding-top: clamp(2rem, 10vh, 6rem);
+}
+
+.construction {
+  width: min(640px, 100%);
+  text-align: center;
+}
+
+.robot {
+  width: min(220px, 58vw);
+  height: auto;
+  stroke: #000;
+  fill: none;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  margin: 0 auto 1.25rem;
+  display: block;
+}
+
+.robot-eyes {
+  transform-origin: 110px 58px;
+  animation: blink 5.5s ease-in-out infinite;
+}
+
+.robot-arm {
+  transform-origin: 44px 100px;
+  animation: arm-wave 3.8s ease-in-out infinite;
+}
+
+h1 {
+  margin: 0;
+  font-size: clamp(1.9rem, 5vw, 2.4rem);
+  font-weight: 500;
+  letter-spacing: 0.01em;
+}
+
+.subheading {
+  margin: 0.8rem 0 0;
+  font-size: clamp(1.02rem, 2.2vw, 1.15rem);
+}
+
+.supporting {
+  margin: 1rem auto 0;
+  max-width: 54ch;
+  color: #4a4a4a;
+  font-size: 0.95rem;
+}
+
 .image-placeholder {
   margin-top: 1rem;
   width: 100%;
   min-height: 240px;
   border: 1px dashed #000;
 }
+
 .archive-list {
   list-style: none;
   padding: 0;
   margin: 1rem 0 0;
 }
+
 .archive-list li {
   margin-bottom: 1.5rem;
   padding-bottom: 1rem;
   border-bottom: 1px solid #ddd;
 }
+
 .meta {
   margin: 0.25rem 0;
   font-size: 0.95rem;
 }
+
 form {
   display: grid;
   gap: 0.75rem;
   max-width: 600px;
 }
-input, textarea, button {
+
+input,
+textarea,
+button {
   font: inherit;
   padding: 0.5rem;
   border: 1px solid #000;
   background: #fff;
   color: #000;
 }
+
 button {
   width: fit-content;
   cursor: pointer;
 }
+
 .archive-article img {
   max-width: 100%;
   height: auto;
 }
+
 pre {
   overflow-x: auto;
   border: 1px solid #ddd;
   padding: 0.75rem;
 }
+
+@keyframes blink {
+  0%,
+  44%,
+  48%,
+  100% { transform: scaleY(1); }
+
+  46% { transform: scaleY(0.15); }
+}
+
+@keyframes arm-wave {
+  0%,
+  100% { transform: rotate(0deg); }
+
+  50% { transform: rotate(-6deg); }
+}
+
 @media (max-width: 640px) {
-  main { padding: 1rem 0.75rem 2rem; }
+  main {
+    padding: 1rem 0.75rem 2rem;
+  }
+
+  .home-main {
+    min-height: calc(100vh - 64px);
+    padding-top: 2.25rem;
+  }
+
+  .supporting {
+    font-size: 0.9rem;
+  }
 }
