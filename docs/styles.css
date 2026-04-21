@@ -63,7 +63,7 @@ main {
 }
 
 .robot-arm {
-  transform-origin: 44px 100px;
+  transform-origin: 76px 122px;
   animation: arm-wave 3.8s ease-in-out infinite;
 }
 
