@@ -3,21 +3,56 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Home</title>
+  <title>Under Construction</title>
   <link rel="stylesheet" href="styles.css">
 </head>
-<body>
+<body class="home-body">
   <header>
-    <nav>
+    <nav aria-label="Primary">
       <a href="index.html" aria-current="page">Home</a>
       <a href="archive/index.html">Archive</a>
       <a href="contact/index.html">Contact</a>
     </nav>
   </header>
-  <main>
-    <h1>Under Construction</h1>
-    <p>This site is being rebuilt.</p>
-    <div class="image-placeholder" aria-label="Image placeholder"></div>
+
+  <main class="home-main">
+    <section class="construction" aria-labelledby="status-heading">
+      <svg class="robot" viewBox="0 0 220 180" role="img" aria-labelledby="robot-title robot-desc">
+        <title id="robot-title">Minimal robot illustration</title>
+        <desc id="robot-desc">A simple line-drawn robot with blinking eyes and a gently moving arm.</desc>
+
+        <g class="robot-arm" aria-hidden="true">
+          <line x1="44" y1="100" x2="20" y2="122" />
+          <circle cx="18" cy="124" r="4" />
+        </g>
+
+        <line x1="110" y1="14" x2="110" y2="28" aria-hidden="true" />
+        <circle cx="110" cy="10" r="4" aria-hidden="true" />
+
+        <rect x="62" y="30" width="96" height="72" rx="12" ry="12" />
+
+        <g class="robot-eyes" aria-hidden="true">
+          <line x1="88" y1="58" x2="100" y2="58" />
+          <line x1="120" y1="58" x2="132" y2="58" />
+        </g>
+
+        <line x1="95" y1="76" x2="125" y2="76" aria-hidden="true" />
+
+        <rect x="76" y="108" width="68" height="46" rx="8" ry="8" aria-hidden="true" />
+        <line x1="76" y1="122" x2="144" y2="122" aria-hidden="true" />
+        <line x1="76" y1="136" x2="144" y2="136" aria-hidden="true" />
+
+        <line x1="144" y1="102" x2="170" y2="124" aria-hidden="true" />
+        <circle cx="172" cy="126" r="4" aria-hidden="true" />
+
+        <line x1="92" y1="154" x2="86" y2="170" aria-hidden="true" />
+        <line x1="128" y1="154" x2="134" y2="170" aria-hidden="true" />
+      </svg>
+
+      <h1 id="status-heading">Under Construction</h1>
+      <p class="subheading">Personal contact bot coming soon.</p>
+      <p class="supporting">Inspired by the idea of a personal wiki / second brain — where raw notes become a structured, living knowledge base.</p>
+    </section>
   </main>
 </body>
 </html>
