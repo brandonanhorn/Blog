@@ -4,5 +4,5 @@ compatibility_date = "2026-04-19"
 
 [vars]
 ALLOWED_ORIGIN = "https://brandonanhorn.com"
-RESEND_FROM = "noreply@brandonanhorn.com"
+RESEND_FROM = "noreply@mail.brandonanhorn.com"
 RESEND_TO = "ai.brandonanhorn@gmail.com"

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ <title>Outliers Aren't Always "Liers"</title>
+ <!-- Latest compiled and minified CSS -->
+ <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+ <div class="container">
+  <h1><a href=".">BA Blog</a></h1>
+ </div>
+</head>
+<body>
+ <div class="container">
+<div class="row">
+ <div class="col-md-8">
+  <h3>Outliers Aren't Always "Liers"</h3>
+  <label>2019-12-06</label>
+  <p>Outliers Aren't Always "Liers"</p>
+<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">IPython.core.display</span> <span class="kn">import</span> <span class="n">HTML</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">chart</span>
+</pre></div>
+
+
+<div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">([</span>
+    <span class="p">[</span><span class="s1">&#39;Ryan&#39;</span><span class="p">,</span> <span class="s1">&#39;https://duryan00.github.io/blog/&#39;</span><span class="p">],</span>
+    <span class="p">[</span><span class="s1">&#39;Hock&#39;</span><span class="p">,</span> <span class="s1">&#39;https://teckhockng.github.io/blog/&#39;</span><span class="p">],</span>
+    <span class="p">[</span><span class="s1">&#39;Kavitha&#39;</span><span class="p">,</span> <span class="s1">&#39;https://kavitha-shashidharan.github.io/blog/&#39;</span><span class="p">],</span>
+    <span class="p">[</span><span class="s1">&#39;Benoit&#39;</span><span class="p">,</span> <span class="s1">&#39;https://bolive84.github.io/Blog/&#39;</span><span class="p">],</span>
+    <span class="p">[</span><span class="s1">&#39;Anika&#39;</span><span class="p">,</span> <span class="s1">&#39;https://nawarani.github.io/blog/&#39;</span><span class="p">]</span>
+<span class="p">],</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="s1">&#39;link&#39;</span><span class="p">])</span>
+</pre></div>
+
+
+<div class="highlight"><pre><span></span><span class="n">HTML</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">to_html</span><span class="p">())</span>
+</pre></div>
+
+
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>name</th>
+      <th>link</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Ryan</td>
+      <td>https://duryan00.github.io/blog/</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Hock</td>
+      <td>https://teckhockng.github.io/blog/</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Kavitha</td>
+      <td>https://kavitha-shashidharan.github.io/blog/</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Benoit</td>
+      <td>https://bolive84.github.io/Blog/</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Anika</td>
+      <td>https://nawarani.github.io/blog/</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+
+<span class="n">chart</span><span class="o">.</span><span class="n">histogram</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">100</span><span class="p">),</span> <span class="n">mark</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">)</span>
+</pre></div>
+
+
+<div class="highlight"><pre><span></span>    <span class="n">x</span>    
+    <span class="n">x</span> <span class="n">x</span>  
+    <span class="n">x</span> <span class="n">x</span>  
+    <span class="n">x</span> <span class="n">x</span>  
+  <span class="n">x</span> <span class="n">x</span> <span class="n">x</span>  
+  <span class="n">x</span> <span class="n">x</span> <span class="n">x</span>  
+<span class="n">x</span> <span class="n">x</span> <span class="n">x</span> <span class="n">x</span>  
+<span class="n">x</span> <span class="n">x</span> <span class="n">x</span> <span class="n">x</span> <span class="n">x</span>
+<span class="n">x</span> <span class="n">x</span> <span class="n">x</span> <span class="n">x</span> <span class="n">x</span>
+<span class="n">x</span> <span class="n">x</span> <span class="n">x</span> <span class="n">x</span> <span class="n">x</span>
+</pre></div>
+
+
+<p>This is an image.</p>
+<p><code>![](https://pbs.twimg.com/profile_images/1026821498756112384/HDsIA8KG_400x400.jpg)</code></p>
+<p><img alt="" src="https://pbs.twimg.com/profile_images/1026821498756112384/HDsIA8KG_400x400.jpg"></p>
+<p>This is the html version:</p>
+<p><code>&lt;img src='https://pbs.twimg.com/profile_images/1026821498756112384/HDsIA8KG_400x400.jpg' width="300"&gt;</code></p>
+<p><img src='https://pbs.twimg.com/profile_images/1026821498756112384/HDsIA8KG_400x400.jpg' width="300"></p>
+ </div>
+</div>
+ </div>
+</body>
+</html>
