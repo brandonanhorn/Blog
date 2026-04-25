@@ -1,5 +1,5 @@
 (() => {
-  const API_URL = "https://houses-employees-cingular-pressing.trycloudflare.com/api/chat";
+  const API_URL = "https://excel-completion-trainers-connect.trycloudflare.com/api/chat";
   const form = document.querySelector("[data-knowledge-form]");
   const messageField = document.querySelector("#knowledge-message");
   const askButton = document.querySelector("[data-ask-button]");
