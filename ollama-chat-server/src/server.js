@@ -15,7 +15,7 @@ const PORT = Number(process.env.PORT) || 8787;
 const OLLAMA_URL = "http://127.0.0.1:11434/api/chat";
 const FIXED_MODEL = "hermes31-8b-q4";
 const FIXED_SYSTEM_PROMPT =
-  "You do not have access to private files, databases, admin tools, secrets, logs, environment variables, local file paths, or hidden system information. If you do not know something, say so clearly. Do not claim access to information you cannot see.\n\nAct as a helpful assistant";
+  "You are a helpful assistant. Use the provided context from Brandon's notes when it is relevant to the user's request. If relevant context is present, answer from it and do not claim you lack access. Never mention private files, local file paths, or system internals. You may summarize public-facing information from Brandon's notes. If the context is not relevant or insufficient, say what is missing clearly without inventing details.";
 const FIXED_OPTIONS = {
   num_predict: 700,
   temperature: 0.2,

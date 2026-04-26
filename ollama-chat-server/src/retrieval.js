@@ -7,13 +7,77 @@ const VAULT_PATH = "/Users/ban/Documents/brain";
 const CHUNK_MIN_SIZE = 500;
 const CHUNK_MAX_SIZE = 1000;
 const MAX_CHUNKS = 20000;
+const WHOLE_NOTE_MAX_LENGTH = 6000;
+
+const PROFILE_SYNONYMS = {
+  career: ["experience", "work", "job", "professional", "background", "resume", "summary"],
+  hiring: ["career", "experience", "work", "professional"],
+  skills: ["technical", "tools", "expertise"],
+  projects: ["project", "built", "created"],
+  writing: ["writing", "notes", "essays"]
+};
 
 let chunkStore = [];
 
+function normalizeToken(token) {
+  if (!token) {
+    return "";
+  }
+
+  if (token.length > 4 && token.endsWith("ies")) {
+    return `${token.slice(0, -3)}y`;
+  }
+
+  if (token.length > 4 && token.endsWith("es")) {
+    return token.slice(0, -2);
+  }
+
+  if (token.length > 3 && token.endsWith("s")) {
+    return token.slice(0, -1);
+  }
+
+  return token;
+}
+
 function tokenize(text) {
-  return text
+  const normalized = String(text || "")
     .toLowerCase()
-    .match(/[a-z0-9]+/g) || [];
+    .replace(/[_-]/g, " ")
+    .replace(/[^a-z0-9\s]/g, " ");
+
+  const raw = normalized.match(/[a-z0-9]+/g) || [];
+  const tokens = [];
+
+  for (const token of raw) {
+    tokens.push(token);
+
+    const normalizedToken = normalizeToken(token);
+    if (normalizedToken && normalizedToken !== token) {
+      tokens.push(normalizedToken);
+    }
+  }
+
+  return tokens;
+}
+
+function expandQueryTokens(baseTokens) {
+  const expanded = new Set(baseTokens);
+
+  for (const token of baseTokens) {
+    const synonymTerms = PROFILE_SYNONYMS[token];
+    if (!synonymTerms) {
+      continue;
+    }
+
+    for (const synonym of synonymTerms) {
+      const synonymTokens = tokenize(synonym);
+      for (const synonymToken of synonymTokens) {
+        expanded.add(synonymToken);
+      }
+    }
+  }
+
+  return Array.from(expanded);
 }
 
 function toPlainText(markdown) {
@@ -29,6 +93,11 @@ function toPlainText(markdown) {
     .replace(/[\*_~#>]/g, " ")
     .replace(/\s+/g, " ")
     .trim();
+}
+
+function extractTitle(markdown) {
+  const match = String(markdown || "").match(/^\s{0,3}#\s+(.+)$/m);
+  return match ? match[1].trim() : "";
 }
 
 function splitIntoChunks(text) {
@@ -85,22 +154,89 @@ function collectMarkdownFiles(dirPath) {
   return results;
 }
 
-function scoreChunk(queryTokens, chunkTokens) {
-  if (!queryTokens.length || !chunkTokens.length) {
+function buildCandidate({ text, filePath, fileName, folder, title, kind }) {
+  const filePathTokens = tokenize(filePath);
+  const fileNameTokens = tokenize(fileName);
+  const folderTokens = tokenize(folder);
+  const titleTokens = tokenize(title);
+  const textTokens = tokenize(text);
+
+  return {
+    text,
+    filePath,
+    fileName,
+    folder,
+    title,
+    kind,
+    tokens: {
+      text: textTokens,
+      filePath: filePathTokens,
+      fileName: fileNameTokens,
+      folder: folderTokens,
+      title: titleTokens,
+      combinedMeta: [...filePathTokens, ...fileNameTokens, ...folderTokens, ...titleTokens]
+    }
+  };
+}
+
+function scoreOverlap(queryTokenSet, targetTokens) {
+  if (!targetTokens.length) {
     return 0;
   }
 
-  const chunkTokenSet = new Set(chunkTokens);
+  const targetSet = new Set(targetTokens);
   let overlap = 0;
 
-  for (const token of queryTokens) {
-    if (chunkTokenSet.has(token)) {
+  for (const token of queryTokenSet) {
+    if (targetSet.has(token)) {
       overlap += 1;
     }
   }
 
-  const uniqueQueryTerms = new Set(queryTokens).size;
-  return uniqueQueryTerms ? overlap / uniqueQueryTerms : 0;
+  return overlap;
+}
+
+function scoreCandidate(queryTokens, candidate) {
+  const queryTokenSet = new Set(queryTokens);
+  const uniqueQueryCount = queryTokenSet.size || 1;
+
+  const textOverlap = scoreOverlap(queryTokenSet, candidate.tokens.text);
+  const fileNameOverlap = scoreOverlap(queryTokenSet, candidate.tokens.fileName);
+  const folderOverlap = scoreOverlap(queryTokenSet, candidate.tokens.folder);
+  const titleOverlap = scoreOverlap(queryTokenSet, candidate.tokens.title);
+  const pathOverlap = scoreOverlap(queryTokenSet, candidate.tokens.filePath);
+
+  let score = textOverlap / uniqueQueryCount;
+  score += (fileNameOverlap / uniqueQueryCount) * 2.8;
+  score += (folderOverlap / uniqueQueryCount) * 2.0;
+  score += (titleOverlap / uniqueQueryCount) * 2.2;
+  score += (pathOverlap / uniqueQueryCount) * 1.5;
+
+  if (folderOverlap > 0) {
+    score += 0.8;
+  }
+
+  if (fileNameOverlap > 0) {
+    score += 1.2;
+  }
+
+  if (titleOverlap > 0) {
+    score += 0.8;
+  }
+
+  if (queryTokenSet.has("career") && candidate.tokens.combinedMeta.includes("career")) {
+    score += 2;
+  }
+
+  if (queryTokenSet.has("writing") && candidate.tokens.folder.includes("writing")) {
+    score += 2;
+  }
+
+  if (candidate.kind === "full-note" && (fileNameOverlap > 0 || titleOverlap > 0 || folderOverlap > 0)) {
+    score += 0.7;
+  }
+
+  return score;
 }
 
 function loadVaultChunks() {
@@ -114,13 +250,18 @@ function loadVaultChunks() {
     const markdownFiles = collectMarkdownFiles(VAULT_PATH);
     const nextStore = [];
 
-    for (const filePath of markdownFiles) {
+    for (const absolutePath of markdownFiles) {
       if (nextStore.length >= MAX_CHUNKS) {
         break;
       }
 
-      const markdown = fs.readFileSync(filePath, "utf8");
+      const markdown = fs.readFileSync(absolutePath, "utf8");
       const plainText = toPlainText(markdown);
+      const title = extractTitle(markdown);
+      const relativePath = path.relative(VAULT_PATH, absolutePath).replace(/\\/g, "/");
+      const fileName = path.basename(relativePath, ".md");
+      const folder = path.dirname(relativePath) === "." ? "" : path.dirname(relativePath).replace(/\\/g, "/");
+
       const chunks = splitIntoChunks(plainText);
 
       for (const chunkText of chunks) {
@@ -128,15 +269,34 @@ function loadVaultChunks() {
           break;
         }
 
-        nextStore.push({
-          text: chunkText,
-          tokens: tokenize(chunkText)
-        });
+        nextStore.push(
+          buildCandidate({
+            text: chunkText,
+            filePath: relativePath,
+            fileName,
+            folder,
+            title,
+            kind: "chunk"
+          })
+        );
+      }
+
+      if (plainText.length > 0 && plainText.length <= WHOLE_NOTE_MAX_LENGTH && nextStore.length < MAX_CHUNKS) {
+        nextStore.push(
+          buildCandidate({
+            text: plainText,
+            filePath: relativePath,
+            fileName,
+            folder,
+            title,
+            kind: "full-note"
+          })
+        );
       }
     }
 
     chunkStore = nextStore;
-    console.log(`[retrieval] Loaded ${chunkStore.length} chunks from ${markdownFiles.length} markdown files.`);
+    console.log(`[retrieval] Loaded ${chunkStore.length} candidates from ${markdownFiles.length} markdown files.`);
   } catch (error) {
     console.warn(`[retrieval] Failed to load vault notes: ${error.message}`);
     chunkStore = [];
@@ -149,17 +309,24 @@ function getRelevantContext(query, topK = 4) {
     return "";
   }
 
-  const queryTokens = tokenize(safeQuery);
-  if (!queryTokens.length) {
+  const baseTokens = tokenize(safeQuery);
+  if (!baseTokens.length) {
     return "";
   }
 
+  const queryTokens = expandQueryTokens(baseTokens);
+
   const scored = [];
 
-  for (const chunk of chunkStore) {
-    const score = scoreChunk(queryTokens, chunk.tokens);
+  for (const candidate of chunkStore) {
+    const score = scoreCandidate(queryTokens, candidate);
     if (score > 0) {
-      scored.push({ score, text: chunk.text });
+      scored.push({
+        score,
+        text: candidate.text,
+        filePath: candidate.filePath,
+        kind: candidate.kind
+      });
     }
   }
 
@@ -169,9 +336,14 @@ function getRelevantContext(query, topK = 4) {
 
   scored.sort((a, b) => b.score - a.score);
 
-  return scored
-    .slice(0, Math.min(Math.max(topK, 3), 5))
-    .map((entry) => entry.text)
+  const cappedTopK = Math.min(Math.max(topK, 3), 6);
+  const selected = scored.slice(0, cappedTopK);
+
+  const debugMatches = selected.map((entry) => `${entry.filePath} (${entry.score.toFixed(3)})`);
+  console.log(`[retrieval] top matches: ${debugMatches.join(", ")}`);
+
+  return selected
+    .map((entry) => `Source: ${entry.filePath}\nContent:\n${entry.text}`)
     .join("\n\n---\n\n");
 }
 
