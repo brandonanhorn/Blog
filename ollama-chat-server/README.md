@@ -41,6 +41,13 @@ By default, the proxy runs on `http://127.0.0.1:8787`.
 - Notes are loaded only from that fixed local path (no client-controlled file reads, and no raw vault files are exposed over the API).
 - Restart the server after adding or editing notes so the in-memory retrieval index refreshes.
 
+- Retrieval is keyword-and-metadata based (no embeddings yet): each chunk keeps `filePath`, `fileName`, `folder`, optional note title, and chunk text.
+- Ranking includes strong boosts for filename/folder/path matches (for example, queries like `career`, `writing`, `background`, `experience`, and `summary` strongly prefer `writing/career_summary.md`).
+- Query tokenization lowercases, strips punctuation, splits snake_case/kebab-case, and does light plural normalization.
+- Simple synonym expansion is included for profile-style terms (career, hiring, skills, projects, writing).
+- For short notes (about 6000 chars or less), retrieval also indexes the full note as a fallback candidate in addition to normal chunks.
+- Retrieval debug logs only top source paths + scores (no full note or prompt logging).
+
 ## 4) Test locally with curl
 
 ```bash
@@ -60,6 +67,21 @@ Expected error payload:
 ```json
 { "error": "friendly error message" }
 ```
+
+## Quick retrieval smoke test
+
+Ask a career-focused question to verify filename/path boosting:
+
+```bash
+curl -i http://127.0.0.1:8787/api/chat \
+  -H "Content-Type: application/json" \
+  -d '{"message":"Can you tell me about Brandon's career?"}'
+```
+
+Expected behavior:
+
+- The retrieval logs should show `writing/career_summary.md` (or `career_summary.md`) among top matches.
+- The assistant answer should summarize Brandon's career from retrieved note context instead of saying it lacks career information.
 
 ## 5) Expose the proxy with Cloudflare Tunnel
 
