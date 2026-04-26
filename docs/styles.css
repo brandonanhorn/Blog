@@ -221,3 +221,10 @@ pre {
   min-height: 5.5rem;
   font-family: inherit;
 }
+
+.knowledge-attribution {
+  margin: 0.8rem 0 0;
+  color: #505050;
+  font-size: 0.86rem;
+  max-width: 62ch;
+}
