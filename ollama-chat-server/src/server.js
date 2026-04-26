@@ -7,6 +7,7 @@ const express = require("express");
 const cors = require("cors");
 const helmet = require("helmet");
 const rateLimit = require("express-rate-limit");
+const { getRelevantContext } = require("./retrieval");
 
 const app = express();
 
@@ -151,7 +152,10 @@ app.post("/api/chat", async (req, res) => {
         messages: [
           {
             role: "system",
-            content: FIXED_SYSTEM_PROMPT
+            content:
+              FIXED_SYSTEM_PROMPT +
+              "\n\nRelevant context from Brandon's notes:\n" +
+              getRelevantContext(trimmedMessage)
           },
           {
             role: "user",
