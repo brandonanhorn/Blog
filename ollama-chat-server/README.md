@@ -29,6 +29,18 @@ npm start
 
 By default, the proxy runs on `http://127.0.0.1:8787`.
 
+## Using Obsidian as Knowledge Source
+
+- Place your markdown notes (`.md`) anywhere inside this local vault path:
+
+  ```
+  /Users/ban/Documents/brain
+  ```
+
+- On server start, the proxy recursively loads all markdown files from that fixed vault path, extracts plain text, chunks it in memory, and uses relevant chunks to augment the system prompt.
+- Notes are loaded only from that fixed local path (no client-controlled file reads, and no raw vault files are exposed over the API).
+- Restart the server after adding or editing notes so the in-memory retrieval index refreshes.
+
 ## 4) Test locally with curl
 
 ```bash
