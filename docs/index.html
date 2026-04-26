@@ -3,21 +3,20 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Under Construction</title>
+  <title>Knowledge Interface</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body class="home-body">
   <header>
     <nav aria-label="Primary">
-      <a href="index.html" aria-current="page">Home</a>
-      <a href="archive/index.html">Archive</a>
-      <a href="contact/index.html">Contact</a>
-      <a href="knowledge/index.html">Knowledge</a>
+      <a href="/" aria-current="page">Home</a>
+      <a href="/archive/">Archive</a>
+      <a href="/contact/">Contact</a>
     </nav>
   </header>
 
   <main class="home-main">
-    <section class="construction" aria-labelledby="status-heading">
+    <section class="construction knowledge-shell" aria-labelledby="knowledge-heading">
       <svg class="robot" viewBox="0 0 220 180" role="img" aria-labelledby="robot-title robot-desc">
         <title id="robot-title">Minimal robot illustration</title>
         <desc id="robot-desc">A simple line-drawn robot with blinking eyes and a gently moving arm.</desc>
@@ -50,10 +49,31 @@
         <line x1="128" y1="154" x2="134" y2="170" aria-hidden="true" />
       </svg>
 
-      <h1 id="status-heading">Under Construction</h1>
-      <p class="subheading">A personal knowledge interface coming soon.</p>
-      <p class="supporting">Inspired by, Andrej Karpathy’s idea of a personal wiki / second brain — where raw notes become a structured, living knowledge base.</p>
+      <h1 id="knowledge-heading">Knowledge Interface</h1>
+      <p class="subheading">Ask a question about my public notes, career, projects, or ideas.</p>
+      <p class="knowledge-note">This system is experimental and may not always be online.</p>
+
+      <form class="knowledge-form" data-knowledge-form novalidate>
+        <label for="knowledge-message">Question</label>
+        <textarea
+          id="knowledge-message"
+          name="message"
+          rows="6"
+          maxlength="4000"
+          placeholder="Ask something..."
+          required
+        ></textarea>
+        <button type="submit" data-ask-button>Ask</button>
+      </form>
+
+      <section class="knowledge-response" aria-live="polite" aria-atomic="true">
+        <h2>Response</h2>
+        <pre data-knowledge-response>Ask a question to begin.</pre>
+      </section>
+
+      <p class="knowledge-attribution">Inspired by, Andrej Karpathy’s idea of a personal wiki / second brain — where raw notes become a structured, living knowledge base.</p>
     </section>
   </main>
+  <script src="./knowledge/knowledge.js"></script>
 </body>
 </html>
