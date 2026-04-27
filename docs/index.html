@@ -67,11 +67,17 @@
       </form>
 
       <section class="knowledge-response" aria-live="polite" aria-atomic="true">
-        <h2>Response</h2>
-        <pre data-knowledge-response>Ask a question to begin.</pre>
-      </section>
+        <div class="response-container">
+          <div class="response-label">Response</div>
+          <div class="response-body" data-knowledge-response>Ask a question to begin.</div>
 
-      <p class="knowledge-attribution">Inspired by, Andrej Karpathy’s idea of a personal wiki / second brain — where raw notes become a structured, living knowledge base.</p>
+          <hr class="response-divider" />
+
+          <div class="response-meta">
+            Inspired by, Andrej Karpathy’s idea of a personal wiki / second brain — where raw notes become a structured, living knowledge base.
+          </div>
+        </div>
+      </section>
     </section>
   </main>
   <script src="./knowledge/knowledge.js"></script>
