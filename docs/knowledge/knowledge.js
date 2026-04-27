@@ -4,8 +4,9 @@
   const messageField = document.querySelector("#knowledge-message");
   const askButton = document.querySelector("[data-ask-button]");
   const responseField = document.querySelector("[data-knowledge-response]");
+  const thinking = document.querySelector("[data-thinking]");
 
-  if (!form || !messageField || !askButton || !responseField) {
+  if (!form || !messageField || !askButton || !responseField || !thinking) {
     return;
   }
 
@@ -102,6 +103,7 @@
     }
 
     setLoadingState(true);
+    thinking.hidden = false;
     renderResponse("Thinking...");
 
     try {
@@ -123,6 +125,7 @@
     } catch (_error) {
       renderResponse("The knowledge interface is offline right now. Please try again later.");
     } finally {
+      thinking.hidden = true;
       setLoadingState(false);
     }
   });
