@@ -1,5 +1,5 @@
 (() => {
-  const API_URL = "https://zshops-northern-page-consultation.trycloudflare.com/api/chat";
+  const API_URL = "https://phantom-kept-possession-planet.trycloudflare.com/api/chat";
   const form = document.querySelector("[data-knowledge-form]");
   const messageField = document.querySelector("#knowledge-message");
   const askButton = document.querySelector("[data-ask-button]");
