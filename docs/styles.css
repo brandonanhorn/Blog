@@ -174,17 +174,22 @@ pre {
 }
 
 .knowledge-shell {
-  max-width: 680px;
+  width: min(760px, 100%);
+  margin: 0 auto;
 }
 
 .knowledge-note {
   margin-top: 0.5rem;
-  color: #444;
+  color: #000;
   font-size: 0.95rem;
 }
 
 .knowledge-form {
   margin-top: 1.2rem;
+  width: min(760px, 100%);
+  margin-left: auto;
+  margin-right: auto;
+  text-align: left;
 }
 
 .section-label {
@@ -192,10 +197,11 @@ pre {
   font-size: 12px;
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  color: #777;
+  color: #000;
 }
 
 .knowledge-form textarea {
+  width: 100%;
   min-height: 140px;
   resize: vertical;
   border: 1px solid #d8d8d8;
@@ -206,7 +212,8 @@ pre {
 }
 
 .knowledge-form textarea::placeholder {
-  color: #9a9a9a;
+  color: #000;
+  opacity: 1;
 }
 
 .knowledge-form textarea:focus {
@@ -222,16 +229,24 @@ pre {
 
 .knowledge-response {
   margin-top: 1.5rem;
+  width: min(760px, 100%);
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .response-container {
   margin-top: 40px;
-  padding: 0 20px;
+  width: 100%;
+  max-width: 760px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 0;
+  text-align: left;
 }
 
 .response-body {
-  margin: 0 auto;
-  max-width: 700px;
+  margin: 0;
+  max-width: 100%;
   min-height: 5.5rem;
   font-size: clamp(16px, 2.1vw, 18px);
   line-height: 1.7;
@@ -266,17 +281,18 @@ pre {
 }
 
 .response-meta {
-  margin: 0 auto;
-  max-width: 600px;
+  margin: 0;
+  max-width: 100%;
   font-size: 13px;
-  color: #999;
-  text-align: center;
+  color: #000;
+  text-align: left;
   line-height: 1.5;
 }
 
 .thinking-container {
+  width: min(760px, 100%);
   margin: 40px auto;
-  text-align: center;
+  text-align: left;
   height: 60px;
   transition: opacity 0.3s ease;
 }
@@ -285,7 +301,6 @@ pre {
   display: inline-flex;
   gap: 10px;
   align-items: center;
-  justify-content: center;
 }
 
 .thinking-dots span {
