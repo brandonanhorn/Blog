@@ -187,13 +187,32 @@ pre {
   margin-top: 1.2rem;
 }
 
-.knowledge-form label {
-  font-size: 0.95rem;
+.section-label {
+  margin-bottom: 8px;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #777;
 }
 
 .knowledge-form textarea {
   min-height: 140px;
   resize: vertical;
+  border: 1px solid #d8d8d8;
+  border-radius: 8px;
+  background: #fff;
+  color: #000;
+  padding: 0.85rem 0.95rem;
+}
+
+.knowledge-form textarea::placeholder {
+  color: #9a9a9a;
+}
+
+.knowledge-form textarea:focus {
+  border-color: #4a4a4a;
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.08);
 }
 
 .knowledge-form button[disabled] {
@@ -208,14 +227,6 @@ pre {
 .response-container {
   margin-top: 40px;
   padding: 0 20px;
-}
-
-.response-label {
-  margin-bottom: 8px;
-  font-size: 12px;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: #777;
 }
 
 .response-body {
