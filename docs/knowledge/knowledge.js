@@ -1,5 +1,5 @@
 (() => {
-  const API_URL = "https://massage-index-prairie-americas.trycloudflare.com/api/chat";
+  const API_URL = "https://specification-chi-pond-missile.trycloudflare.com/api/chat";
   const form = document.querySelector("[data-knowledge-form]");
   const messageField = document.querySelector("#knowledge-message");
   const askButton = document.querySelector("[data-ask-button]");
