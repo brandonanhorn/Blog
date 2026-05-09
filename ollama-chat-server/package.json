@@ -5,7 +5,8 @@
   "description": "Local proxy server for safely connecting a static site to Ollama via Cloudflare Tunnel.",
   "main": "src/server.js",
   "scripts": {
-    "start": "node src/server.js"
+    "start": "node src/server.js",
+    "admin": "node src/adminServer.js"
   },
   "engines": {
     "node": ">=18"

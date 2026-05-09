@@ -155,3 +155,66 @@ sqlite3 data/chat_logs.sqlite
 .tables
 SELECT created_at, question, substr(answer, 1, 200) FROM chat_logs ORDER BY created_at DESC LIMIT 10;
 ```
+
+## Answer Feedback
+
+- Public users can mark responses as `helpful` or `not_helpful` from the homepage UI.
+- Feedback is stored locally in SQLite (`data/chat_logs.sqlite`) on the matching chat log row.
+- There is no public endpoint to read chat logs; only write-only feedback submission is exposed.
+- Feedback helps evaluate retrieval relevance and answer quality over time.
+
+## Local Admin Log Viewer
+
+Run locally:
+
+```bash
+npm run admin
+```
+
+Open:
+
+```text
+http://127.0.0.1:8788/
+```
+
+Important:
+
+- This viewer is local-only and binds to `127.0.0.1`.
+- Do **not** expose port `8788` through Cloudflare Tunnel.
+- Do **not** publish this admin viewer in GitHub Pages.
+
+## Manual Test Steps
+
+1. Start proxy:
+
+```bash
+npm start
+```
+
+2. Send chat request:
+
+```bash
+curl -X POST http://127.0.0.1:8787/api/chat \
+  -H "Content-Type: application/json" \
+  -d '{"message":"Can you tell me about Brandon’s career?"}'
+```
+
+Expected: response includes `message` and `logId`.
+
+3. Submit feedback:
+
+```bash
+curl -X POST http://127.0.0.1:8787/api/feedback \
+  -H "Content-Type: application/json" \
+  -d '{"logId":"PASTE_LOG_ID","feedback":"helpful"}'
+```
+
+Expected: `{ "ok": true }`.
+
+4. Start admin:
+
+```bash
+npm run admin
+```
+
+5. Open `http://127.0.0.1:8788/` and confirm the latest log + feedback value appear.
