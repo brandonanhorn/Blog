@@ -139,3 +139,19 @@ This is a **local-first experimental setup**, not an always-on production deploy
 - CORS restricted to explicit origins (no production wildcard)
 - 30 second timeout when contacting Ollama
 - No full prompt logging (logs only metadata)
+
+
+## Local Chat Logging
+
+- Completed question/answer pairs are stored locally in SQLite at `data/chat_logs.sqlite`.
+- The database stays local and is ignored by git (`ollama-chat-server/data/` is in `.gitignore`).
+- Only the backend writes logs after successful model responses; there is no frontend log page and no HTTP route to read logs.
+- Raw IP addresses and raw User-Agent strings are never stored; SHA-256 hashes are stored instead.
+
+Inspect logs locally:
+
+```bash
+sqlite3 data/chat_logs.sqlite
+.tables
+SELECT created_at, question, substr(answer, 1, 200) FROM chat_logs ORDER BY created_at DESC LIMIT 10;
+```

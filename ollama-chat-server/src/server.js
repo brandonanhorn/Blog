@@ -8,6 +8,7 @@ const cors = require("cors");
 const helmet = require("helmet");
 const rateLimit = require("express-rate-limit");
 const { getRelevantContext } = require("./retrieval");
+const { logChat } = require("./chatLog");
 
 const app = express();
 
@@ -141,6 +142,8 @@ app.post("/api/chat", async (req, res) => {
   const timeout = setTimeout(() => controller.abort(), 30_000);
 
   try {
+    const relevantContext = getRelevantContext(trimmedMessage);
+
     const ollamaResponse = await fetch(OLLAMA_URL, {
       method: "POST",
       headers: {
@@ -155,7 +158,7 @@ app.post("/api/chat", async (req, res) => {
             content:
               FIXED_SYSTEM_PROMPT +
               "\n\nRelevant context from Brandon's notes:\n" +
-              getRelevantContext(trimmedMessage)
+              relevantContext
           },
           {
             role: "user",
@@ -179,11 +182,34 @@ app.post("/api/chat", async (req, res) => {
       throw new Error("empty_model_response");
     }
 
+    const latencyMs = Date.now() - startedAt;
+
+    const matchedSources = Array.from(
+      new Set(
+        relevantContext
+          .split("\n")
+          .filter((line) => line.startsWith("Source: "))
+          .map((line) => line.slice(8).trim())
+          .filter(Boolean)
+      )
+    );
+
+    logChat({
+      question: trimmedMessage,
+      answer: responseMessage,
+      model: FIXED_MODEL,
+      status: "success",
+      latencyMs,
+      matchedSources,
+      userAgent: req.get("user-agent") || "",
+      ip
+    });
+
     logRequest({
       ip,
       inputLength: trimmedMessage.length,
       status: 200,
-      latencyMs: Date.now() - startedAt
+      latencyMs
     });
 
     res.json({ message: responseMessage });
