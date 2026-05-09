@@ -8,7 +8,7 @@ const cors = require("cors");
 const helmet = require("helmet");
 const rateLimit = require("express-rate-limit");
 const { getRelevantContext } = require("./retrieval");
-const { logChat } = require("./chatLog");
+const { logChat, saveFeedback } = require("./chatLog");
 
 const app = express();
 
@@ -38,104 +38,67 @@ const allowedOrigins = (process.env.ALLOWED_ORIGINS || defaultOrigins.join(","))
 app.set("trust proxy", true);
 app.use(helmet());
 app.use(express.json({ limit: "16kb", type: "application/json" }));
-
-app.use(
-  rateLimit({
-    windowMs: 60 * 1000,
-    max: 10,
-    standardHeaders: true,
-    legacyHeaders: false,
-    message: { error: "Too many requests right now. Please try again in a minute." }
-  })
-);
-
-app.use(
-  cors({
-    origin(origin, callback) {
-      if (!origin || allowedOrigins.includes(origin)) {
-        callback(null, true);
-        return;
-      }
-
-      callback(new Error("Not allowed by CORS"));
-    },
-    methods: ["POST"],
-    allowedHeaders: ["Content-Type"]
-  })
-);
+app.use(rateLimit({ windowMs: 60 * 1000, max: 10, standardHeaders: true, legacyHeaders: false, message: { error: "Too many requests right now. Please try again in a minute." } }));
+app.use(cors({
+  origin(origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+      return;
+    }
+    callback(new Error("Not allowed by CORS"));
+  },
+  methods: ["POST"],
+  allowedHeaders: ["Content-Type"]
+}));
 
 function anonymizeIp(ip = "") {
-  if (!ip) {
-    return "unknown";
-  }
-
+  if (!ip) return "unknown";
   if (ip.includes(".")) {
     const parts = ip.split(".");
     return `${parts[0]}.${parts[1]}.${parts[2]}.0`;
   }
-
   return crypto.createHash("sha256").update(ip).digest("hex").slice(0, 12);
 }
 
 function logRequest({ ip, inputLength, status, latencyMs }) {
-  const payload = {
-    timestamp: new Date().toISOString(),
-    ip: anonymizeIp(ip),
-    inputLength,
-    status,
-    latencyMs
-  };
-
-  console.log(JSON.stringify(payload));
+  console.log(JSON.stringify({ timestamp: new Date().toISOString(), ip: anonymizeIp(ip), inputLength, status, latencyMs }));
 }
 
 app.use((req, res, next) => {
-  if (req.method !== "POST") {
-    next();
-    return;
-  }
-
+  if (req.method !== "POST") return next();
   if (!req.is("application/json")) {
     res.status(415).json({ error: "Requests must use application/json." });
     return;
   }
-
   next();
 });
 
 app.post("/api/chat", async (req, res) => {
   const startedAt = Date.now();
   const ip = req.ip;
-
   const body = req.body;
   const hasMessage = body && Object.prototype.hasOwnProperty.call(body, "message");
 
   if (!body || typeof body !== "object" || Array.isArray(body) || !hasMessage || Object.keys(body).length !== 1) {
     logRequest({ ip, inputLength: 0, status: 400, latencyMs: Date.now() - startedAt });
-    res.status(400).json({ error: "Invalid request. Send JSON with only a message field." });
-    return;
+    return res.status(400).json({ error: "Invalid request. Send JSON with only a message field." });
   }
 
   const { message } = body;
-
   if (typeof message !== "string") {
     logRequest({ ip, inputLength: 0, status: 400, latencyMs: Date.now() - startedAt });
-    res.status(400).json({ error: "Message must be a string." });
-    return;
+    return res.status(400).json({ error: "Message must be a string." });
   }
 
   const trimmedMessage = message.trim();
-
   if (!trimmedMessage) {
     logRequest({ ip, inputLength: 0, status: 400, latencyMs: Date.now() - startedAt });
-    res.status(400).json({ error: "Message cannot be empty." });
-    return;
+    return res.status(400).json({ error: "Message cannot be empty." });
   }
 
   if (trimmedMessage.length > 4000) {
     logRequest({ ip, inputLength: trimmedMessage.length, status: 400, latencyMs: Date.now() - startedAt });
-    res.status(400).json({ error: "Message is too long. Max length is 4000 characters." });
-    return;
+    return res.status(400).json({ error: "Message is too long. Max length is 4000 characters." });
   }
 
   const controller = new AbortController();
@@ -143,103 +106,57 @@ app.post("/api/chat", async (req, res) => {
 
   try {
     const relevantContext = getRelevantContext(trimmedMessage);
-
     const ollamaResponse = await fetch(OLLAMA_URL, {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        model: FIXED_MODEL,
-        stream: false,
-        messages: [
-          {
-            role: "system",
-            content:
-              FIXED_SYSTEM_PROMPT +
-              "\n\nRelevant context from Brandon's notes:\n" +
-              relevantContext
-          },
-          {
-            role: "user",
-            content: trimmedMessage
-          }
-        ],
-        options: FIXED_OPTIONS
-      }),
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ model: FIXED_MODEL, stream: false, messages: [{ role: "system", content: `${FIXED_SYSTEM_PROMPT}\n\nRelevant context from Brandon's notes:\n${relevantContext}` }, { role: "user", content: trimmedMessage }], options: FIXED_OPTIONS }),
       signal: controller.signal
     });
 
-    if (!ollamaResponse.ok) {
-      throw new Error(`ollama_http_${ollamaResponse.status}`);
-    }
-
+    if (!ollamaResponse.ok) throw new Error(`ollama_http_${ollamaResponse.status}`);
     const data = await ollamaResponse.json();
-    const responseMessage =
-      typeof data?.message?.content === "string" ? data.message.content.trim() : "";
-
-    if (!responseMessage) {
-      throw new Error("empty_model_response");
-    }
+    const responseMessage = typeof data?.message?.content === "string" ? data.message.content.trim() : "";
+    if (!responseMessage) throw new Error("empty_model_response");
 
     const latencyMs = Date.now() - startedAt;
+    const matchedSources = Array.from(new Set(relevantContext.split("\n").filter((line) => line.startsWith("Source: ")).map((line) => line.slice(8).trim()).filter(Boolean)));
 
-    const matchedSources = Array.from(
-      new Set(
-        relevantContext
-          .split("\n")
-          .filter((line) => line.startsWith("Source: "))
-          .map((line) => line.slice(8).trim())
-          .filter(Boolean)
-      )
-    );
-
-    logChat({
-      question: trimmedMessage,
-      answer: responseMessage,
-      model: FIXED_MODEL,
-      status: "success",
-      latencyMs,
-      matchedSources,
-      userAgent: req.get("user-agent") || "",
-      ip
-    });
-
-    logRequest({
-      ip,
-      inputLength: trimmedMessage.length,
-      status: 200,
-      latencyMs
-    });
-
-    res.json({ message: responseMessage });
+    const logId = logChat({ question: trimmedMessage, answer: responseMessage, model: FIXED_MODEL, status: "success", latencyMs, matchedSources, userAgent: req.get("user-agent") || "", ip });
+    logRequest({ ip, inputLength: trimmedMessage.length, status: 200, latencyMs });
+    res.json({ message: responseMessage, logId });
   } catch (_error) {
     const statusCode = 502;
-
-    logRequest({
-      ip,
-      inputLength: trimmedMessage.length,
-      status: statusCode,
-      latencyMs: Date.now() - startedAt
-    });
-
-    res.status(statusCode).json({
-      error: "The knowledge interface is offline right now. Please try again later."
-    });
+    logRequest({ ip, inputLength: trimmedMessage.length, status: statusCode, latencyMs: Date.now() - startedAt });
+    res.status(statusCode).json({ error: "The knowledge interface is offline right now. Please try again later." });
   } finally {
     clearTimeout(timeout);
   }
 });
 
-app.use((error, _req, res, _next) => {
-  if (error && error.message === "Not allowed by CORS") {
-    res.status(403).json({ error: "This origin is not allowed." });
-    return;
+app.post("/api/feedback", (req, res) => {
+  const { logId, feedback } = req.body || {};
+
+  if (typeof logId !== "string" || !logId.trim()) {
+    return res.status(400).json({ error: "Please provide a valid logId." });
   }
 
+  if (feedback !== "helpful" && feedback !== "not_helpful") {
+    return res.status(400).json({ error: "Feedback must be either helpful or not_helpful." });
+  }
+
+  const result = saveFeedback({ logId, feedback });
+  if (result.ok) return res.json({ ok: true });
+  if (result.code === "not_found") return res.status(404).json({ error: "Log entry not found." });
+  if (result.code === "invalid_log_id") return res.status(400).json({ error: "Please provide a valid logId." });
+  if (result.code === "invalid_feedback") return res.status(400).json({ error: "Feedback must be either helpful or not_helpful." });
+  return res.status(500).json({ error: "Could not save feedback right now." });
+});
+
+app.use((error, _req, res, _next) => {
+  if (error && error.message === "Not allowed by CORS") return res.status(403).json({ error: "This origin is not allowed." });
   res.status(500).json({ error: "Unexpected server error." });
 });
 
-app.listen(PORT, () => {
+app.listen(PORT, "127.0.0.1", () => {
   console.log(`Ollama proxy listening on http://127.0.0.1:${PORT}`);
 });
