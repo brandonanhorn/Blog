@@ -1,5 +1,5 @@
 (() => {
-  const API_URL = "https://maximize-color-intent-blond.trycloudflare.com/api/chat";
+  const API_URL = "https://receiving-cash-pins-occupation.trycloudflare.com/api/chat";
   const FEEDBACK_URL = API_URL.replace(/\/api\/chat\/?$/, "/api/feedback");
   const form = document.querySelector("[data-knowledge-form]");
   const messageField = document.querySelector("#knowledge-message");
