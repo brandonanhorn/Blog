@@ -1,5 +1,5 @@
 (() => {
-  const API_URL = "https://carnival-welfare-teachers-updates.trycloudflare.com/api/chat";
+  const API_URL = "https://response-reflected-wrap-fuzzy.trycloudflare.com/api/chat";
   const FEEDBACK_URL = API_URL.replace(/\/api\/chat\/?$/, "/api/feedback");
   const form = document.querySelector("[data-knowledge-form]");
   const messageField = document.querySelector("#knowledge-message");
