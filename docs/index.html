@@ -3,12 +3,12 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Knowledge Interface</title>
+  <title>Ask Brandon</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body class="home-body">
-  <header>
-    <nav aria-label="Primary">
+  <header class="site-header">
+    <nav class="site-nav" aria-label="Primary">
       <a href="/" aria-current="page">Home</a>
       <a href="/archive/">Archive</a>
       <a href="/contact/">Contact</a>
@@ -16,70 +16,82 @@
   </header>
 
   <main class="home-main">
-    <section class="construction knowledge-shell" aria-labelledby="knowledge-heading">
-      <svg class="robot" viewBox="0 0 220 180" role="img" aria-labelledby="robot-title robot-desc">
-        <title id="robot-title">Minimal robot illustration</title>
-        <desc id="robot-desc">A simple line-drawn robot with blinking eyes and a gently moving arm.</desc>
+    <section class="knowledge-shell" aria-labelledby="knowledge-heading">
+      <div class="knowledge-intro">
+        <svg class="robot" viewBox="0 0 220 180" role="img" aria-labelledby="robot-title robot-desc">
+          <title id="robot-title">Minimal robot illustration</title>
+          <desc id="robot-desc">A simple line-drawn robot with blinking eyes and a gently moving arm.</desc>
 
-        <g class="robot-arm" aria-hidden="true">
-          <line x1="76" y1="102" x2="50" y2="124" />
-          <circle cx="48" cy="126" r="4" />
-        </g>
+          <g class="robot-arm" aria-hidden="true">
+            <line x1="76" y1="102" x2="50" y2="124" />
+            <circle cx="48" cy="126" r="4" />
+          </g>
 
-        <line x1="110" y1="14" x2="110" y2="28" aria-hidden="true" />
-        <circle cx="110" cy="10" r="4" aria-hidden="true" />
+          <line x1="110" y1="14" x2="110" y2="28" aria-hidden="true" />
+          <circle cx="110" cy="10" r="4" aria-hidden="true" />
+          <rect x="62" y="30" width="96" height="72" rx="12" ry="12" />
 
-        <rect x="62" y="30" width="96" height="72" rx="12" ry="12" />
+          <g class="robot-eyes" aria-hidden="true">
+            <line x1="88" y1="58" x2="100" y2="58" />
+            <line x1="120" y1="58" x2="132" y2="58" />
+          </g>
 
-        <g class="robot-eyes" aria-hidden="true">
-          <line x1="88" y1="58" x2="100" y2="58" />
-          <line x1="120" y1="58" x2="132" y2="58" />
-        </g>
+          <line x1="95" y1="76" x2="125" y2="76" aria-hidden="true" />
+          <rect x="76" y="108" width="68" height="46" rx="8" ry="8" aria-hidden="true" />
+          <line x1="76" y1="122" x2="144" y2="122" aria-hidden="true" />
+          <line x1="76" y1="136" x2="144" y2="136" aria-hidden="true" />
+          <line x1="144" y1="102" x2="170" y2="124" aria-hidden="true" />
+          <circle cx="172" cy="126" r="4" aria-hidden="true" />
+          <line x1="92" y1="154" x2="86" y2="170" aria-hidden="true" />
+          <line x1="128" y1="154" x2="134" y2="170" aria-hidden="true" />
+        </svg>
 
-        <line x1="95" y1="76" x2="125" y2="76" aria-hidden="true" />
-
-        <rect x="76" y="108" width="68" height="46" rx="8" ry="8" aria-hidden="true" />
-        <line x1="76" y1="122" x2="144" y2="122" aria-hidden="true" />
-        <line x1="76" y1="136" x2="144" y2="136" aria-hidden="true" />
-
-        <line x1="144" y1="102" x2="170" y2="124" aria-hidden="true" />
-        <circle cx="172" cy="126" r="4" aria-hidden="true" />
-
-        <line x1="92" y1="154" x2="86" y2="170" aria-hidden="true" />
-        <line x1="128" y1="154" x2="134" y2="170" aria-hidden="true" />
-      </svg>
-
-      <h1 id="knowledge-heading">Ask Brandon</h1>
-      <p class="subheading">Ask a question about my public life, career, ideas, or projects</p>
-      <p class="knowledge-note">This system answers using my personal notes and a local AI model with a RAG systems built in. It may be imperfect or offline.</p>
-
-      <form class="knowledge-form" data-knowledge-form novalidate>
-        <label for="knowledge-message" class="section-label">QUESTION</label>
-        <textarea
-          id="knowledge-message"
-          name="message"
-          rows="6"
-          maxlength="4000"
-          placeholder="Ask something..."
-          required
-        ></textarea>
-        <button type="submit" data-ask-button>Ask</button>
-      </form>
-
-      <div class="thinking-container" data-thinking hidden>
-        <div class="thinking-dots">
-          <span></span>
-          <span></span>
-          <span></span>
-          <span></span>
-        </div>
+        <p class="eyebrow">Personal knowledge interface</p>
+        <h1 id="knowledge-heading">Ask Brandon</h1>
+        <p class="subheading">Ask a question about my work, notes, career, projects, or ideas.</p>
+        <p class="knowledge-note">Answers are generated from my personal notes using a local AI model. The system may be imperfect or offline.</p>
       </div>
 
-      <section class="knowledge-response" aria-live="polite" aria-atomic="true">
-        <div class="response-container">
-          <div class="response-label section-label">RESPONSE</div>
-          <div class="response-body" data-knowledge-response>Ask a question to begin.</div>
+      <form class="knowledge-form" data-knowledge-form novalidate>
+        <label for="knowledge-message" class="section-label">Your question</label>
+        <div class="question-surface">
+          <textarea
+            id="knowledge-message"
+            name="message"
+            rows="4"
+            maxlength="4000"
+            placeholder="Ask about my career, projects, notes, or how I think about something..."
+            required
+          ></textarea>
+          <div class="question-actions">
+            <span class="question-hint">Drawn from my notebook</span>
+            <button type="submit" data-ask-button>Ask</button>
+          </div>
+        </div>
+      </form>
 
+      <div class="thinking-container" data-thinking hidden role="status" aria-live="polite">
+        <div class="thinking-visual" aria-hidden="true">
+          <svg class="knowledge-graph" viewBox="0 0 160 64">
+            <g class="graph-lines">
+              <path d="M31 20 L79 33 L128 18" />
+              <path d="M79 33 L115 52" />
+            </g>
+            <g class="graph-notes">
+              <rect class="graph-note note-one" x="19" y="10" width="24" height="20" rx="4" />
+              <rect class="graph-note note-two" x="67" y="23" width="24" height="20" rx="4" />
+              <rect class="graph-note note-three" x="116" y="8" width="24" height="20" rx="4" />
+              <rect class="graph-note note-four" x="103" y="42" width="24" height="20" rx="4" />
+            </g>
+          </svg>
+        </div>
+        <p class="thinking-copy"><span>Searching notes…</span><span>Composing answer…</span></p>
+      </div>
+
+      <section class="knowledge-response" aria-live="polite" aria-atomic="true" aria-labelledby="response-heading">
+        <div class="response-container">
+          <h2 id="response-heading" class="section-label">Response</h2>
+          <div class="response-body" data-knowledge-response>Ask a question to begin.</div>
 
           <div class="feedback" data-feedback hidden>
             <div class="feedback-label">Was this answer useful?</div>
@@ -90,11 +102,10 @@
             <div class="feedback-status" data-feedback-status aria-live="polite"></div>
           </div>
 
-          <hr class="response-divider" />
-
-          <div class="response-meta">
+          <hr class="response-divider">
+          <aside class="response-meta" aria-label="Inspiration note">
             Inspired by, Andrej Karpathy’s idea of a personal wiki / second brain — where raw notes become a structured, living knowledge base.
-          </div>
+          </aside>
         </div>
       </section>
     </section>
