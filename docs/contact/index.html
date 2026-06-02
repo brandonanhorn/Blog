@@ -8,18 +8,21 @@
   <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 </head>
 <body>
-  <header>
-    <nav>
+  <header class="site-header">
+    <nav class="site-nav" aria-label="Primary">
       <a href="/">Home</a>
       <a href="/archive/">Archive</a>
       <a href="/contact/" aria-current="page">Contact</a>
     </nav>
   </header>
-  <main>
-    <h1>Contact</h1>
-    <p>If you’re building something interesting, hiring, or want to connect — send a note below.
-Messages are routed through a lightweight AI agent that helps organize and prioritize conversations before they reach me.</p>
-    <form method="post" action="https://contact-form-worker.brandonanhorn.workers.dev" data-contact-form novalidate>
+  <main class="page-main contact-main">
+    <header class="page-intro">
+      <p class="eyebrow">Say hello</p>
+      <h1>Contact</h1>
+      <p>If you’re building something interesting, hiring, or want to connect — send a note below.</p>
+      <p class="page-note">Messages are routed through a lightweight AI agent that helps organize and prioritize conversations before they reach me.</p>
+    </header>
+    <form class="contact-form" method="post" action="https://contact-form-worker.brandonanhorn.workers.dev" data-contact-form novalidate>
       <label for="name">Name</label>
       <input id="name" name="name" type="text" autocomplete="name" required>
 
@@ -36,7 +39,7 @@ Messages are routed through a lightweight AI agent that helps organize and prior
 
       <div class="cf-turnstile" data-sitekey="0x4AAAAAAC_15LsEkbKEGxEE"></div>
 
-      <button type="submit">Send</button>
+      <button type="submit">Send message</button>
       <p data-form-status role="status" aria-live="polite"></p>
     </form>
   </main>
