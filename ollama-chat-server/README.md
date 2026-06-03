@@ -47,7 +47,7 @@ npm install
 MODEL_BACKEND=llama-server npm start
 ```
 
-This uses the OpenAI-compatible llama.cpp chat completions endpoint `http://127.0.0.1:8080/v1/chat/completions` by default.
+This uses the OpenAI-compatible llama.cpp chat completions endpoint `http://127.0.0.1:8080/v1/chat/completions` by default. Gemma 4 can be slower than Hermes, so llama-server requests default to a longer 90 second timeout.
 
 ### Backend environment variables
 
@@ -56,8 +56,10 @@ This uses the OpenAI-compatible llama.cpp chat completions endpoint `http://127.
 | `MODEL_BACKEND` | `ollama` | Local backend to call. Use `ollama` or `llama-server`. |
 | `OLLAMA_MODEL` | `hermes31-8b-q4` | Model name sent to Ollama. |
 | `OLLAMA_URL` | `http://127.0.0.1:11434/api/chat` | Ollama chat API URL. |
+| `OLLAMA_TIMEOUT_MS` | `30000` | Ollama request timeout in milliseconds. |
 | `LLAMA_SERVER_URL` | `http://127.0.0.1:8080/v1/chat/completions` | llama.cpp OpenAI-compatible chat completions URL. |
 | `LLAMA_SERVER_MODEL` | `gemma-4-12B-it-GGUF` | Model name sent to `llama-server`. |
+| `LLAMA_SERVER_TIMEOUT_MS` | `90000` | llama-server request timeout in milliseconds. Increase this if Gemma 4 responses need more time. |
 
 By default, the proxy runs on `http://127.0.0.1:8787`.
 
@@ -180,7 +182,7 @@ This is a **local-first experimental setup**, not an always-on production deploy
 - JSON body limit set to `16kb`
 - Rate limit: 10 requests/minute/IP
 - CORS restricted to explicit origins (no production wildcard)
-- 30 second timeout when contacting the local model backend
+- Backend-specific timeout when contacting the local model backend: Ollama defaults to 30 seconds, and llama-server defaults to 90 seconds (`LLAMA_SERVER_TIMEOUT_MS` can override it)
 - No full prompt logging (logs only metadata)
 
 

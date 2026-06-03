@@ -100,10 +100,12 @@ app.post("/api/chat", async (req, res) => {
     return res.status(400).json({ error: "Message is too long. Max length is 4000 characters." });
   }
 
-  const controller = new AbortController();
-  const timeout = setTimeout(() => controller.abort(), 30_000);
+  let timeout;
 
   try {
+    const modelConfig = getModelConfig(process.env);
+    const controller = new AbortController();
+    timeout = setTimeout(() => controller.abort(), modelConfig.timeoutMs);
     const relevantContext = getRelevantContext(trimmedMessage);
     const modelResult = await callLocalModel({
       messages: [{ role: "system", content: `${FIXED_SYSTEM_PROMPT}\n\nRelevant context from Brandon's notes:\n${relevantContext}` }, { role: "user", content: trimmedMessage }],
@@ -125,7 +127,7 @@ app.post("/api/chat", async (req, res) => {
     logRequest({ ip, inputLength: trimmedMessage.length, status: statusCode, latencyMs: Date.now() - startedAt });
     res.status(statusCode).json({ error: "The knowledge interface is offline right now. Please try again later." });
   } finally {
-    clearTimeout(timeout);
+    if (timeout) clearTimeout(timeout);
   }
 });
 
