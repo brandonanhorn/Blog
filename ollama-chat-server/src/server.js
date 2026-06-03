@@ -34,7 +34,7 @@ const allowedOrigins = (process.env.ALLOWED_ORIGINS || defaultOrigins.join(","))
   .map((origin) => origin.trim())
   .filter(Boolean);
 
-app.set("trust proxy", true);
+app.set("trust proxy", 1);
 app.use(helmet());
 app.use(express.json({ limit: "16kb", type: "application/json" }));
 app.use(rateLimit({ windowMs: 60 * 1000, max: 10, standardHeaders: true, legacyHeaders: false, message: { error: "Too many requests right now. Please try again in a minute." } }));
