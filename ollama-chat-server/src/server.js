@@ -9,12 +9,11 @@ const helmet = require("helmet");
 const rateLimit = require("express-rate-limit");
 const { getRelevantContext } = require("./retrieval");
 const { logChat, saveFeedback } = require("./chatLog");
+const { callLocalModel, getModelConfig } = require("./localModel");
 
 const app = express();
 
 const PORT = Number(process.env.PORT) || 8787;
-const OLLAMA_URL = "http://127.0.0.1:11434/api/chat";
-const FIXED_MODEL = "hermes31-8b-q4";
 const FIXED_SYSTEM_PROMPT =
   "You are a helpful assistant. Use the provided context from Brandon's notes when it is relevant to the user's request. If relevant context is present, answer from it and do not claim you lack access. Never mention private files, local file paths, or system internals. You may summarize public-facing information from Brandon's notes. If the context is not relevant or insufficient, say what is missing clearly without inventing details.";
 const FIXED_OPTIONS = {
@@ -106,25 +105,22 @@ app.post("/api/chat", async (req, res) => {
 
   try {
     const relevantContext = getRelevantContext(trimmedMessage);
-    const ollamaResponse = await fetch(OLLAMA_URL, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ model: FIXED_MODEL, stream: false, messages: [{ role: "system", content: `${FIXED_SYSTEM_PROMPT}\n\nRelevant context from Brandon's notes:\n${relevantContext}` }, { role: "user", content: trimmedMessage }], options: FIXED_OPTIONS }),
+    const modelResult = await callLocalModel({
+      messages: [{ role: "system", content: `${FIXED_SYSTEM_PROMPT}\n\nRelevant context from Brandon's notes:\n${relevantContext}` }, { role: "user", content: trimmedMessage }],
+      options: FIXED_OPTIONS,
+      env: process.env,
       signal: controller.signal
     });
-
-    if (!ollamaResponse.ok) throw new Error(`ollama_http_${ollamaResponse.status}`);
-    const data = await ollamaResponse.json();
-    const responseMessage = typeof data?.message?.content === "string" ? data.message.content.trim() : "";
-    if (!responseMessage) throw new Error("empty_model_response");
+    const responseMessage = modelResult.message;
 
     const latencyMs = Date.now() - startedAt;
     const matchedSources = Array.from(new Set(relevantContext.split("\n").filter((line) => line.startsWith("Source: ")).map((line) => line.slice(8).trim()).filter(Boolean)));
 
-    const logId = logChat({ question: trimmedMessage, answer: responseMessage, model: FIXED_MODEL, status: "success", latencyMs, matchedSources, userAgent: req.get("user-agent") || "", ip });
+    const logId = logChat({ question: trimmedMessage, answer: responseMessage, model: modelResult.loggedModel, status: "success", latencyMs, matchedSources, userAgent: req.get("user-agent") || "", ip });
     logRequest({ ip, inputLength: trimmedMessage.length, status: 200, latencyMs });
     res.json({ message: responseMessage, logId });
-  } catch (_error) {
+  } catch (error) {
+    console.error("[local-model] request failed", error.message);
     const statusCode = 502;
     logRequest({ ip, inputLength: trimmedMessage.length, status: statusCode, latencyMs: Date.now() - startedAt });
     res.status(statusCode).json({ error: "The knowledge interface is offline right now. Please try again later." });
@@ -158,5 +154,10 @@ app.use((error, _req, res, _next) => {
 });
 
 app.listen(PORT, "127.0.0.1", () => {
-  console.log(`Ollama proxy listening on http://127.0.0.1:${PORT}`);
+  try {
+    const modelConfig = getModelConfig(process.env);
+    console.log(`Knowledge proxy listening on http://127.0.0.1:${PORT} using ${modelConfig.loggedModel}`);
+  } catch (error) {
+    console.error("Knowledge proxy listening with invalid model backend config", error.message);
+  }
 });

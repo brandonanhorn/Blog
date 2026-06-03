@@ -1,33 +1,75 @@
-# Ollama Chat Proxy (Local-First)
+# Local Knowledge Proxy (Local-First)
 
-This folder contains a local backend proxy that safely connects your static GitHub Pages frontend to Ollama running on your laptop.
+This folder contains a local backend proxy that safely connects your static GitHub Pages frontend to a local model backend running on your laptop. It supports the existing Ollama backend and an optional llama.cpp `llama-server` backend.
 
 ## 1) Local architecture
 
-`User → website → Cloudflare Tunnel → local proxy → Ollama`
+`User → website → Cloudflare Tunnel → local proxy → Ollama or llama.cpp llama-server`
 
-- The website is static (GitHub Pages), so it cannot run Ollama or server routes.
+- The website is static (GitHub Pages), so it cannot run local models or server routes.
 - Cloudflare Tunnel should expose **only** this local proxy service.
-- Ollama should remain local on `127.0.0.1`.
+- Ollama or `llama-server` should remain local on `127.0.0.1`.
 
-## 2) Run Ollama locally
+## 2) Choose a local model backend
+
+The proxy keeps Ollama as the default backend and can optionally call an OpenAI-compatible llama.cpp `llama-server`.
+
+### Existing Ollama mode
+
+In one terminal, start Ollama with the default model:
 
 ```bash
 ollama run hermes31-8b-q4
 ```
 
-This starts the model on the default local Ollama API endpoint (`http://127.0.0.1:11434`).
+Then run the proxy from `ollama-chat-server/`:
+
+```bash
+npm install
+MODEL_BACKEND=ollama npm start
+```
+
+This uses the Ollama API endpoint `http://127.0.0.1:11434/api/chat` by default.
+
+### New llama-server mode
+
+In one terminal, start llama.cpp with the Gemma 4 12B GGUF model:
+
+```bash
+llama-server -hf ggml-org/gemma-4-12B-it-GGUF
+```
+
+Then run the proxy from `ollama-chat-server/`:
+
+```bash
+npm install
+MODEL_BACKEND=llama-server npm start
+```
+
+This uses the OpenAI-compatible llama.cpp chat completions endpoint `http://127.0.0.1:8080/v1/chat/completions` by default.
+
+### Backend environment variables
+
+| Variable | Default | Description |
+| --- | --- | --- |
+| `MODEL_BACKEND` | `ollama` | Local backend to call. Use `ollama` or `llama-server`. |
+| `OLLAMA_MODEL` | `hermes31-8b-q4` | Model name sent to Ollama. |
+| `OLLAMA_URL` | `http://127.0.0.1:11434/api/chat` | Ollama chat API URL. |
+| `LLAMA_SERVER_URL` | `http://127.0.0.1:8080/v1/chat/completions` | llama.cpp OpenAI-compatible chat completions URL. |
+| `LLAMA_SERVER_MODEL` | `gemma-4-12B-it-GGUF` | Model name sent to `llama-server`. |
+
+By default, the proxy runs on `http://127.0.0.1:8787`.
+
+Gemma 4 multimodal capabilities are not wired into this app yet. The current public API and frontend remain text-only; image or audio input would require separate frontend and backend changes.
 
 ## 3) Run the proxy
 
-From `ollama-chat-server/`:
+From `ollama-chat-server/`, start the selected backend first, then run:
 
 ```bash
 npm install
 npm start
 ```
-
-By default, the proxy runs on `http://127.0.0.1:8787`.
 
 ## Using Obsidian as Knowledge Source
 
@@ -51,7 +93,7 @@ By default, the proxy runs on `http://127.0.0.1:8787`.
 ## 4) Test locally with curl
 
 ```bash
-curl -i http://127.0.0.1:8787/api/chat \
+curl -X POST http://127.0.0.1:8787/api/chat \
   -H "Content-Type: application/json" \
   -d '{"message":"Summarize the purpose of this interface in one sentence."}'
 ```
@@ -59,7 +101,7 @@ curl -i http://127.0.0.1:8787/api/chat \
 Expected success payload:
 
 ```json
-{ "message": "model response text" }
+{ "message": "model response text", "logId": "sqlite-log-id" }
 ```
 
 Expected error payload:
@@ -97,12 +139,12 @@ Expected behavior:
 
 ## 6) Availability note
 
-Your laptop must be awake, online, and running both Ollama and the proxy for the knowledge interface to work.
+Your laptop must be awake, online, and running the proxy plus the selected local model backend for the knowledge interface to work.
 
-## 7) Keep Ollama private
+## 7) Keep local model backends private
 
-- Keep Ollama bound to localhost.
-- Do **not** expose `11434` publicly.
+- Keep Ollama and `llama-server` bound to localhost.
+- Do **not** expose `11434` or `8080` publicly.
 - Only expose the local proxy through Cloudflare Tunnel.
 
 ## 8) Do not commit model files
@@ -132,12 +174,12 @@ This is a **local-first experimental setup**, not an always-on production deploy
 - POST-only endpoint: `/api/chat`
 - Accepts only JSON with exactly one field: `{ "message": "..." }`
 - Rejects missing/invalid/empty/too-long messages
-- Fixed Ollama URL/model/system prompt/options on the server
+- Fixed system prompt/options on the server; local backend URL/model are selected through environment variables
 - Helmet enabled
 - JSON body limit set to `16kb`
 - Rate limit: 10 requests/minute/IP
 - CORS restricted to explicit origins (no production wildcard)
-- 30 second timeout when contacting Ollama
+- 30 second timeout when contacting the local model backend
 - No full prompt logging (logs only metadata)
 
 
@@ -146,6 +188,7 @@ This is a **local-first experimental setup**, not an always-on production deploy
 - Completed question/answer pairs are stored locally in SQLite at `data/chat_logs.sqlite`.
 - The database stays local and is ignored by git (`ollama-chat-server/data/` is in `.gitignore`).
 - Only the backend writes logs after successful model responses; there is no frontend log page and no HTTP route to read logs.
+- The SQLite `model` field stores the backend and model used, such as `ollama:hermes31-8b-q4` or `llama-server:gemma-4-12B-it-GGUF`.
 - Raw IP addresses and raw User-Agent strings are never stored; SHA-256 hashes are stored instead.
 
 Inspect logs locally:
