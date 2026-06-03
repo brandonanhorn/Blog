@@ -8,6 +8,7 @@ This folder contains a local backend proxy that safely connects your static GitH
 
 - The website is static (GitHub Pages), so it cannot run local models or server routes.
 - Cloudflare Tunnel should expose **only** this local proxy service.
+- Express `trust proxy` is set to `1` because the app runs behind Cloudflare Tunnel.
 - Ollama or `llama-server` should remain local on `127.0.0.1`.
 
 ## 2) Choose a local model backend
