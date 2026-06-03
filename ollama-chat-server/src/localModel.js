@@ -5,6 +5,13 @@ const DEFAULT_OLLAMA_MODEL = "hermes31-8b-q4";
 const DEFAULT_OLLAMA_URL = "http://127.0.0.1:11434/api/chat";
 const DEFAULT_LLAMA_SERVER_URL = "http://127.0.0.1:8080/v1/chat/completions";
 const DEFAULT_LLAMA_SERVER_MODEL = "gemma-4-12B-it-GGUF";
+const DEFAULT_OLLAMA_TIMEOUT_MS = 30_000;
+const DEFAULT_LLAMA_SERVER_TIMEOUT_MS = 90_000;
+
+function getTimeoutMs(value, defaultValue) {
+  const timeoutMs = Number(value);
+  return Number.isFinite(timeoutMs) && timeoutMs > 0 ? timeoutMs : defaultValue;
+}
 
 function getModelConfig(env = process.env) {
   const backend = (env.MODEL_BACKEND || DEFAULT_MODEL_BACKEND).trim();
@@ -12,6 +19,8 @@ function getModelConfig(env = process.env) {
   const ollamaUrl = (env.OLLAMA_URL || DEFAULT_OLLAMA_URL).trim();
   const llamaServerUrl = (env.LLAMA_SERVER_URL || DEFAULT_LLAMA_SERVER_URL).trim();
   const llamaServerModel = (env.LLAMA_SERVER_MODEL || DEFAULT_LLAMA_SERVER_MODEL).trim();
+  const ollamaTimeoutMs = getTimeoutMs(env.OLLAMA_TIMEOUT_MS, DEFAULT_OLLAMA_TIMEOUT_MS);
+  const llamaServerTimeoutMs = getTimeoutMs(env.LLAMA_SERVER_TIMEOUT_MS, DEFAULT_LLAMA_SERVER_TIMEOUT_MS);
 
   if (backend !== "ollama" && backend !== "llama-server") {
     throw new Error("unsupported_model_backend");
@@ -29,6 +38,7 @@ function getModelConfig(env = process.env) {
     backend,
     url: backend === "llama-server" ? llamaServerUrl : ollamaUrl,
     model: backend === "llama-server" ? llamaServerModel : ollamaModel,
+    timeoutMs: backend === "llama-server" ? llamaServerTimeoutMs : ollamaTimeoutMs,
     loggedModel: backend === "llama-server" ? `llama-server:${llamaServerModel}` : `ollama:${ollamaModel}`
   };
 }
@@ -103,5 +113,7 @@ module.exports = {
   DEFAULT_OLLAMA_MODEL,
   DEFAULT_OLLAMA_URL,
   DEFAULT_LLAMA_SERVER_URL,
-  DEFAULT_LLAMA_SERVER_MODEL
+  DEFAULT_LLAMA_SERVER_MODEL,
+  DEFAULT_OLLAMA_TIMEOUT_MS,
+  DEFAULT_LLAMA_SERVER_TIMEOUT_MS
 };
