@@ -1,5 +1,5 @@
 (() => {
-  const API_URL = "https://reports-chronicle-integration-computer.trycloudflare.com/api/chat";
+  const API_URL = "https://excited-personally-merit-lets.trycloudflare.com/api/chat";
   const MULTIMODAL_API_URL = API_URL.replace(/\/api\/chat\/?$/, "/api/chat-multimodal");
   const FEEDBACK_URL = API_URL.replace(/\/api\/chat\/?$/, "/api/feedback");
   const form = document.querySelector("[data-knowledge-form]");
