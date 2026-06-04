@@ -69,40 +69,45 @@
           </div>
         </div>
         <div class="image-upload" data-image-upload>
-          <div>
-            <label class="image-upload-label" for="knowledge-image">Attach an image</label>
+          <input id="knowledge-image" class="visually-hidden-file" name="image" type="file" accept="image/png,image/jpeg,image/webp" data-image-input>
+          <div class="image-upload-copyblock">
+            <label class="image-upload-label" for="knowledge-image">Attach image</label>
             <p class="image-upload-copy">Optional — screenshots, diagrams, charts, notes, or visual context.</p>
           </div>
-          <div class="image-upload-controls">
-            <input id="knowledge-image" name="image" type="file" accept="image/png,image/jpeg,image/webp" data-image-input>
-            <span class="image-filename" data-image-filename>No image selected</span>
-            <button class="image-remove" type="button" data-image-remove hidden>Remove</button>
+          <div class="image-selected-state" data-image-state aria-live="polite">
+            <span class="image-selected-icon" aria-hidden="true"></span>
+            <span class="image-selected-text" data-image-filename>No image attached</span>
+            <button class="image-remove" type="button" data-image-remove hidden aria-label="Remove attached image">Remove</button>
           </div>
         </div>
       </form>
 
       <div class="thinking-container" data-thinking hidden role="status" aria-live="polite">
-        <div class="thinking-visual" aria-hidden="true">
-          <svg class="knowledge-graph" viewBox="0 0 160 64">
-            <g class="graph-lines">
-              <path d="M31 20 L79 33 L128 18" />
-              <path d="M79 33 L115 52" />
-            </g>
-            <g class="graph-notes">
-              <rect class="graph-note note-one" x="19" y="10" width="24" height="20" rx="4" />
-              <rect class="graph-note note-two" x="67" y="23" width="24" height="20" rx="4" />
-              <rect class="graph-note note-three" x="116" y="8" width="24" height="20" rx="4" />
-              <rect class="graph-note note-four" x="103" y="42" width="24" height="20" rx="4" />
-            </g>
-          </svg>
+        <div class="thinking-card">
+          <p class="thinking-kicker">Reading the notebook</p>
+          <div class="thinking-visual" aria-hidden="true">
+            <svg class="knowledge-graph" viewBox="0 0 160 64">
+              <g class="graph-lines">
+                <path d="M31 20 L79 33 L128 18" />
+                <path d="M79 33 L115 52" />
+              </g>
+              <g class="graph-notes">
+                <rect class="graph-note note-one" x="19" y="10" width="24" height="20" rx="4" />
+                <rect class="graph-note note-two" x="67" y="23" width="24" height="20" rx="4" />
+                <rect class="graph-note note-three" x="116" y="8" width="24" height="20" rx="4" />
+                <rect class="graph-note note-four" x="103" y="42" width="24" height="20" rx="4" />
+              </g>
+            </svg>
+          </div>
+          <p class="thinking-copy" data-thinking-copy>Reading Brandon’s notes…</p>
+          <p class="thinking-fact" data-thinking-fact>This answer is being generated locally.</p>
         </div>
-        <p class="thinking-copy" data-thinking-copy><span>Searching notes…</span><span>Composing answer…</span></p>
       </div>
 
       <section class="knowledge-response" aria-live="polite" aria-atomic="true" aria-labelledby="response-heading">
         <div class="response-container">
           <h2 id="response-heading" class="section-label">Response</h2>
-          <div class="response-body" data-knowledge-response>Ask a question to begin.</div>
+          <div class="response-body response-empty" data-knowledge-response>Ask a question to begin.</div>
 
           <div class="feedback" data-feedback hidden>
             <div class="feedback-label">Was this answer useful?</div>
