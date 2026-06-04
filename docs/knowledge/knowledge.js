@@ -4,6 +4,7 @@
   const FEEDBACK_URL = API_URL.replace(/\/api\/chat\/?$/, "/api/feedback");
   const form = document.querySelector("[data-knowledge-form]");
   const messageField = document.querySelector("#knowledge-message");
+  const imageUpload = document.querySelector("[data-image-upload]");
   const imageInput = document.querySelector("[data-image-input]");
   const imageFilename = document.querySelector("[data-image-filename]");
   const imageRemove = document.querySelector("[data-image-remove]");
@@ -11,6 +12,7 @@
   const responseField = document.querySelector("[data-knowledge-response]");
   const thinking = document.querySelector("[data-thinking]");
   const thinkingCopy = document.querySelector("[data-thinking-copy]");
+  const thinkingFact = document.querySelector("[data-thinking-fact]");
   const feedbackBox = document.querySelector("[data-feedback]");
   const feedbackStatus = document.querySelector("[data-feedback-status]");
   const feedbackButtons = Array.from(document.querySelectorAll("[data-feedback-value]"));
@@ -18,34 +20,89 @@
   if (!form || !messageField || !askButton || !responseField || !thinking) return;
 
   let currentLogId = null;
+  let waitingMessageTimer = null;
+  let waitingFactTimer = null;
+
+  const baseWaitingMessages = [
+    "Reading Brandon’s notes…",
+    "Looking for useful context…",
+    "Composing an answer…",
+    "Almost there…"
+  ];
+  const waitingFacts = [
+    "This answer is being generated locally.",
+    "The model is reading notes, not searching the web.",
+    "Images are processed in memory and not stored.",
+    "Good questions make better retrieval."
+  ];
 
   const getSelectedImage = () => imageInput?.files?.[0] || null;
 
-  const setLoadingState = (isLoading) => {
-    askButton.disabled = isLoading;
-    askButton.textContent = isLoading ? "Thinking..." : "Ask";
+  const formatFileSize = (bytes) => {
+    if (!Number.isFinite(bytes) || bytes <= 0) return "";
+    if (bytes < 1024 * 1024) return `${Math.max(1, Math.round(bytes / 1024))} KB`;
+    return `${(bytes / (1024 * 1024)).toFixed(bytes < 10 * 1024 * 1024 ? 1 : 0)} MB`;
   };
 
-  const setThinkingCopy = (hasImage) => {
-    if (!thinkingCopy) return;
-    thinkingCopy.innerHTML = hasImage
-      ? "<span>Reading image…</span><span>Searching notes…</span><span>Composing answer…</span>"
-      : "<span>Searching notes…</span><span>Composing answer…</span>";
+  const setLoadingState = (isLoading) => {
+    askButton.disabled = isLoading;
+    askButton.textContent = isLoading ? "Reading…" : "Ask";
+  };
+
+  const stopWaitingRotation = () => {
+    window.clearInterval(waitingMessageTimer);
+    window.clearInterval(waitingFactTimer);
+    waitingMessageTimer = null;
+    waitingFactTimer = null;
+  };
+
+  const startWaitingRotation = (hasImage) => {
+    stopWaitingRotation();
+
+    const messages = hasImage
+      ? [baseWaitingMessages[0], baseWaitingMessages[1], "Checking the attached image…", baseWaitingMessages[2], baseWaitingMessages[3]]
+      : baseWaitingMessages;
+    let messageIndex = 0;
+    let factIndex = 0;
+
+    if (thinkingCopy) thinkingCopy.textContent = messages[messageIndex];
+    if (thinkingFact) thinkingFact.textContent = waitingFacts[factIndex];
+
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    waitingMessageTimer = window.setInterval(() => {
+      messageIndex = (messageIndex + 1) % messages.length;
+      if (thinkingCopy) thinkingCopy.textContent = messages[messageIndex];
+    }, 2600);
+
+    waitingFactTimer = window.setInterval(() => {
+      factIndex = (factIndex + 1) % waitingFacts.length;
+      if (thinkingFact) thinkingFact.textContent = waitingFacts[factIndex];
+    }, 5200);
   };
 
   const updateImageState = () => {
     const selectedImage = getSelectedImage();
     if (imageFilename) {
-      imageFilename.textContent = selectedImage ? selectedImage.name : "No image selected";
+      if (selectedImage) {
+        const fileSize = formatFileSize(selectedImage.size);
+        imageFilename.textContent = fileSize ? `${selectedImage.name} · ${fileSize}` : selectedImage.name;
+      } else {
+        imageFilename.textContent = "No image attached";
+      }
     }
     if (imageRemove) {
       imageRemove.hidden = !selectedImage;
+    }
+    if (imageUpload) {
+      imageUpload.classList.toggle("has-image", !!selectedImage);
     }
   };
 
   const clearSelectedImage = () => {
     if (imageInput) imageInput.value = "";
     updateImageState();
+    imageInput?.focus();
   };
 
   const setFeedbackState = ({ visible, disabled, message = "" }) => {
@@ -59,9 +116,15 @@
     }
   };
 
+  const setResponseEmpty = (message) => {
+    responseField.classList.add("response-empty");
+    responseField.textContent = message;
+  };
+
   const escapeHtml = (value) => value.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 
   const renderResponse = (message) => {
+    responseField.classList.remove("response-empty");
     const lines = message.split(/\r?\n/);
     const blocks = [];
     let paragraph = [];
@@ -140,9 +203,9 @@
     }
 
     setLoadingState(true);
-    setThinkingCopy(!!selectedImage);
+    startWaitingRotation(!!selectedImage);
     thinking.hidden = false;
-    renderResponse(selectedImage ? "Reading image…" : "Thinking...");
+    setResponseEmpty("Answer will appear here when the notebook is ready.");
 
     try {
       const response = await submitQuestion(message, selectedImage);
@@ -155,6 +218,7 @@
       renderResponse(error.message || "The knowledge interface is offline right now. Please try again later.");
     } finally {
       thinking.hidden = true;
+      stopWaitingRotation();
       setLoadingState(false);
     }
   });
