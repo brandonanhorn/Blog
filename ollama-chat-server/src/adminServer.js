@@ -28,7 +28,7 @@ function renderPage() {
   `).get();
 
   const rows = db.prepare(`
-    SELECT id, created_at, question, answer, feedback, latency_ms, matched_sources
+    SELECT id, created_at, question, answer, feedback, latency_ms, matched_sources, has_image, image_mime_type, image_size_bytes
     FROM chat_logs
     ORDER BY created_at DESC
     LIMIT 100
@@ -37,9 +37,10 @@ function renderPage() {
 
   const items = rows.map((row) => {
     const sources = row.matched_sources ? escapeHtml(row.matched_sources) : "";
+    const imageMeta = row.has_image ? ` | image: ${escapeHtml(row.image_mime_type || "unknown")} (${escapeHtml(row.image_size_bytes || "n/a")} bytes)` : "";
     return `
       <article class="log">
-        <div><strong>${escapeHtml(row.created_at)}</strong> | feedback: ${escapeHtml(row.feedback || "none")} | latency: ${escapeHtml(row.latency_ms || "n/a")}ms</div>
+        <div><strong>${escapeHtml(row.created_at)}</strong> | feedback: ${escapeHtml(row.feedback || "none")} | latency: ${escapeHtml(row.latency_ms || "n/a")}ms${imageMeta}</div>
         <div><strong>Question:</strong> ${escapeHtml(row.question)}</div>
         <details><summary><strong>Answer</strong></summary><pre>${escapeHtml(row.answer)}</pre></details>
         ${sources ? `<details><summary><strong>matched_sources</strong></summary><pre>${sources}</pre></details>` : ""}

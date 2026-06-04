@@ -68,6 +68,17 @@
             <button type="submit" data-ask-button>Ask</button>
           </div>
         </div>
+        <div class="image-upload" data-image-upload>
+          <div>
+            <label class="image-upload-label" for="knowledge-image">Attach an image</label>
+            <p class="image-upload-copy">Optional — screenshots, diagrams, charts, notes, or visual context.</p>
+          </div>
+          <div class="image-upload-controls">
+            <input id="knowledge-image" name="image" type="file" accept="image/png,image/jpeg,image/webp" data-image-input>
+            <span class="image-filename" data-image-filename>No image selected</span>
+            <button class="image-remove" type="button" data-image-remove hidden>Remove</button>
+          </div>
+        </div>
       </form>
 
       <div class="thinking-container" data-thinking hidden role="status" aria-live="polite">
@@ -85,7 +96,7 @@
             </g>
           </svg>
         </div>
-        <p class="thinking-copy"><span>Searching notes…</span><span>Composing answer…</span></p>
+        <p class="thinking-copy" data-thinking-copy><span>Searching notes…</span><span>Composing answer…</span></p>
       </div>
 
       <section class="knowledge-response" aria-live="polite" aria-atomic="true" aria-labelledby="response-heading">
