@@ -73,7 +73,10 @@ function buildPayload({ messages, options, env }) {
 
 function parseModelResponse({ backend, data }) {
   if (backend === "llama-server") {
-    return typeof data?.choices?.[0]?.message?.content === "string" ? data.choices[0].message.content.trim() : "";
+    const message = data?.choices?.[0]?.message;
+    const content = typeof message?.content === "string" ? message.content.trim() : "";
+    if (content) return content;
+    return typeof message?.reasoning_content === "string" ? message.reasoning_content.trim() : "";
   }
 
   return typeof data?.message?.content === "string" ? data.message.content.trim() : "";

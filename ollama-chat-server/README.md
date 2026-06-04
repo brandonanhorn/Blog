@@ -63,7 +63,33 @@ This uses the OpenAI-compatible llama.cpp chat completions endpoint `http://127.
 
 By default, the proxy runs on `http://127.0.0.1:8787`.
 
-Gemma 4 multimodal capabilities are not wired into this app yet. The current public API and frontend remain text-only; image or audio input would require separate frontend and backend changes.
+Gemma 4 multimodal image input is available through the separate `/api/chat-multimodal` endpoint when `MODEL_BACKEND=llama-server`. The original `/api/chat` endpoint remains text-only. Audio input is not enabled yet.
+
+## Experimental Image Input
+
+The knowledge interface can optionally send one image with a question through `POST /api/chat-multimodal` when the local llama.cpp backend is active.
+
+- Images are processed in memory only.
+- Images are not stored.
+- Raw image bytes and base64 data URLs are never written to SQLite.
+- Chat logs store only image metadata: whether an image was attached, MIME type, and size in bytes.
+- Supported image types: PNG, JPEG, WebP.
+- Maximum image size: 5 MB.
+- Requires `MODEL_BACKEND=llama-server`. If another backend is active, image input is rejected with a friendly JSON error.
+- Audio is not enabled yet.
+
+Start llama-server with the local multimodal Gemma command:
+
+```bash
+cd /Users/ban/Documents/llama.cpp
+./build/bin/llama-server -hf unsloth/gemma-4-12b-it-GGUF:UD-Q4_K_XL
+```
+
+Then run the proxy from `ollama-chat-server/` with:
+
+```bash
+MODEL_BACKEND=llama-server npm start
+```
 
 ## 3) Run the proxy
 
@@ -174,8 +200,8 @@ This is a **local-first experimental setup**, not an always-on production deploy
 
 ## Security behavior in this proxy
 
-- POST-only endpoint: `/api/chat`
-- Accepts only JSON with exactly one field: `{ "message": "..." }`
+- POST-only endpoints: `/api/chat`, `/api/chat-multimodal`, and `/api/feedback`
+- `/api/chat` accepts only JSON with exactly one field: `{ "message": "..." }`; `/api/chat-multimodal` accepts multipart form data with `message` and one optional `image` file
 - Rejects missing/invalid/empty/too-long messages
 - Fixed system prompt/options on the server; local backend URL/model are selected through environment variables
 - Helmet enabled
@@ -184,6 +210,7 @@ This is a **local-first experimental setup**, not an always-on production deploy
 - CORS restricted to explicit origins (no production wildcard)
 - Backend-specific timeout when contacting the local model backend: Ollama defaults to 30 seconds, and llama-server defaults to 90 seconds (`LLAMA_SERVER_TIMEOUT_MS` can override it)
 - No full prompt logging (logs only metadata)
+- Uploaded images use in-memory handling only; the proxy never writes images, raw bytes, or base64 data URLs to disk or SQLite
 
 
 ## Local Chat Logging
@@ -193,6 +220,7 @@ This is a **local-first experimental setup**, not an always-on production deploy
 - Only the backend writes logs after successful model responses; there is no frontend log page and no HTTP route to read logs.
 - The SQLite `model` field stores the backend and model used, such as `ollama:hermes31-8b-q4` or `llama-server:gemma-4-12B-it-GGUF`.
 - Raw IP addresses and raw User-Agent strings are never stored; SHA-256 hashes are stored instead.
+- Image uploads are not stored. Only `has_image`, `image_mime_type`, and `image_size_bytes` are logged for successful multimodal requests.
 
 Inspect logs locally:
 

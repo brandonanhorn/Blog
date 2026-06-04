@@ -56,6 +56,18 @@ function initializeDb() {
       );
     `);
 
+    if (!columnExists("has_image")) {
+      db.exec("ALTER TABLE chat_logs ADD COLUMN has_image INTEGER DEFAULT 0");
+    }
+
+    if (!columnExists("image_mime_type")) {
+      db.exec("ALTER TABLE chat_logs ADD COLUMN image_mime_type TEXT");
+    }
+
+    if (!columnExists("image_size_bytes")) {
+      db.exec("ALTER TABLE chat_logs ADD COLUMN image_size_bytes INTEGER");
+    }
+
     if (!columnExists("feedback")) {
       db.exec("ALTER TABLE chat_logs ADD COLUMN feedback TEXT");
     }
@@ -79,7 +91,10 @@ function initializeDb() {
         latency_ms,
         matched_sources,
         user_agent_hash,
-        ip_hash
+        ip_hash,
+        has_image,
+        image_mime_type,
+        image_size_bytes
       ) VALUES (
         @id,
         @createdAt,
@@ -92,7 +107,10 @@ function initializeDb() {
         @latencyMs,
         @matchedSources,
         @userAgentHash,
-        @ipHash
+        @ipHash,
+        @hasImage,
+        @imageMimeType,
+        @imageSizeBytes
       )
     `);
 
@@ -107,7 +125,7 @@ function initializeDb() {
   }
 }
 
-function logChat({ question, answer, model, status, latencyMs, matchedSources, userAgent, ip }) {
+function logChat({ question, answer, model, status, latencyMs, matchedSources, userAgent, ip, hasImage = false, imageMimeType = null, imageSizeBytes = null }) {
   if (!insertLog) {
     return null;
   }
@@ -127,7 +145,10 @@ function logChat({ question, answer, model, status, latencyMs, matchedSources, u
       latencyMs: Number.isFinite(latencyMs) ? Math.round(latencyMs) : null,
       matchedSources: Array.isArray(matchedSources) && matchedSources.length ? JSON.stringify(matchedSources) : null,
       userAgentHash: safeHash(userAgent),
-      ipHash: safeHash(ip)
+      ipHash: safeHash(ip),
+      hasImage: hasImage ? 1 : 0,
+      imageMimeType: imageMimeType ? String(imageMimeType) : null,
+      imageSizeBytes: Number.isFinite(imageSizeBytes) ? Math.round(imageSizeBytes) : null
     });
 
     return id;
