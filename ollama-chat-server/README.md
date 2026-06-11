@@ -304,6 +304,36 @@ The runner reads only `exports/golden_questions.jsonl`, calls the configured loc
 
 This is file-based evaluation only. It does not train a model, write to SQLite, call external APIs, mutate `golden_questions.jsonl`, change backend API behavior, change retrieval behavior, or change the website. Version 1 evaluates the raw model answer to each question; a future version can evaluate the full RAG pipeline and add a separate reviewer/scoring script.
 
+## Manual Evaluation Review
+
+The local evaluation review exporter converts the latest timestamped model run JSONL file from `exports/model_runs/` into a human-editable CSV review sheet. It is local-only: it does not call external APIs, upload to Google, write to SQLite, train a model, change backend behavior, change retrieval behavior, or change the website.
+
+Run from `ollama-chat-server/` after creating a model run:
+
+```bash
+npm run eval:model
+npm run review:evaluation
+```
+
+`npm run review:evaluation` reads the most recently modified `exports/model_runs/run_*.jsonl` file and writes a CSV file under `exports/reviews/`, such as `exports/reviews/review_<run_id>.csv`. The generated review directory is covered by the existing `ollama-chat-server/exports/` gitignore rule, so review sheets stay local unless you intentionally share them.
+
+Open or import the CSV in Google Sheets, Numbers, or Excel, then manually fill the blank `score`, `verdict`, and `notes` columns. Recommended score scale:
+
+- `5` = excellent, sounds like Brandon, grounded, useful
+- `4` = good, minor issue
+- `3` = okay, usable but bland
+- `2` = weak, missing key context
+- `1` = bad, wrong or hallucinated
+
+Recommended verdict values:
+
+- `better_than_reference`
+- `same_as_reference`
+- `worse_than_reference`
+- `not_enough_context`
+
+Reviewed sheets can later be imported to create chosen/rejected preference datasets for evaluation or training experiments. This script only creates the manual review sheet; it does not perform that import or train anything.
+
 ## Local Admin Log Viewer
 
 Run locally:
