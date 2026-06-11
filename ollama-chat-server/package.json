@@ -9,7 +9,8 @@
     "admin": "node src/adminServer.js",
     "export:feedback": "node scripts/exportFeedback.js",
     "export:evaluation": "node scripts/exportEvaluation.js",
-    "eval:model": "node scripts/evalModel.js"
+    "eval:model": "node scripts/evalModel.js",
+    "review:evaluation": "node scripts/reviewEvaluation.js"
   },
   "engines": {
     "node": ">=18"
