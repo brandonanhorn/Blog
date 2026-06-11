@@ -274,6 +274,36 @@ Use these files to compare model versions, prompt revisions, retrieval changes, 
 
 The `exports/` directory is gitignored (`ollama-chat-server/exports/`) so generated evaluation files stay local and should not be committed.
 
+
+## Model Evaluation Runner
+
+The local model evaluation runner executes the currently configured local model against `exports/golden_questions.jsonl` and writes the model's answers to a timestamped JSONL file for review. It is intended for comparing model quality before changing prompts, retrieval behavior, or model weights.
+
+Run from `ollama-chat-server/` after creating the golden questions export:
+
+```bash
+npm run export:evaluation
+npm run eval:model
+```
+
+`npm run eval:model` uses the same local backend environment variables as the proxy (`MODEL_BACKEND`, `OLLAMA_MODEL`, `OLLAMA_URL`, `LLAMA_SERVER_MODEL`, `LLAMA_SERVER_URL`, `OLLAMA_TIMEOUT_MS`, and `LLAMA_SERVER_TIMEOUT_MS`). Use those variables to compare Hermes, Gemma, or future local models without changing server behavior.
+
+Hermes / Ollama example:
+
+```bash
+MODEL_BACKEND=ollama OLLAMA_MODEL=hermes31-8b-q4 npm run eval:model
+```
+
+Gemma / llama-server example:
+
+```bash
+MODEL_BACKEND=llama-server LLAMA_SERVER_MODEL=gemma-4-12b-it-GGUF npm run eval:model
+```
+
+The runner reads only `exports/golden_questions.jsonl`, calls the configured local model once per question, and writes local-only review files under `exports/model_runs/`, such as `exports/model_runs/run_2026-06-04T15-30-00_ollama-hermes31-8b-q4.jsonl`. The output directory is covered by the existing `ollama-chat-server/exports/` gitignore rule, so model run files should not be committed or exposed publicly.
+
+This is file-based evaluation only. It does not train a model, write to SQLite, call external APIs, mutate `golden_questions.jsonl`, change backend API behavior, change retrieval behavior, or change the website. Version 1 evaluates the raw model answer to each question; a future version can evaluate the full RAG pipeline and add a separate reviewer/scoring script.
+
 ## Local Admin Log Viewer
 
 Run locally:
