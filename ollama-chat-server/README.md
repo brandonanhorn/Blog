@@ -237,6 +237,24 @@ SELECT created_at, question, substr(answer, 1, 200) FROM chat_logs ORDER BY crea
 - There is no public endpoint to read chat logs; only write-only feedback submission is exposed.
 - Feedback helps evaluate retrieval relevance and answer quality over time.
 
+## Feedback Dataset Export
+
+The local feedback exporter turns stored `helpful` and `not_helpful` chat logs into JSONL datasets that can be used later for model evaluation, fine-tuning experiments, preference learning, or prompt improvement. It is a data export tool only; it does not train a model, change API behavior, change logging behavior, upload data, or expose exported data publicly.
+
+Run from `ollama-chat-server/`:
+
+```bash
+npm run export:feedback
+```
+
+The exporter reads the local SQLite database at `data/chat_logs.sqlite`, opens it in read-only mode, and writes these files to the local `exports/` directory:
+
+- `exports/helpful_answers.jsonl` — one JSON object per successful row marked `helpful`.
+- `exports/not_helpful_answers.jsonl` — one JSON object per successful row marked `not_helpful`.
+- `exports/preference_dataset.jsonl` — simple preference-training candidates with helpful answers as `chosen` and not-helpful answers as `rejected`.
+
+The `exports/` directory is gitignored (`ollama-chat-server/exports/`) so generated datasets stay local and should not be committed. These labels are only the foundation for future preference datasets, DPO, fine-tuning, or prompt evaluation work; no training happens in this project yet.
+
 ## Local Admin Log Viewer
 
 Run locally:
