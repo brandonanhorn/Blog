@@ -6,7 +6,8 @@
   "main": "src/server.js",
   "scripts": {
     "start": "node src/server.js",
-    "admin": "node src/adminServer.js"
+    "admin": "node src/adminServer.js",
+    "export:feedback": "node scripts/exportFeedback.js"
   },
   "engines": {
     "node": ">=18"
