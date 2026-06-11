@@ -255,6 +255,25 @@ The exporter reads the local SQLite database at `data/chat_logs.sqlite`, opens i
 
 The `exports/` directory is gitignored (`ollama-chat-server/exports/`) so generated datasets stay local and should not be committed. These labels are only the foundation for future preference datasets, DPO, fine-tuning, or prompt evaluation work; no training happens in this project yet.
 
+## Evaluation Dataset Export
+
+The local evaluation exporter turns successful, `helpful` chat logs into deterministic JSONL benchmark files for comparing future models, prompts, retrieval changes, and fine-tuned versions of the Brandon knowledge interface. It is an evaluation preparation tool only: it does not train a model, call external APIs, change website behavior, change backend behavior, upload data, or expose exported data publicly.
+
+Run from `ollama-chat-server/`:
+
+```bash
+npm run export:evaluation
+```
+
+The exporter reads only the local SQLite database at `data/chat_logs.sqlite`, opens it in read-only mode, keeps the earliest helpful answer for each normalized unique question, and writes these files to the local `exports/` directory:
+
+- `exports/evaluation_dataset.jsonl` — the full deduplicated local evaluation dataset, with each record containing the question, reference answer, inferred category, model, matched sources when available, evaluation guidance, and basic metadata.
+- `exports/golden_questions.jsonl` — a smaller benchmark set of up to 25 records selected deterministically from the evaluation dataset, preferring category diversity and including at least one record per available category.
+
+Use these files to compare model versions, prompt revisions, retrieval changes, or future fine-tuned variants against stable local reference answers. These exports are not training data by default, and running the exporter does not perform any training.
+
+The `exports/` directory is gitignored (`ollama-chat-server/exports/`) so generated evaluation files stay local and should not be committed.
+
 ## Local Admin Log Viewer
 
 Run locally:

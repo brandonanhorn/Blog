@@ -7,7 +7,8 @@
   "scripts": {
     "start": "node src/server.js",
     "admin": "node src/adminServer.js",
-    "export:feedback": "node scripts/exportFeedback.js"
+    "export:feedback": "node scripts/exportFeedback.js",
+    "export:evaluation": "node scripts/exportEvaluation.js"
   },
   "engines": {
     "node": ">=18"
