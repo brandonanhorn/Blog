@@ -1,5 +1,5 @@
 (() => {
-  const API_URL = "https://patch-worldcat-stevens-endless.trycloudflare.com/api/chat";
+  const API_URL = "https://citysearch-bow-por-bacteria.trycloudflare.com/api/chat";
   const MULTIMODAL_API_URL = API_URL.replace(/\/api\/chat\/?$/, "/api/chat-multimodal");
   const FEEDBACK_URL = API_URL.replace(/\/api\/chat\/?$/, "/api/feedback");
   const form = document.querySelector("[data-knowledge-form]");
