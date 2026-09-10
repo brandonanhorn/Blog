@@ -13,7 +13,7 @@
   //   1. sitekey here, deploy the site  (token is sent, Worker ignores it)
   //   2. wrangler secret put TURNSTILE_SECRET
   //   3. REQUIRE_TURNSTILE="true" in wrangler.jsonc, redeploy the Worker
-  const TURNSTILE_SITEKEY = "";
+  const TURNSTILE_SITEKEY = "0x4AAAAAAEvOWvGlnyZx2SXr";
   const form = document.querySelector("[data-knowledge-form]");
   const messageField = document.querySelector("#knowledge-message");
   const imageUpload = document.querySelector("[data-image-upload]");
