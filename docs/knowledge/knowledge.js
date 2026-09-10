@@ -1,7 +1,19 @@
 (() => {
-  const API_URL = "https://citysearch-bow-por-bacteria.trycloudflare.com/api/chat";
-  const MULTIMODAL_API_URL = API_URL.replace(/\/api\/chat\/?$/, "/api/chat-multimodal");
+  // Permanent. This used to be a *.trycloudflare.com quick tunnel that changed
+  // its hostname on every restart; it is now a Worker, and this line should
+  // never need editing again.
+  const API_URL = "https://knowledge-worker.brandonanhorn.workers.dev/api/chat";
   const FEEDBACK_URL = API_URL.replace(/\/api\/chat\/?$/, "/api/feedback");
+
+  // Paste the sitekey from the Turnstile widget you create for this domain.
+  // While it is empty the script never loads and no token is sent, which is
+  // only safe while the Worker has REQUIRE_TURNSTILE="false".
+  //
+  // Turn it on in this order, or the endpoint refuses every question:
+  //   1. sitekey here, deploy the site  (token is sent, Worker ignores it)
+  //   2. wrangler secret put TURNSTILE_SECRET
+  //   3. REQUIRE_TURNSTILE="true" in wrangler.jsonc, redeploy the Worker
+  const TURNSTILE_SITEKEY = "";
   const form = document.querySelector("[data-knowledge-form]");
   const messageField = document.querySelector("#knowledge-message");
   const imageUpload = document.querySelector("[data-image-upload]");
@@ -30,9 +42,9 @@
     "Almost there…"
   ];
   const waitingFacts = [
-    "This answer is being generated locally.",
+    "This runs on an open-source model, not a commercial assistant.",
     "The model is reading notes, not searching the web.",
-    "Images are processed in memory and not stored.",
+    "Only notes I've marked publishable are in the index.",
     "Good questions make better retrieval."
   ];
 
@@ -148,15 +160,73 @@
     responseField.innerHTML = blocks.length ? blocks.join("") : `<p>${escapeHtml(message)}</p>`;
   };
 
-  const submitQuestion = (message, selectedImage) => {
-    if (!selectedImage) {
-      return fetch(API_URL, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ message }) });
-    }
+  // --- Turnstile ---------------------------------------------------------
+  // This is what stops a script looping the endpoint: a token cannot be minted
+  // without a real browser. Loaded only when a sitekey is set, so the page
+  // works both before and after the widget exists. Tokens are single-use, so
+  // the widget is reset after every question.
 
-    const formData = new FormData();
-    formData.append("message", message);
-    formData.append("image", selectedImage);
-    return fetch(MULTIMODAL_API_URL, { method: "POST", body: formData });
+  const turnstileSlot = document.querySelector("[data-turnstile]");
+  let turnstileWidgetId = null;
+  let turnstileToken = null;
+  let turnstileWaiters = [];
+
+  const resolveTurnstile = (token) => {
+    turnstileToken = token;
+    turnstileWaiters.forEach((resolve) => resolve(token));
+    turnstileWaiters = [];
+  };
+
+  const loadTurnstile = () => {
+    if (!TURNSTILE_SITEKEY || !turnstileSlot) return;
+
+    turnstileSlot.hidden = false;
+
+    window.onKnowledgeTurnstileLoad = () => {
+      turnstileWidgetId = window.turnstile.render(turnstileSlot, {
+        sitekey: TURNSTILE_SITEKEY,
+        callback: resolveTurnstile,
+        "expired-callback": () => { turnstileToken = null; },
+        "error-callback": () => resolveTurnstile(null)
+      });
+    };
+
+    const script = document.createElement("script");
+    script.src =
+      "https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit&onload=onKnowledgeTurnstileLoad";
+    script.async = true;
+    script.defer = true;
+    document.head.appendChild(script);
+  };
+
+  const getTurnstileToken = () => {
+    if (!TURNSTILE_SITEKEY) return Promise.resolve(null);
+    if (turnstileToken) return Promise.resolve(turnstileToken);
+
+    return new Promise((resolve) => {
+      turnstileWaiters.push(resolve);
+      // Never leave someone watching a spinner because the challenge stalled.
+      // Sending no token gets a clear "reload and try again" from the server.
+      window.setTimeout(() => resolve(turnstileToken), 10000);
+    });
+  };
+
+  const resetTurnstile = () => {
+    turnstileToken = null;
+    if (turnstileWidgetId !== null && window.turnstile) {
+      window.turnstile.reset(turnstileWidgetId);
+    }
+  };
+
+  loadTurnstile();
+
+  const submitQuestion = async (message) => {
+    const token = await getTurnstileToken();
+    return fetch(API_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(token ? { message, turnstileToken: token } : { message })
+    });
   };
 
   if (imageInput) {
@@ -193,7 +263,6 @@
   form.addEventListener("submit", async (event) => {
     event.preventDefault();
     const message = messageField.value.trim();
-    const selectedImage = getSelectedImage();
     currentLogId = null;
     setFeedbackState({ visible: false, disabled: false, message: "" });
 
@@ -203,12 +272,12 @@
     }
 
     setLoadingState(true);
-    startWaitingRotation(!!selectedImage);
+    startWaitingRotation(false);
     thinking.hidden = false;
     setResponseEmpty("Answer will appear here when the notebook is ready.");
 
     try {
-      const response = await submitQuestion(message, selectedImage);
+      const response = await submitQuestion(message);
       const data = await response.json().catch(() => ({}));
       if (!response.ok || typeof data.message !== "string") throw new Error(data.error || "The knowledge interface is offline right now. Please try again later.");
       renderResponse(data.message);
@@ -217,6 +286,8 @@
     } catch (error) {
       renderResponse(error.message || "The knowledge interface is offline right now. Please try again later.");
     } finally {
+      // The token is spent whether or not the answer came back.
+      resetTurnstile();
       thinking.hidden = true;
       stopWaitingRotation();
       setLoadingState(false);

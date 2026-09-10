@@ -49,7 +49,7 @@
         <p class="eyebrow">Personal knowledge interface</p>
         <h1 id="knowledge-heading">Ask Brandon</h1>
         <p class="subheading">Ask a question about my work, notes, career, projects, or ideas.</p>
-        <p class="knowledge-note">Answers are generated from my personal notes using a local AI model. The system may be imperfect or offline.</p>
+        <p class="knowledge-note">Answers are generated from my personal notes by an open-source model, not a commercial assistant. Nothing you ask is sent to one. The system may be imperfect.</p>
       </div>
 
       <form class="knowledge-form" data-knowledge-form novalidate>
@@ -68,7 +68,22 @@
             <button type="submit" data-ask-button>Ask</button>
           </div>
         </div>
-        <div class="image-upload" data-image-upload>
+        <!--
+          Turnstile. Hidden until a sitekey is set in knowledge.js — with no
+          sitekey the script never loads and no token is sent, which matches
+          REQUIRE_TURNSTILE="false" on the Worker. Set both together.
+        -->
+        <div class="turnstile-slot" data-turnstile hidden></div>
+
+        <!--
+          Image upload, parked. The Worker serves /api/chat only; there is no
+          /api/chat-multimodal yet, so this would post into a 404. To bring it
+          back: implement that route with a vision model
+          (@cf/google/gemma-4-26b-a4b-it), budget images separately since one
+          costs several text answers, then drop the `hidden` here and restore
+          the multimodal branch in knowledge.js.
+        -->
+        <div class="image-upload" data-image-upload hidden>
           <input id="knowledge-image" class="visually-hidden-file" name="image" type="file" accept="image/png,image/jpeg,image/webp" data-image-input>
           <div class="image-upload-copyblock">
             <label class="image-upload-label" for="knowledge-image">Attach image</label>
