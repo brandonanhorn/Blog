@@ -38,12 +38,12 @@
     // without a redeploy.
     "ENABLED": "true",
 
-    // Held at "false" pending a check from a real browser. The widget is live
-    // on the form and TURNSTILE_SECRET is bound, so tokens are already being
-    // sent and ignored — the safe half-on state. Flip to "true" only once a
-    // human has confirmed the widget completes; an instrumented browser is
-    // refused a token by design, so automated testing cannot confirm it.
-    "REQUIRE_TURNSTILE": "false"
+    // On, confirmed working from a real browser on 2026-09-10. A request
+    // without a valid, unspent token is refused before retrieval, the cache
+    // and the model — which is what stops a script looping the endpoint.
+    // If you ever need to disable it, prefer ENABLED or this flag over
+    // deleting the widget, and remember the frontend sitekey must go too.
+    "REQUIRE_TURNSTILE": "true"
   },
 
   // Answer cache. Keyed by the normalised question plus the index version, so
