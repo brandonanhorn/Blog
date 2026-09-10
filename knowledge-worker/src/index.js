@@ -23,6 +23,9 @@ const SYSTEM_PROMPT =
 
 const MAX_QUESTION_CHARS = 4000;
 
+// Backstop only — see the note at the cache write. 30 days.
+const CACHE_TTL_SECONDS = 30 * 24 * 60 * 60;
+
 // Bounds for the pre-call estimate. Context is capped by MAX_CONTEXT_CHARS and
 // output by max_tokens, so the true cost can never exceed this.
 const CHARS_PER_TOKEN = 3.6;
@@ -137,6 +140,11 @@ async function verifyTurnstile(env, token, ip) {
 function normalizeQuestion(question) {
   return question
     .toLowerCase()
+    // Drop apostrophes rather than turning them into spaces, so "Brandon's
+    // skills" and "Brandons skills" share a cache entry instead of each
+    // paying for its own answer. Curly quotes count — the site's own copy
+    // uses them, so visitors paste them in.
+    .replace(/['‘’]/g, "")
     .replace(/[^a-z0-9 ]/g, " ")
     .replace(/\s+/g, " ")
     .trim();
@@ -195,7 +203,33 @@ async function handleChat(request, env, ctx, headers) {
     try {
       const cached = await env.ANSWER_CACHE.get(cacheKey, { type: "json" });
       if (cached?.message) {
-        return json({ message: cached.message, logId: cached.logId, cached: true }, 200, headers);
+        // A hit gets its OWN log id rather than replaying the one from the
+        // original miss. Feedback is an UPDATE on that row, so sharing an id
+        // across everyone who asks a popular question would mean each new
+        // rating silently overwrites the last.
+        const hitId = crypto.randomUUID();
+
+        console.log(
+          JSON.stringify({ event: "cache_hit", ip: anonymizeIp(ip), neurons: 0 })
+        );
+
+        if (env.DB) {
+          ctx.waitUntil(
+            logChat(env, {
+              logId: hitId,
+              question,
+              answer: cached.message,
+              model,
+              status: "cached",
+              latencyMs: Date.now() - startedAt,
+              sources: cached.sources || [],
+              userAgent: request.headers.get("user-agent") || "",
+              ip
+            }).catch((error) => console.error("[d1] cache-hit log failed", error.message))
+          );
+        }
+
+        return json({ message: cached.message, logId: hitId, cached: true }, 200, headers);
       }
     } catch (error) {
       console.error("[cache] read failed", error.message);
@@ -288,9 +322,14 @@ async function handleChat(request, env, ctx, headers) {
   // request over.
   if (env.ANSWER_CACHE) {
     ctx.waitUntil(
-      env.ANSWER_CACHE.put(cacheKey, JSON.stringify({ message: answer, logId })).catch((error) =>
-        console.error("[cache] write failed", error.message)
-      )
+      env.ANSWER_CACHE
+        .put(cacheKey, JSON.stringify({ message: answer, sources }), {
+          // The index version in the key already invalidates entries whenever
+          // the vault is republished. This is only a floor sweep, so keys from
+          // long-dead index versions cannot accumulate forever.
+          expirationTtl: CACHE_TTL_SECONDS
+        })
+        .catch((error) => console.error("[cache] write failed", error.message))
     );
   }
 
@@ -327,7 +366,7 @@ async function logChat(env, entry) {
       entry.question.length,
       entry.answer.length,
       entry.model,
-      "success",
+      entry.status || "success",
       entry.latencyMs,
       JSON.stringify(entry.sources),
       entry.userAgent ? await sha256Hex(entry.userAgent) : null,

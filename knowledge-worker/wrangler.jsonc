@@ -41,22 +41,25 @@
     // Flip to "true" once the Turnstile widget is on the ask form and
     // TURNSTILE_SECRET is set. Until then the endpoint is open to scripts.
     "REQUIRE_TURNSTILE": "false"
-  }
+  },
+
+  // Answer cache. Keyed by the normalised question plus the index version, so
+  // republishing the vault invalidates every entry with no expiry to tune.
+  // A hit costs no neurons and does not count against anyone's per-IP quota.
+  "kv_namespaces": [
+    { "binding": "ANSWER_CACHE", "id": "c57b07e05ec84f07ba22455faca6babd" }
+  ]
 
   // ---------------------------------------------------------------------
   // Optional bindings. The Worker runs without them — caching and logging
   // are skipped if absent — so you can deploy first and add these after.
   //
-  //   npx wrangler kv namespace create ANSWER_CACHE
   //   npx wrangler d1 create knowledge-logs
   //   npx wrangler d1 execute knowledge-logs --remote --file=./schema.sql
   //
   // Paste the ids each command prints, then uncomment:
   // ---------------------------------------------------------------------
   //
-  // "kv_namespaces": [
-  //   { "binding": "ANSWER_CACHE", "id": "PASTE_KV_NAMESPACE_ID" }
-  // ],
   // "d1_databases": [
   //   {
   //     "binding": "DB",
