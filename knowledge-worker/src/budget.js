@@ -144,8 +144,20 @@ export class Budget extends DurableObject {
     const day = dayKey(now);
     const spent = this.#spent(day);
 
+    // Per-address counts, without recording the addresses themselves: enough
+    // to tell "one visitor asking a lot" from "a lot of visitors".
+    const buckets = this.ctx.storage.sql
+      .exec(
+        `SELECT COUNT(*) AS n FROM ip_hits WHERE ts >= ?
+         GROUP BY ip ORDER BY n DESC LIMIT 5`,
+        now - HOUR_MS
+      )
+      .toArray()
+      .map((row) => row.n);
+
     return {
       day,
+      busiestAddressesThisHour: buckets,
       neurons: Math.round(spent.neurons * 10) / 10,
       held: Math.round(spent.held * 10) / 10,
       asks: spent.asks,

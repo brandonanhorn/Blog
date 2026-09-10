@@ -2,7 +2,7 @@
   // Permanent. This used to be a *.trycloudflare.com quick tunnel that changed
   // its hostname on every restart; it is now a Worker, and this line should
   // never need editing again.
-  const API_URL = "https://knowledge-worker.brandonanhorn.workers.dev/api/chat";
+  const API_URL = "https://knowledge-worker.brandon-anhorn.workers.dev/api/chat";
   const FEEDBACK_URL = API_URL.replace(/\/api\/chat\/?$/, "/api/feedback");
 
   // Paste the sitekey from the Turnstile widget you create for this domain.
