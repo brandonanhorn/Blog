@@ -1,0 +1,71 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "knowledge-worker",
+  "main": "src/index.js",
+  "compatibility_date": "2026-08-22",
+  "observability": { "enabled": true },
+
+  // Workers AI. Free allowance is 10,000 neurons/day PER ACCOUNT, shared with
+  // every other Worker you run — hence DAILY_NEURONS below being a share of it
+  // rather than the whole thing.
+  "ai": { "binding": "AI" },
+
+  // The spending ceiling. SQLite-backed because that is the only kind of
+  // Durable Object the Workers Free plan can create.
+  "durable_objects": {
+    "bindings": [{ "name": "BUDGET", "class_name": "Budget" }]
+  },
+  "migrations": [{ "tag": "v1", "new_sqlite_classes": ["Budget"] }],
+
+  "vars": {
+    "ALLOWED_ORIGINS": "https://brandonanhorn.com,https://www.brandonanhorn.com",
+
+    // Cheapest input of any 8B on the platform (4,119 neurons/M vs 11,161 for
+    // awq), which is the right shape for RAG — you pay for retrieved notes on
+    // every question. Its output is dear at 34,868/M, so MAX_TOKENS matters.
+    // If you change this, add its rate to MODEL_RATES in src/config.js.
+    "MODEL": "@cf/meta/llama-3.1-8b-instruct-fp8-fast",
+    "MAX_TOKENS": "500",
+
+    // This project's reserved share of the account's 10,000 neurons/day.
+    "DAILY_NEURONS": "3000",
+    // Coarse second guard, in case a pricing change makes the ledger wrong.
+    "DAILY_ASKS": "150",
+    "IP_PER_HOUR": "6",
+    "IP_PER_DAY": "20",
+
+    // Kill switch. Set to "false" from the dashboard to stop all model calls
+    // without a redeploy.
+    "ENABLED": "true",
+
+    // Flip to "true" once the Turnstile widget is on the ask form and
+    // TURNSTILE_SECRET is set. Until then the endpoint is open to scripts.
+    "REQUIRE_TURNSTILE": "false"
+  }
+
+  // ---------------------------------------------------------------------
+  // Optional bindings. The Worker runs without them — caching and logging
+  // are skipped if absent — so you can deploy first and add these after.
+  //
+  //   npx wrangler kv namespace create ANSWER_CACHE
+  //   npx wrangler d1 create knowledge-logs
+  //   npx wrangler d1 execute knowledge-logs --remote --file=./schema.sql
+  //
+  // Paste the ids each command prints, then uncomment:
+  // ---------------------------------------------------------------------
+  //
+  // "kv_namespaces": [
+  //   { "binding": "ANSWER_CACHE", "id": "PASTE_KV_NAMESPACE_ID" }
+  // ],
+  // "d1_databases": [
+  //   {
+  //     "binding": "DB",
+  //     "database_name": "knowledge-logs",
+  //     "database_id": "PASTE_D1_DATABASE_ID"
+  //   }
+  // ]
+  //
+  // Secrets are not set here. Use:
+  //   npx wrangler secret put TURNSTILE_SECRET
+  //   npx wrangler secret put ADMIN_TOKEN
+}

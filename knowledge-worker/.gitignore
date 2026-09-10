@@ -1,0 +1,9 @@
+node_modules/
+.wrangler/
+.dev.vars
+
+# Generated from the Obsidian vault by scripts/build-index.js.
+# Deliberately NOT committed: the Blog repo is public, and this file holds the
+# verbatim text of every published note. CI rebuilds it from the private vault
+# repo on each deploy; locally, `npm run deploy` rebuilds it first.
+src/index.json

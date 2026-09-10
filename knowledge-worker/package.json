@@ -1,0 +1,24 @@
+{
+  "name": "knowledge-worker",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Always-on knowledge endpoint for brandonanhorn.com: Workers AI over an Obsidian vault, behind an enforced neuron budget.",
+  "scripts": {
+    "build:index": "node scripts/build-index.js ~/Documents/brain",
+    "test": "vitest run",
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "tail": "wrangler tail",
+    "db:init": "wrangler d1 execute knowledge-logs --remote --file=./schema.sql",
+    "predeploy": "npm run build:index"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "devDependencies": {
+    "@cloudflare/vitest-pool-workers": "^0.22.0",
+    "vitest": "^4.1.11",
+    "wrangler": "^4.0.0"
+  }
+}

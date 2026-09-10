@@ -1,0 +1,76 @@
+# Stage 2 of the plan: Obsidian → live site, with no terminal in the loop.
+#
+# This file belongs in the PRIVATE VAULT REPO, at
+# .github/workflows/publish-index.yml — not in the Blog repo. It is kept here
+# so it sits next to the build script it calls.
+#
+# Setup, once:
+#
+#   1. cd ~/Documents/brain && git init
+#      echo '.obsidian/workspace.json' >> .gitignore
+#      Push to a PRIVATE repo — the vault has notes you are not publishing.
+#
+#   2. In Obsidian, install the Obsidian Git community plugin and set
+#      auto-commit + push to every 10 minutes. It runs while Obsidian is open,
+#      which is when you are writing notes. If you want cover when it is
+#      closed, add a launchd agent running the same commit-and-push.
+#
+#   3. In the vault repo's settings, add secrets:
+#        CLOUDFLARE_API_TOKEN   (Edit Cloudflare Workers template)
+#        CLOUDFLARE_ACCOUNT_ID
+#        BLOG_REPO_TOKEN        (a PAT with read access to the Blog repo)
+#
+# From then on: save a note, wait for the plugin's commit, and about thirty
+# seconds later the site is answering from it.
+
+name: Publish notes index
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: publish-index
+  cancel-in-progress: true
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the vault
+        uses: actions/checkout@v4
+        with:
+          path: vault
+
+      - name: Check out the worker
+        uses: actions/checkout@v4
+        with:
+          repository: brandonanhorn/Blog
+          token: ${{ secrets.BLOG_REPO_TOKEN }}
+          path: blog
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install
+        working-directory: blog/knowledge-worker
+        run: npm ci
+
+      # Fails the build if the publish policy matches nothing, so a bad
+      # frontmatter edit can't silently deploy an empty bot.
+      - name: Build the index
+        working-directory: blog/knowledge-worker
+        run: node scripts/build-index.js "$GITHUB_WORKSPACE/vault"
+
+      - name: Test
+        working-directory: blog/knowledge-worker
+        run: npm test
+
+      - name: Deploy
+        working-directory: blog/knowledge-worker
+        run: npx wrangler deploy
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
