@@ -38,8 +38,11 @@
     // without a redeploy.
     "ENABLED": "true",
 
-    // Flip to "true" once the Turnstile widget is on the ask form and
-    // TURNSTILE_SECRET is set. Until then the endpoint is open to scripts.
+    // Held at "false" pending a check from a real browser. The widget is live
+    // on the form and TURNSTILE_SECRET is bound, so tokens are already being
+    // sent and ignored — the safe half-on state. Flip to "true" only once a
+    // human has confirmed the widget completes; an instrumented browser is
+    // refused a token by design, so automated testing cannot confirm it.
     "REQUIRE_TURNSTILE": "false"
   },
 
