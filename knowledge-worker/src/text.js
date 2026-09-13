@@ -137,3 +137,25 @@ export function splitIntoChunks(text) {
 
   return chunks;
 }
+
+// Function words are stripped from FILENAME, FOLDER, TITLE and PATH tokens only.
+// Those fields are weighted up to 2.8x, so a filename like
+// "how_i_work_remotely_day_to_day" was matching "how does your RAG work" on
+// "how" alone and beating the actual RAG note. Stopwords stay in body text,
+// where the weight is 1x and normalised by query length.
+const STOPWORDS = new Set([
+  "a", "about", "after", "again", "all", "also", "am", "an", "and", "any", "are", "as", "at",
+  "be", "because", "been", "before", "being", "between", "both", "but", "by",
+  "can", "could", "did", "do", "does", "doing", "done", "each", "few", "for", "from",
+  "get", "got", "had", "has", "have", "how", "i", "if", "in", "into", "is", "it", "its",
+  "me", "more", "most", "my", "not", "now", "of", "on", "only", "or", "other", "our", "own",
+  "same", "should", "so", "some", "such", "than", "that", "the", "their", "them", "then",
+  "there", "these", "they", "this", "those", "to", "too", "us", "very", "was", "we", "were",
+  "what", "when", "where", "which", "while", "who", "why", "will", "with", "would",
+  "you", "your", "yours"
+]);
+
+// Tokens for the metadata fields. Same tokenizer, function words removed.
+export function metaTokens(text) {
+  return uniqueTokens(text).filter((t) => !STOPWORDS.has(t));
+}

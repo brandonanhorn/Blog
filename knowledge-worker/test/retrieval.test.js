@@ -63,3 +63,40 @@ describe("bounds the budget depends on", () => {
     expect(sources.length).toBeLessThanOrEqual(4);
   });
 });
+
+describe("context is never silently empty", () => {
+  // Regression: MAX_CONTEXT_CHARS (5200) was smaller than the indexer's
+  // whole-note cap (6000), and the assembly loop broke instead of skipping. A
+  // note between those sizes ranking first returned NO context, so the bot
+  // answered "I don't have that information" for its best match.
+  const realQuestions = [
+    "what are your hobbies",
+    "what are your technical skills",
+    "how do you know your classifier is accurate",
+    "what do you want in your next role",
+    "what is guulfai",
+    "tell me about voice of client",
+    "does he have security clearance",
+    "how do you mentor your direct reports",
+    "when would you not use an LLM",
+    "what business impact have you had"
+  ];
+
+  for (const q of realQuestions) {
+    it(`"${q}" returns usable context`, () => {
+      const { context, sources } = getRelevantContext(q);
+      expect(sources.length).toBeGreaterThan(0);
+      expect(context.length).toBeGreaterThan(0);
+      expect(context.length).toBeLessThanOrEqual(MAX_CONTEXT_CHARS);
+    });
+  }
+
+  it("every whole-note candidate fits the context budget", async () => {
+    const index = (await import("../src/index.json")).default;
+    const tooBig = index.candidates
+      .filter((c) => c.kind === "full-note")
+      .filter((c) => c.text.length + c.filePath.length + 20 > MAX_CONTEXT_CHARS)
+      .map((c) => c.filePath);
+    expect(tooBig).toEqual([]);
+  });
+});

@@ -138,14 +138,26 @@ export function getRelevantContext(query, topK = TOP_K) {
 
   for (const { candidate } of selected) {
     const block = `Source: ${candidate.filePath}\nContent:\n${candidate.text}`;
+    // Skip what will not fit, never abort. This used to `break`, which meant a
+    // single oversized candidate ranking first suppressed every smaller one
+    // behind it and returned NO context at all — the bot then answered "I don't
+    // have that information" for the very questions it matched best.
     if (block.length > budget) {
-      break;
+      continue;
     }
     budget -= block.length;
     parts.push(block);
     if (!sources.includes(candidate.filePath)) {
       sources.push(candidate.filePath);
     }
+  }
+
+  // Backstop: something scored, so the answer must not come back empty. If every
+  // candidate was too large, send the best one truncated rather than nothing.
+  if (!parts.length && selected.length) {
+    const best = selected[0].candidate;
+    parts.push(`Source: ${best.filePath}\nContent:\n${best.text.slice(0, MAX_CONTEXT_CHARS - 200)}`);
+    sources.push(best.filePath);
   }
 
   return { context: parts.join("\n\n---\n\n"), sources };

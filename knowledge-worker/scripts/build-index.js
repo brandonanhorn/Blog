@@ -30,12 +30,16 @@ import {
   extractTitle,
   splitIntoChunks,
   toPlainText,
-  uniqueTokens
+  uniqueTokens,
+  metaTokens
 } from "../src/text.js";
 
 const PUBLIC_FOLDERS = ["projects", "life", "notes"];
 
-const WHOLE_NOTE_MAX_LENGTH = 6000;
+// Must stay BELOW MAX_CONTEXT_CHARS in src/retrieval.js (5200). A whole-note
+// candidate larger than the retriever's context budget can never be selected,
+// so indexing one is wasted work at best and crowds out usable chunks at worst.
+const WHOLE_NOTE_MAX_LENGTH = 4500;
 const MAX_CANDIDATES = 5000;
 
 // Past this, the Worker's per-request scan starts to matter against the free
@@ -98,10 +102,10 @@ function candidate({ text, relativePath, fileName, folder, title, kind }) {
     kind,
     tokens: {
       text: uniqueTokens(text),
-      filePath: uniqueTokens(relativePath),
-      fileName: uniqueTokens(fileName),
-      folder: uniqueTokens(folder),
-      title: uniqueTokens(title)
+      filePath: metaTokens(relativePath),
+      fileName: metaTokens(fileName),
+      folder: metaTokens(folder),
+      title: metaTokens(title)
     }
   };
 }
