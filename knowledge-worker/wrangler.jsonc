@@ -51,26 +51,23 @@
   // A hit costs no neurons and does not count against anyone's per-IP quota.
   "kv_namespaces": [
     { "binding": "ANSWER_CACHE", "id": "c57b07e05ec84f07ba22455faca6babd" }
-  ]
+  ],
 
-  // ---------------------------------------------------------------------
-  // Optional bindings. The Worker runs without them — caching and logging
-  // are skipped if absent — so you can deploy first and add these after.
+  // Chat logs and feedback. The binding MUST be named DB — src/index.js checks
+  // `env.DB` and skips logging entirely when it is absent, which is why the
+  // Helpful / Not helpful buttons returned "Feedback could not be saved" for
+  // as long as this was unbound.
   //
-  //   npx wrangler d1 create knowledge-logs
+  // Deploying with this binding requires D1 permission on the CI token too,
+  // not just the local one. Schema lives in ./schema.sql:
   //   npx wrangler d1 execute knowledge-logs --remote --file=./schema.sql
-  //
-  // Paste the ids each command prints, then uncomment:
-  // ---------------------------------------------------------------------
-  //
-  // "d1_databases": [
-  //   {
-  //     "binding": "DB",
-  //     "database_name": "knowledge-logs",
-  //     "database_id": "PASTE_D1_DATABASE_ID"
-  //   }
-  // ]
-  //
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "knowledge-logs",
+      "database_id": "3ef5b153-66c1-461c-8731-1135210d915b"
+    }
+  ]
   // Secrets are not set here. Use:
   //   npx wrangler secret put TURNSTILE_SECRET
   //   npx wrangler secret put ADMIN_TOKEN
