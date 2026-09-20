@@ -46,6 +46,34 @@ const MAX_CANDIDATES = 5000;
 // plan's 10ms CPU budget. Build an inverted index or move to Vectorize.
 const CPU_WARNING_THRESHOLD = 1000;
 
+// Facts that have CHANGED. A note that still states the old version is worse
+// than a missing note — it makes the whole site look stale to a recruiter —
+// so the build fails rather than publishing it. Brandon left ATB Financial in
+// September 2026; anything presenting it as his current job is wrong.
+// Past tense is fine ("I led", "I owned", "processed"); these patterns only
+// match present-tense forms.
+const STALE_PATTERNS = [
+  /\bcurrently\b[^.\n]{0,50}\bATB\b/i,
+  /\bI(?:'m| am) (?:a |the )?(?:Senior )?Data Scientist at ATB\b/i,
+  /\bAt ATB(?: Financial)?,? (?:where )?I (?:lead|own|run|deliver|use|score|treat|report|partner|compare|build|manage|coach)\b/i,
+  /\bI (?:lead|own|run|manage|coach)\b[^.\n]{0,50}\bat ATB\b/i,
+  /\b(?:now|today)\b[^.\n]{0,30}\bat ATB\b/i,
+  /\bmy (?:day job|current (?:role|job|employer|team))\b[^.\n]{0,40}\bATB\b/i,
+  /\bATB\b[^.\n]{0,40}\b(?:where I (?:work|am)|my current (?:role|job|employer))\b/i,
+  /\b(?:pipelines?|program|system|platform) (?:that )?(?:process(?:es)?|handles?|runs?) (?:roughly |about |~)?35,?000\b/i,
+];
+
+function findStaleFacts(relativePath, markdown) {
+  const hits = [];
+  for (const [i, line] of markdown.split(/\r?\n/).entries()) {
+    for (const pattern of STALE_PATTERNS) {
+      const m = line.match(pattern);
+      if (m) hits.push(`${relativePath}:${i + 1}  "${m[0]}"`);
+    }
+  }
+  return hits;
+}
+
 const here = path.dirname(fileURLToPath(import.meta.url));
 
 function collectMarkdown(dir) {
@@ -129,6 +157,7 @@ function main() {
   const candidates = [];
   const included = [];
   const skipped = [];
+  const stale = [];
 
   for (const absolute of files) {
     const relativePath = path.relative(vault, absolute).split(path.sep).join("/");
@@ -145,6 +174,8 @@ function main() {
       skipped.push(`${relativePath}  (empty)`);
       continue;
     }
+
+    stale.push(...findStaleFacts(relativePath, markdown));
 
     const title = extractTitle(markdown);
     const fileName = path.basename(relativePath, ".md");
@@ -177,6 +208,16 @@ function main() {
     .update(JSON.stringify(candidates.map((c) => [c.filePath, c.kind, c.text])))
     .digest("hex")
     .slice(0, 12);
+
+  if (stale.length) {
+    console.error(
+      `\nRefusing to build: ${stale.length} line${stale.length === 1 ? "" : "s"} still present ATB ` +
+        "Financial as the current job. Move them to past tense, or remove the pattern from " +
+        "STALE_PATTERNS if the fact has genuinely changed back.\n"
+    );
+    for (const hit of stale) console.error(`  ${hit}`);
+    process.exit(1);
+  }
 
   const index = { version, builtAt: new Date().toISOString(), candidates };
 
