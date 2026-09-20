@@ -1,5 +1,5 @@
 import index from "./index.json";
-import { tokenize, expandQueryTokens } from "./text.js";
+import { tokenize, expandQueryTokens, STOPWORDS } from "./text.js";
 
 // Keyword retrieval over the Obsidian vault, ported from
 // ollama-chat-server/src/retrieval.js. The scoring is unchanged; what moved is
@@ -114,7 +114,14 @@ export function getRelevantContext(query, topK = TOP_K) {
     return { context: "", sources: [] };
   }
 
-  const queryTokenSet = new Set(expandQueryTokens(baseTokens));
+  // Function words are stripped from the query for the same reason they are
+  // stripped from metadata: "who is the GOAT" is otherwise four tokens, and a
+  // note whose body happens to contain "who", "is" and "the" out-scores the
+  // one that actually says "GOAT". If stripping leaves nothing — a question
+  // made entirely of function words — fall back to the full token list rather
+  // than returning no context.
+  const contentTokens = baseTokens.filter((t) => !STOPWORDS.has(t));
+  const queryTokenSet = new Set(expandQueryTokens(contentTokens.length ? contentTokens : baseTokens));
 
   const scored = [];
   for (const candidate of candidates) {

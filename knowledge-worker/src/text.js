@@ -143,7 +143,7 @@ export function splitIntoChunks(text) {
 // "how_i_work_remotely_day_to_day" was matching "how does your RAG work" on
 // "how" alone and beating the actual RAG note. Stopwords stay in body text,
 // where the weight is 1x and normalised by query length.
-const STOPWORDS = new Set([
+export const STOPWORDS = new Set([
   "a", "about", "after", "again", "all", "also", "am", "an", "and", "any", "are", "as", "at",
   "be", "because", "been", "before", "being", "between", "both", "but", "by",
   "can", "could", "did", "do", "does", "doing", "done", "each", "few", "for", "from",
