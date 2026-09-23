@@ -131,3 +131,4 @@ dmypy.json
 # Local Ollama chat logs
 ollama-chat-server/data/
 ollama-chat-server/exports/
+.DS_Store
